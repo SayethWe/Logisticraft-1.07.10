@@ -44,7 +44,7 @@ public class BlockDryDistiller extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iIconRegister) {
-		this.blockIcon = Blocks.iron_block.getBlockTextureFromSide(0);
+		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_side");
 		iconTop = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_top");
 		iconBottom = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_bottom");
 		iconFront = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_front" + (isActive ? "_active" : ""));
