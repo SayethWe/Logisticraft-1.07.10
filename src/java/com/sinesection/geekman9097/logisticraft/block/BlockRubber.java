@@ -5,7 +5,7 @@ import net.minecraft.block.material.Material;
 public class BlockRubber extends LogisticraftBlock {
 
 	public BlockRubber() {
-		super("rubberBlock",Material.sponge);
+		super("blockRubber",Material.sponge);
 	}
 	
 }

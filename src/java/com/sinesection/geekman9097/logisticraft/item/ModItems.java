@@ -9,7 +9,7 @@ public final class ModItems {
 	
 	public static LogisticraftItem creativeTabIconItem;
 	
-	public static LogisticraftItem roadWheel = new LogisticraftItem("roadWheel");
+	public static LogisticraftItem roadWheel = new LogisticraftItem("wheelWood");
 	public static LogisticraftItem refinedRubber = new LogisticraftItem("rubber");
 
 	public static final Set<LogisticraftItem> items = new HashSet<>();
