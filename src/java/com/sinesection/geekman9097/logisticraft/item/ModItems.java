@@ -11,6 +11,7 @@ public final class ModItems {
 	
 	public static LogisticraftItem roadWheel = new LogisticraftItem("wheelWood");
 	public static LogisticraftItem refinedRubber = new LogisticraftItem("rubber");
+	public static LogisticraftItem shippingOrder = new LogisticraftItem("shippingOrder");
 
 	public static final Set<LogisticraftItem> items = new HashSet<>();
 	
@@ -24,6 +25,7 @@ public final class ModItems {
 		creativeTabIconItem = roadWheel;
 		loadItem(roadWheel);
 		loadItem(refinedRubber);
+		loadItem(shippingOrder);
 	}
 	
 	private static void loadItem(LogisticraftItem i) {
