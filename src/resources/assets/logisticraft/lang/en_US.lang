@@ -1,7 +1,7 @@
 item.roadWheel.name=Road Wheel
 item.rubber.name=Rubber Glob
 
-block.rubberBlock.name=Block of Rubber
+tile.rubberBlock.name=Block of Rubber
 
 itemGroup.tabLogisticraftItems=Logisticraft Items
 itemGroup.tabLogisticraftBlocks=Logisticraft Blocks
