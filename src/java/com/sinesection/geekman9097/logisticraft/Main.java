@@ -1,5 +1,6 @@
 package com.sinesection.geekman9097.logisticraft;
 
+import com.sinesection.geekman9097.logisticraft.block.ModBlocks;
 import com.sinesection.geekman9097.logisticraft.item.ModItems;
 import com.sinesection.geekman9097.logisticraft.proxy.CommonProxy;
 import com.sinesection.geekman9097.utils.Utils;
@@ -53,6 +54,13 @@ public class Main {
 		@Override
 		public Item getTabIconItem() {
 			return ModItems.creativeTabIconItem;
+		}
+	};
+	
+	public static final CreativeTabs tabLogisticraftBlocks = new CreativeTabs("tabLogisticraftBlocks") {
+		@Override
+		public Item getTabIconItem() {
+			return ModBlocks.creativeTabIconItem;
 		}
 	};
 	
