@@ -1,8 +1,8 @@
 package com.sinesection.logisticraft;
 
-import com.sinesection.logisticraft.block.ModBlocks;
-import com.sinesection.logisticraft.item.ModItems;
 import com.sinesection.logisticraft.proxy.CommonProxy;
+import com.sinesection.logisticraft.registrars.ModBlocks;
+import com.sinesection.logisticraft.registrars.ModItems;
 import com.sinesection.utils.Utils;
 
 import cpw.mods.fml.common.Mod;

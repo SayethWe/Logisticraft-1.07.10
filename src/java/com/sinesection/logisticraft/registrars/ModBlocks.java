@@ -1,7 +1,11 @@
-package com.sinesection.logisticraft.block;
+package com.sinesection.logisticraft.registrars;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import com.sinesection.logisticraft.block.BlockDryDistiller;
+import com.sinesection.logisticraft.block.BlockRubber;
+import com.sinesection.logisticraft.block.LogisticraftBlock;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;

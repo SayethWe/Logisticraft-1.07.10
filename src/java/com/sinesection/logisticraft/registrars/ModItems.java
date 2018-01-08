@@ -1,7 +1,10 @@
-package com.sinesection.logisticraft.item;
+package com.sinesection.logisticraft.registrars;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import com.sinesection.logisticraft.item.ItemHandbook;
+import com.sinesection.logisticraft.item.LogisticraftItem;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 

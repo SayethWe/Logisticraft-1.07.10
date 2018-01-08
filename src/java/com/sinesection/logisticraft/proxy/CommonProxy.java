@@ -1,11 +1,11 @@
 package com.sinesection.logisticraft.proxy;
 
 import com.sinesection.logisticraft.Main;
-import com.sinesection.logisticraft.block.ModBlocks;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
 import com.sinesection.logisticraft.crafting.LogisticraftVanillaCrafting;
-import com.sinesection.logisticraft.item.ModItems;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
+import com.sinesection.logisticraft.registrars.ModBlocks;
+import com.sinesection.logisticraft.registrars.ModItems;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
