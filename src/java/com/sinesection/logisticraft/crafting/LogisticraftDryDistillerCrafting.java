@@ -36,7 +36,7 @@ public class LogisticraftDryDistillerCrafting {
 				new ItemStack(Items.gunpowder,1),null,false,new ItemStack(Items.coal,1,1),new ItemStack(ModItems.sulfur)));
 	}
 	
-	public static void loadRecipe(DryDistillerCraftingRecipe ddcr) {
+	private static void loadRecipe(DryDistillerCraftingRecipe ddcr) {
 		toRegister.add(ddcr);
 	}
 	
