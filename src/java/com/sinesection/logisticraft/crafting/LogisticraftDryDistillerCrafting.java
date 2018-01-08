@@ -3,8 +3,8 @@ package com.sinesection.logisticraft.crafting;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sinesection.logisticraft.block.ModBlocks;
-import com.sinesection.logisticraft.item.ModItems;
+import com.sinesection.logisticraft.registrars.ModBlocks;
+import com.sinesection.logisticraft.registrars.ModItems;
 
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
