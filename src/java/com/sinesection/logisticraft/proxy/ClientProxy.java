@@ -1,10 +1,10 @@
-package com.sinesection.geekman9097.logisticraft.proxy;
+package com.sinesection.logisticraft.proxy;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-public class ServerProxy extends CommonProxy {
+public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void preInit(FMLPreInitializationEvent e) {

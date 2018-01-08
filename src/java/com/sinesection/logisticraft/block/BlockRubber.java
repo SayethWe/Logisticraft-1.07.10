@@ -1,4 +1,4 @@
-package com.sinesection.geekman9097.logisticraft.block;
+package com.sinesection.logisticraft.block;
 
 import net.minecraft.block.material.Material;
 

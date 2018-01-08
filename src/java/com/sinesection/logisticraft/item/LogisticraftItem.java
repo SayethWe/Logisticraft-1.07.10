@@ -1,6 +1,6 @@
-package com.sinesection.geekman9097.logisticraft.item;
+package com.sinesection.logisticraft.item;
 
-import com.sinesection.geekman9097.logisticraft.Main;
+import com.sinesection.logisticraft.Main;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;

@@ -1,4 +1,4 @@
-package com.sinesection.geekman9097.logisticraft.item;
+package com.sinesection.logisticraft.item;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

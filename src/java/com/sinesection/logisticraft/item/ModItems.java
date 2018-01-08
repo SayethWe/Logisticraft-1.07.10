@@ -1,4 +1,4 @@
-package com.sinesection.geekman9097.logisticraft.item;
+package com.sinesection.logisticraft.item;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package com.sinesection.geekman9097.logisticraft.crafting;
+package com.sinesection.logisticraft.crafting;
 
 import java.util.Arrays;
 
