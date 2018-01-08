@@ -12,7 +12,7 @@ public class ItemHandbook extends LogisticraftItem {
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World w, EntityPlayer p) {
-		return null;
+		return itemstack;
 	}
 
 }
