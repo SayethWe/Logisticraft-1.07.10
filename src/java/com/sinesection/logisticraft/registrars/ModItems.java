@@ -12,10 +12,13 @@ public final class ModItems {
 	
 	public static LogisticraftItem creativeTabIconItem;
 	
-	public static LogisticraftItem roadWheel = new LogisticraftItem("wheelWood");
-	public static LogisticraftItem refinedRubber = new LogisticraftItem("rubber");
-	public static LogisticraftItem shippingOrder = new LogisticraftItem("shippingOrder");
-	public static LogisticraftItem handbook = new ItemHandbook();
+	public static final LogisticraftItem roadWheel = new LogisticraftItem("wheelWood");
+	public static final LogisticraftItem refinedRubber = new LogisticraftItem("rubber");
+	public static final LogisticraftItem shippingOrder = new LogisticraftItem("shippingOrder");
+	public static final LogisticraftItem handbook = new ItemHandbook();
+	public static final LogisticraftItem sulfur = new LogisticraftItem("sulfur");
+	public static final LogisticraftItem resin = new LogisticraftItem("resin");
+	public static final LogisticraftItem tar = new LogisticraftItem("tar");
 
 	public static final Set<LogisticraftItem> items = new HashSet<>();
 	
@@ -31,6 +34,9 @@ public final class ModItems {
 		loadItem(refinedRubber);
 		loadItem(shippingOrder);
 		loadItem(handbook);
+		loadItem(sulfur);
+		loadItem(resin);
+		loadItem(tar);
 	}
 	
 	private static void loadItem(LogisticraftItem i) {

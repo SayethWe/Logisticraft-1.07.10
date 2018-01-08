@@ -1,8 +1,14 @@
 item.roadWheel.name=Road Wheel
 item.rubber.name=Rubber Glob
 item.shippingOrder.name=Shipping Order
+item.handbook.name=Guide To Shipping Safely
+item.sulfur.name=Sulfur
+item.resin.name=Resin
+item.tar.name=Glob of Tar
 
-tile.rubberBlock.name=Block of Rubber
+tile.blockRubber.name=Block of Rubber
+tile.dryDistillerIdle.name=DryDistiller
+tile.dryDistillerActive.name=DryDistiller
 
 itemGroup.tabLogisticraftItems=Logisticraft Items
 itemGroup.tabLogisticraftBlocks=Logisticraft Blocks
