@@ -1,4 +1,4 @@
-package com.sinesection.geekman9097.logisticraft.item;
+package com.sinesection.logisticraft.item;
 
 public class WheelItem extends LogisticraftItem {
 

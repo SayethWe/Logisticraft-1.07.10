@@ -1,9 +1,9 @@
-package com.sinesection.geekman9097.logisticraft;
+package com.sinesection.logisticraft;
 
-import com.sinesection.geekman9097.logisticraft.block.ModBlocks;
-import com.sinesection.geekman9097.logisticraft.item.ModItems;
-import com.sinesection.geekman9097.logisticraft.proxy.CommonProxy;
-import com.sinesection.geekman9097.utils.Utils;
+import com.sinesection.logisticraft.block.ModBlocks;
+import com.sinesection.logisticraft.item.ModItems;
+import com.sinesection.logisticraft.proxy.CommonProxy;
+import com.sinesection.utils.Utils;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;

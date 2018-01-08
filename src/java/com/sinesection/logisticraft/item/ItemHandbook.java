@@ -1,6 +1,4 @@
-package com.sinesection.geekman9097.logisticraft.item;
-
-import com.sinesection.logisticraft.item.LogisticraftItem;
+package com.sinesection.logisticraft.item;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -14,7 +12,7 @@ public class ItemHandbook extends LogisticraftItem {
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World w, EntityPlayer p) {
-		return itemstack;
+		return null;
 	}
 
 }

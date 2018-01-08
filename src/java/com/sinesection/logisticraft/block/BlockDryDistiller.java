@@ -1,8 +1,8 @@
-package com.sinesection.geekman9097.logisticraft.block;
+package com.sinesection.logisticraft.block;
 
 import java.util.Random;
 
-import com.sinesection.geekman9097.logisticraft.Main;
+import com.sinesection.logisticraft.Main;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
