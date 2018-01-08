@@ -126,4 +126,11 @@ public class BlockDryDistiller extends BlockContainer {
 		return new ItemStack(ModBlocks.dryDistillerIdle);
 	}
 	
+	@SideOnly(Side.CLIENT)
+	@Override
+    public Item getItem(World world, int x, int y, int z)
+    {
+        return Item.getItemFromBlock(ModBlocks.dryDistillerIdle);
+    }
+	
 }

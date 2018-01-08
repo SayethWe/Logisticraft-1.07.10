@@ -13,7 +13,7 @@ public class ModBlocks {
 	public static Item creativeTabIconItem;
 	
 	public static final Block dryDistillerIdle = new BlockDryDistiller("dryDistillerIdle", false);
-	public static final Block dryDistillerActive = new BlockDryDistiller("dryDistillerActive", true);
+	public static final Block dryDistillerActive = new BlockDryDistiller("dryDistillerActive", true).setLightLevel(3f);
 	public static final LogisticraftBlock rubberBlock = new BlockRubber();
 	
 	public static final Set<Block> blocks = new HashSet<>();
