@@ -26,6 +26,7 @@ public class CommonProxy {
 	public void init(FMLInitializationEvent e) {
 		LogisticraftVanillaCrafting.registerCrafting();
 		LogisticraftDryDistillerCrafting.registerCrafting();
+		NetworkRegistry.INSTANCE.registerGuiHandler(Main.instance, new LogisticraftGuiHandler());
 	}
 
 	public void postInit(FMLPostInitializationEvent e) {
