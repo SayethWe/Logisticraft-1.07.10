@@ -18,6 +18,7 @@ public class BlockRoadway extends LogisticraftBlock{
 	
 	public BlockRoadway(int variant) {
 		super("roadway" + variant, Material.rock);
+		this.variant = variant;
 	}
 
 	@SideOnly(Side.CLIENT)
