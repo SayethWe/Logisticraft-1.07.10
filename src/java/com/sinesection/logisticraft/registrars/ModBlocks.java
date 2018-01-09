@@ -35,7 +35,7 @@ public class ModBlocks {
 		blocks.add(dryDistillerActive);
 		blocks.add(rubberBlock);
 		blocks.add(roadBlock);
-		for(int i = 1; i <= 3; i++) {
+		for(int i = 1; i <= 4; i++) {
 			blocks.add(new BlockRoadway(i));
 		}
 	}

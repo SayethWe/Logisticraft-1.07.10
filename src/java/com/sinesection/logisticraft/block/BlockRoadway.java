@@ -1,13 +1,18 @@
 package com.sinesection.logisticraft.block;
 
 import com.sinesection.logisticraft.Main;
+import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 
 public class BlockRoadway extends LogisticraftBlock{
 	
@@ -19,6 +24,25 @@ public class BlockRoadway extends LogisticraftBlock{
 	public BlockRoadway(int variant) {
 		super("roadway" + variant, Material.rock);
 		this.variant = variant;
+	}
+	
+	@Override
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemStack) {
+		int l = MathHelper.floor_double((double) (entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+		switch(l) {
+		case 0:
+			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
+			break;
+		case 1:
+			world.setBlockMetadataWithNotify(x, y, z, 5, 2);
+			break;
+		case 2:
+			world.setBlockMetadataWithNotify(x, y, z, 3, 2);
+			break;
+		case 3:
+			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
+			break;
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -34,10 +58,12 @@ public class BlockRoadway extends LogisticraftBlock{
 		case 0:
 			return "straight";
 		case 1:
-			return "curve";
+			return "curveRight";
 		case 2:
-			return "3intersect";
+			return "curveLeft";
 		case 3:
+			return "3intersect";
+		case 4:
 			return "4intersect";
 		default:
 			return "straight";
