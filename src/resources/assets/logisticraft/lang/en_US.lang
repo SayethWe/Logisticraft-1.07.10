@@ -7,8 +7,10 @@ item.resin.name=Resin
 item.tar.name=Glob of Tar
 
 tile.blockRubber.name=Block of Rubber
-tile.dryDistillerIdle.name=DryDistiller
-tile.dryDistillerActive.name=DryDistiller
+tile.dryDistillerIdle.name=Dry Distiller
+tile.dryDistillerActive.name=Dry Distiller
+
+container.guiDryDistiller.name=Dry Distiller
 
 itemGroup.tabLogisticraftItems=Logisticraft Items
 itemGroup.tabLogisticraftBlocks=Logisticraft Blocks

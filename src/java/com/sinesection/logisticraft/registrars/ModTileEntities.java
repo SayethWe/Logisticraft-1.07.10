@@ -1,24 +1,25 @@
 package com.sinesection.logisticraft.registrars;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.tileentity.LogisticraftTileEntity;
-import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
+import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModTileEntities {
 
-	private static final Set<Class<LogisticraftTileEntity>> tileEnts = new HashSet<>();
-	
-	public static void registerTileEntities() {
-		for(Class<LogisticraftTileEntity> tileEnt : tileEnts) {
-			GameRegistry.registerTileEntity(tileEnt, tileEnt);
-		}
-	}
-	
-	public static void loadTileEntites() {
-		
-	}
+    private static final Map<String, Class<? extends LogisticraftTileEntity>> tileEnts = new HashMap<>();
+    
+    public static void registerTileEntities() {
+        for(String s : tileEnts.keySet()) {
+            GameRegistry.registerTileEntity(tileEnts.get(s), s);
+        }
+    }
+    
+    public static void loadTileEntities() {
+    	tileEnts.put(Main.MODID + ":dryDistiller", TileEntityDryDistiller.class);
+    }
 }

@@ -55,7 +55,7 @@ public class BlockDryDistiller extends BlockContainer {
 	
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int metadata) {
-		return side == 0 ? iconTop : (side == 1 ? iconBottom : (side == metadata ? iconFront : this.blockIcon));
+		return side == 1 ? iconTop : (side == 0 ? iconBottom : (side == metadata ? iconFront : this.blockIcon));
 	}
 
 	@Override

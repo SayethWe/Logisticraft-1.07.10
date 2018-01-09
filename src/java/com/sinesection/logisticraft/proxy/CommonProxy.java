@@ -6,6 +6,7 @@ import com.sinesection.logisticraft.crafting.LogisticraftVanillaCrafting;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
 import com.sinesection.logisticraft.registrars.ModBlocks;
 import com.sinesection.logisticraft.registrars.ModItems;
+import com.sinesection.logisticraft.registrars.ModTileEntities;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -19,6 +20,8 @@ public class CommonProxy {
 		ModItems.registerItems();
 		ModBlocks.loadBlocks();
 		ModBlocks.registerBlocks();
+		ModTileEntities.loadTileEntities();
+		ModTileEntities.registerTileEntities();
 	}
 
 	public void init(FMLInitializationEvent e) {
