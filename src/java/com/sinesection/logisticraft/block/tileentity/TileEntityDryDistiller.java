@@ -7,7 +7,10 @@ import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.BlockDryDistiller;
 import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
+import com.sinesection.utils.Utils;
+import com.sun.media.jfxmedia.logging.Logger;
 
+import akka.japi.Util;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -142,18 +145,17 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 
 	@Override
 	public void updateEntity() {
+		
 		boolean blockUpdate = isBurning();
 		boolean invChanged = false;
 
-		if (this.worldObj.isRemote) {
+		if (!this.worldObj.isRemote) {
 			if (isBurning()) {
 				this.burnTime--;
 			}
-
 			if (this.burnTime == 0 && this.canProcess()) {
 				this.currentItemBurnTime = this.burnTime = this.getItemBurnTime(slots[1]);
-
-				if (this.burnTime == 0) {
+				if (this.burnTime > 0) {
 					if (this.slots[1] != null) {
 						this.slots[1].stackSize--;
 						if (this.slots[1].stackSize == 0) {
@@ -206,19 +208,17 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	private boolean canProcess() {
 		if (slots[0] == null)
 			return false;
-		if (!isBurning())
-			return false;
 		DryDistillerCraftingRecipe recipe = LogisticraftDryDistillerCrafting.getRecipeFromInput(slots[0]);
-		return recipe != null && !recipe.fractionatorRequired && canOutput(recipe) && slots[0].stackSize - recipe.input.stackSize >= 0;
+		return recipe != null && !recipe.fractionatorRequired && canOutput(recipe) && (slots[0].stackSize - recipe.input.stackSize) >= 0;
 	}
 
 	private boolean canOutput(DryDistillerCraftingRecipe recipe) {
 		boolean canOutput = false;
 		for(int i = 0; i < recipe.outputs.length; i++) {
-			int resultAmt = slots[i + 2].stackSize + recipe.outputs[i].stackSize;
 			if(slots[i + 2] == null) {
 				canOutput = true;
 			} else {
+				int resultAmt = slots[i + 2].stackSize + recipe.outputs[i].stackSize;
 				if(slots[i + 2].isItemEqual(recipe.outputs[i])) {
 					if(resultAmt <= slots[i + 2].getMaxStackSize() && resultAmt <= getInventoryStackLimit()) {
 						canOutput = true;
@@ -264,14 +264,15 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 				isWood = true;
 			if (itemStack.getItem() instanceof ItemBlock)
 				isWood = ((ItemBlock) itemStack.getItem()).field_150939_a.getMaterial() == Material.wood;
-
+			
 			if (isWood) {
 				burnTime = 0;
 			} else {
 				burnTime = GameRegistry.getFuelValue(itemStack);
 			}
 			
-			System.out.println(burnTime + ", " + (int) Math.round((float) burnTime * efficiency));
+			if (itemStack.getItem() == Items.coal)
+				burnTime = 200 * 8;
 		}
 		return (int) Math.round((float) burnTime * efficiency);
 	}
@@ -282,7 +283,7 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-		return slot == 2 ? false : (slot == 1 ? isItemFuel(itemStack) : true);
+		return slot > 1 ? false : (slot == 1 ? isItemFuel(itemStack) : true);
 	}
 
 	@Override

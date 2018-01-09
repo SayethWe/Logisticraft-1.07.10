@@ -40,14 +40,18 @@ public class LogisticraftDryDistillerCrafting {
 		if (recipe == null)
 			throw new IllegalArgumentException("Can't register a null recipe!");
 		dryDistillerCraftingRecipes.forEach((i, r) -> {
-			if (i.equals(recipe.input))
+			if (i.isItemEqual(recipe.input))
 				throw new IllegalArgumentException("A recipe with the input of '" + recipe.input.getDisplayName() + "' already exists in the LogisticraftDryDistillerCrafting registry!");
 		});
 		dryDistillerCraftingRecipes.put(recipe.input, recipe);
 	}
 
 	public static DryDistillerCraftingRecipe getRecipeFromInput(ItemStack itemStack) {
-		return dryDistillerCraftingRecipes.get(itemStack);
+		for(ItemStack i : dryDistillerCraftingRecipes.keySet()) {
+			if(i.isItemEqual(itemStack))
+				return dryDistillerCraftingRecipes.get(i);
+		}
+		return null;
 	}
 
 }
