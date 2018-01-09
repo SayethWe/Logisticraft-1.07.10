@@ -19,35 +19,35 @@ public class LogisticraftDryDistillerCrafting {
 	private static final Map<ItemStack, DryDistillerCraftingRecipe> dryDistillerCraftingRecipes = new HashMap<>();
 
 	public static void registerCrafting() {
-		for(DryDistillerCraftingRecipe ddcr : toRegister) {
+		for (DryDistillerCraftingRecipe ddcr : toRegister) {
 			LogisticraftDryDistillerCrafting.registerRecipe(ddcr);
 		}
 		Utils.getLogger().info("Registering " + dryDistillerCraftingRecipes.size() + " recipe(s) for " + ModBlocks.dryDistillerIdle.getLocalizedName() + ".");
 	}
-	
+
 	public static void loadRecipes() {
-		loadRecipe(new DryDistillerCraftingRecipe(
-				new ItemStack(Items.egg),null,false,new ItemStack(ModItems.sulfur,4)));
-		loadRecipe(new DryDistillerCraftingRecipe(
-				new ItemStack(Blocks.netherrack),null,false,new ItemStack(ModItems.sulfur,2)));
-		loadRecipe(new DryDistillerCraftingRecipe(
-				new ItemStack(Items.coal,1,1),null,false,new ItemStack(ModItems.tar),new ItemStack(ModItems.resin)));
-		loadRecipe(new DryDistillerCraftingRecipe(
-				new ItemStack(Items.gunpowder,1),null,false,new ItemStack(Items.coal,1,1),new ItemStack(ModItems.sulfur)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.egg), null, false, new ItemStack(ModItems.sulfur, 4)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Blocks.netherrack), null, false, new ItemStack(ModItems.sulfur, 2)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.coal, 1, 1), null, false, new ItemStack(ModItems.tar), new ItemStack(ModItems.resin)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.gunpowder, 1), null, false, new ItemStack(Items.coal, 1, 1), new ItemStack(ModItems.sulfur)));
 	}
-	
+
 	private static void loadRecipe(DryDistillerCraftingRecipe ddcr) {
 		toRegister.add(ddcr);
 	}
-	
+
 	public static void registerRecipe(DryDistillerCraftingRecipe recipe) {
 		if (recipe == null)
 			throw new IllegalArgumentException("Can't register a null recipe!");
-		dryDistillerCraftingRecipes.forEach((i,r) -> {
+		dryDistillerCraftingRecipes.forEach((i, r) -> {
 			if (i.equals(recipe.input))
 				throw new IllegalArgumentException("A recipe with the input of '" + recipe.input.getDisplayName() + "' already exists in the LogisticraftDryDistillerCrafting registry!");
 		});
 		dryDistillerCraftingRecipes.put(recipe.input, recipe);
+	}
+
+	public static DryDistillerCraftingRecipe getRecipeFromInput(ItemStack itemStack) {
+		return dryDistillerCraftingRecipes.get(itemStack);
 	}
 
 }

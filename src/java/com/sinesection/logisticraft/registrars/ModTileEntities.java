@@ -3,17 +3,18 @@ package com.sinesection.logisticraft.registrars;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.sinesection.logisticraft.block.TileEntity.LogisticraftTileEntity;
+import com.sinesection.logisticraft.block.tileentity.LogisticraftTileEntity;
+import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModTileEntities {
 
-	private static final Set<LogisticraftTileEntity> tileEnts = new HashSet<>();
+	private static final Set<Class<LogisticraftTileEntity>> tileEnts = new HashSet<>();
 	
 	public static void registerTileEntities() {
-		for(LogisticraftTileEntity tileEnt : tileEnts) {
-			GameRegistry.registerTileEntity(tileEnt.getClass(), tileEnt.getRegistryName());
+		for(Class<LogisticraftTileEntity> tileEnt : tileEnts) {
+			GameRegistry.registerTileEntity(tileEnt, tileEnt);
 		}
 	}
 	
