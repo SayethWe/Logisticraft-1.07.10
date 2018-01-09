@@ -6,7 +6,6 @@ import java.util.List;
 import com.sinesection.logisticraft.block.BlockDryDistiller;
 import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
-import com.sinesection.utils.Utils;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
@@ -18,8 +17,6 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityDryDistiller extends LogisticraftTileEntity implements ISidedInventory {
@@ -130,49 +127,48 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 		return 64;
 	}
 	
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		NBTTagList list = nbt.getTagList("container", 0);
-		this.slots = new ItemStack[this.getSizeInventory()];
-		
-		for(int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound compound = list.getCompoundTagAt(i);
-			byte slot = compound.getByte("slot");
-			Utils.getLogger().info("slot " + slot + " loaded");
-			if(slot >= 0 && slot < this.slots.length) {
-				this.slots[slot] = ItemStack.loadItemStackFromNBT(compound);
-			}
-		}
-		
-		this.processTime = nbt.getShort("processTime");
-		this.burnTime = nbt.getShort("burnTime");
-		this.currentItemBurnTime = this.getItemBurnTime(this.slots[1]);
-		
-		String customName = nbt.getString("customName");
-		if(!customName.isEmpty()) {
-			 this.localizedName = customName;
-		}
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		nbt.setShort("processTime", (short)this.processTime);
-		nbt.setShort("burnTime", (short)this.burnTime);
-		
-		NBTTagList list = new NBTTagList();
-		for(int i = 0; i < this.slots.length; i++) {
-			if(this.slots[i] != null) {
-				NBTTagCompound compound = new NBTTagCompound();
-				compound.setByte("slot", (byte) i);
-				this.slots[i].writeToNBT(compound);
-				list.appendTag(compound);
-			}
-		}
-		nbt.setTag("container", list);
-		if(this.hasCustomInventoryName()) {
-			nbt.setString("customName", this.localizedName);
-		}
-	}
+//	@Override
+//	public void readFromNBT(NBTTagCompound nbt) {
+//		NBTTagList list = nbt.getTagList("container", 0);
+//		this.slots = new ItemStack[this.getSizeInventory()];
+//		
+//		for(int i = 0; i < list.tagCount(); i++) {
+//			NBTTagCompound compound = list.getCompoundTagAt(i);
+//			byte slot = compound.getByte("slot");
+//			if(slot >= 0 && slot < this.slots.length) {
+//				this.slots[slot] = ItemStack.loadItemStackFromNBT(compound);
+//			}
+//		}
+//		
+//		this.processTime = nbt.getShort("processTime");
+//		this.burnTime = nbt.getShort("burnTime");
+//		this.currentItemBurnTime = this.getItemBurnTime(this.slots[1]);
+//		
+//		String customName = nbt.getString("customName");
+//		if(!customName.isEmpty()) {
+//			 this.localizedName = customName;
+//		}
+//	}
+//	
+//	@Override
+//	public void writeToNBT(NBTTagCompound nbt) {
+//		nbt.setShort("processTime", (short)this.processTime);
+//		nbt.setShort("burnTime", (short)this.burnTime);
+//		
+//		NBTTagList list = new NBTTagList();
+//		for(int i = 0; i < this.slots.length; i++) {
+//			if(this.slots[i] != null) {
+//				NBTTagCompound compound = new NBTTagCompound();
+//				compound.setByte("slot", (byte) i);
+//				this.slots[i].writeToNBT(compound);
+//				list.appendTag(compound);
+//			}
+//		}
+//		nbt.setTag("container", list);
+//		if(this.hasCustomInventoryName()) {
+//			nbt.setString("customName", this.localizedName);
+//		}
+//	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
@@ -279,7 +275,7 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 		return this.processTime > 0;
 	}
 
-	private int getItemBurnTime(ItemStack itemStack) {
+	public int getItemBurnTime(ItemStack itemStack) {
 		int burnTime = 0;
 		if (itemStack == null) {
 			burnTime = 0;
