@@ -12,24 +12,28 @@ import net.minecraft.util.IIcon;
 public class BlockRoadway extends LogisticraftBlock{
 	
 	@SideOnly(Side.CLIENT)
-	private IIcon iconTop, iconBottom;
+	private IIcon iconTop[], iconBottom;
 	
 	int variant;
 	
 	public BlockRoadway(int variant) {
-		super("roadway" + variant, Material.rock);
+		super("roadway_" + getVariantString(variant), Material.rock);
+		this.variant = variant;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerBlockIcons(IIconRegister iIconRegister) {
 		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "roadway_side");
-		iconTop = iIconRegister.registerIcon(Main.MODID + ":" + "roadway_top_" + getVariantString());
+		iconTop = new IIcon[4];
+		for(int i = 0; i < iconTop.length; i++) {
+			iconTop[i] = iIconRegister.registerIcon(Main.MODID + ":" + "roadway_top_" + getVariantString(i));
+		}
 		iconBottom = Blocks.cobblestone.getIcon(1, 0);
 	}
 	
-	private String getVariantString() {
-		switch(variant) {
+	private static String getVariantString(int variantId) {
+		switch(variantId) {
 		case 0:
 			return "straight";
 		case 1:
@@ -50,7 +54,7 @@ public class BlockRoadway extends LogisticraftBlock{
 		case 0:
 			return iconBottom;
 		case 1:
-			return iconTop;
+			return iconTop[variant];
 		default:
 			return this.blockIcon;
 		}
