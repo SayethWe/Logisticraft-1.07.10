@@ -41,6 +41,16 @@ public class GuiDryDistiller extends GuiContainer {
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(guiBgTexture);
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		
+		if(tEntity.isBurning()) {
+			int k = this.tEntity.getBurnTimeScaled(16);
+			drawTexturedModalRect(guiLeft + 7, guiTop + 36 + 16 - k, xSize, 13 + 16 - k, 18, k);
+		}
+		
+		if(tEntity.isRunning()) {
+			int k = this.tEntity.getProgressScaled(51);
+			drawTexturedModalRect(guiLeft + 59, guiTop + 44, xSize, 0, k, 13);
+		}
 	}
 
 }

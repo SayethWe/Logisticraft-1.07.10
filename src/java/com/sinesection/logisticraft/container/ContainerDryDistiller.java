@@ -47,16 +47,33 @@ public class ContainerDryDistiller extends Container {
 	}
 	
 	@Override
-	public void addCraftingToCrafters(ICrafting crafting) {
-		super.addCraftingToCrafters(crafting);
-		crafting.sendProgressBarUpdate(this, 0, this.tEntity.processTime);
-		crafting.sendProgressBarUpdate(this, 1, this.tEntity.burnTime);
-		crafting.sendProgressBarUpdate(this, 2, this.tEntity.currentItemBurnTime);
+	public void addCraftingToCrafters(ICrafting iCrafting) {
+		super.addCraftingToCrafters(iCrafting);
+		iCrafting.sendProgressBarUpdate(this, 0, this.tEntity.processTime);
+		iCrafting.sendProgressBarUpdate(this, 1, this.tEntity.burnTime);
+		iCrafting.sendProgressBarUpdate(this, 2, this.tEntity.currentItemBurnTime);
 	}
 	
 	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
+		
+		for(int i = 0; i < this.crafters.size(); i++) {
+			ICrafting iCrafting = (ICrafting) this.crafters.get(i);
+			if(this.lastProcessTime != this.tEntity.processTime) {
+				iCrafting.sendProgressBarUpdate(this, 0, this.tEntity.processTime);
+			}
+			if(this.lastProcessTime != this.tEntity.burnTime) {
+				iCrafting.sendProgressBarUpdate(this, 1, this.tEntity.burnTime);
+			}
+			if(this.lastItemBurnTime != this.tEntity.currentItemBurnTime) {
+				iCrafting.sendProgressBarUpdate(this, 2, this.tEntity.currentItemBurnTime);
+			}
+		}
+		
+		this.lastProcessTime = this.tEntity.processTime;
+		this.lastBurnTime = this.tEntity.burnTime;
+		this.lastItemBurnTime = this.tEntity.currentItemBurnTime;
 	}
 	
 	@Override
