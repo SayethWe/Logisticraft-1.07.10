@@ -15,4 +15,11 @@ public class ItemHandbook extends LogisticraftItem {
 		return itemstack;
 	}
 
+	@Override
+	public int getItemStackLimit(ItemStack stack) {
+		return 1;
+	}
+	
+	
+
 }
