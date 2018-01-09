@@ -3,14 +3,10 @@ package com.sinesection.logisticraft.block.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.BlockDryDistiller;
 import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
-import com.sinesection.utils.Utils;
-import com.sun.media.jfxmedia.logging.Logger;
 
-import akka.japi.Util;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +17,6 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityDryDistiller extends LogisticraftTileEntity implements ISidedInventory {
@@ -237,7 +232,7 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 		return this.processTime > 0;
 	}
 
-	private int getItemBurnTime(ItemStack itemStack) {
+	public int getItemBurnTime(ItemStack itemStack) {
 		int burnTime = 0;
 		if (itemStack == null) {
 			burnTime = 0;

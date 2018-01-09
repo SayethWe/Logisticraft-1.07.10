@@ -76,8 +76,47 @@ public class ContainerDryDistiller extends Container {
 	}
 	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
-		return null;
+	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack iS = null;
+		Slot slot = this.getSlot(index);
+		
+		if(slot != null && slot.getHasStack()) {
+			ItemStack tempStack = slot.getStack();
+			iS = tempStack.copy();
+
+			if(index < tEntity.getSizeInventory()) {
+				if(!this.mergeItemStack(tempStack, tEntity.getSizeInventory(), tEntity.getSizeInventory()+36, true)) {
+					return null;
+				}
+				slot.onSlotChange(tempStack, iS);
+			} else {
+				if (tEntity.getItemBurnTime(tempStack) > 0) {
+					//TODO: Cannot Shift-click fuel In
+					if(!this.mergeItemStack(tempStack, 0, 0, false)) {
+						return null;
+					}
+				} else {
+					if (!this.mergeItemStack(tempStack, 0, tEntity.getSizeInventory(), false)) {
+						return null;
+					}
+				}
+			}
+			
+			if(tempStack.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
+			}
+			
+			if( tempStack.stackSize == iS.stackSize) {
+				return null;
+			}
+			
+			slot.onPickupFromSlot(player, tempStack);
+			
+		}
+		
+		return iS;
 	}
 	
 	@Override
