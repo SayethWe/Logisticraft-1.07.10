@@ -8,7 +8,6 @@ import com.sinesection.logisticraft.block.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 
 public class ModBlocks {
 	
@@ -31,7 +30,7 @@ public class ModBlocks {
 	}
 	
 	public static void loadBlocks() {
-		creativeTabIconItem = new ItemBlock(dryDistillerIdle);
+		creativeTabIconItem = Item.getItemFromBlock(dryDistillerIdle);
 		blocks.add(dryDistillerIdle);
 		blocks.add(dryDistillerActive);
 		blocks.add(rubberBlock);
