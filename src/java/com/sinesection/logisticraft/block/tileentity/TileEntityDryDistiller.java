@@ -130,48 +130,48 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 		return 64;
 	}
 	
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) {
-		NBTTagList list = nbt.getTagList("container", 0);
-		this.slots = new ItemStack[this.getSizeInventory()];
-		
-		for(int i = 0; i < list.tagCount(); i++) {
-			NBTTagCompound compound = list.getCompoundTagAt(i);
-			byte slot = compound.getByte("slot");
-			if(slot >= 0 && slot < this.slots.length) {
-				this.slots[slot] = ItemStack.loadItemStackFromNBT(compound);
-			}
-		}
-		
-		this.processTime = nbt.getShort("processTime");
-		this.burnTime = nbt.getShort("burnTime");
-		this.currentItemBurnTime = this.getItemBurnTime(this.slots[1]);
-		
-		String customName = nbt.getString("customName");
-		if(!customName.isEmpty()) {
-			 this.localizedName = customName;
-		}
-	}
-	
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		nbt.setShort("processTime", (short)this.processTime);
-		nbt.setShort("burnTime", (short)this.burnTime);
-		
-		NBTTagList list = new NBTTagList();
-		for(int i = 0; i < this.slots.length; i++) {
-			if(this.slots[i] != null) {
-				NBTTagCompound compound = new NBTTagCompound();
-				compound.setByte("slot", (byte) i);
-				this.slots[i].writeToNBT(compound);
-				list.appendTag(compound);
-			}
-		}
-		nbt.setTag("container", list);
-		if(this.hasCustomInventoryName()) {
-			nbt.setString("customName", this.localizedName);
-		}
-	}
+//	@Override
+//	public void readFromNBT(NBTTagCompound nbt) {
+//		NBTTagList list = nbt.getTagList("container", 0);
+//		this.slots = new ItemStack[this.getSizeInventory()];
+//		
+//		for(int i = 0; i < list.tagCount(); i++) {
+//			NBTTagCompound compound = list.getCompoundTagAt(i);
+//			byte slot = compound.getByte("slot");
+//			if(slot >= 0 && slot < this.slots.length) {
+//				this.slots[slot] = ItemStack.loadItemStackFromNBT(compound);
+//			}
+//		}
+//		
+//		this.processTime = nbt.getShort("processTime");
+//		this.burnTime = nbt.getShort("burnTime");
+//		this.currentItemBurnTime = this.getItemBurnTime(this.slots[1]);
+//		
+//		String customName = nbt.getString("customName");
+//		if(!customName.isEmpty()) {
+//			 this.localizedName = customName;
+//		}
+//	}
+//	
+//	@Override
+//	public void writeToNBT(NBTTagCompound nbt) {
+//		nbt.setShort("processTime", (short)this.processTime);
+//		nbt.setShort("burnTime", (short)this.burnTime);
+//		
+//		NBTTagList list = new NBTTagList();
+//		for(int i = 0; i < this.slots.length; i++) {
+//			if(this.slots[i] != null) {
+//				NBTTagCompound compound = new NBTTagCompound();
+//				compound.setByte("slot", (byte) i);
+//				this.slots[i].writeToNBT(compound);
+//				list.appendTag(compound);
+//			}
+//		}
+//		nbt.setTag("container", list);
+//		if(this.hasCustomInventoryName()) {
+//			nbt.setString("customName", this.localizedName);
+//		}
+//	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
