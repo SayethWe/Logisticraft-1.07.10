@@ -1,4 +1,4 @@
-package com.sinesection.logisticraft.block.TileEntity;
+package com.sinesection.logisticraft.block.tileentity;
 
 import com.sinesection.logisticraft.block.LogisticraftBlock;
 

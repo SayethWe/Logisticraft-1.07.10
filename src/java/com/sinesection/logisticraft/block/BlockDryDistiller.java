@@ -3,9 +3,9 @@ package com.sinesection.logisticraft.block;
 import java.util.Random;
 
 import com.sinesection.logisticraft.Main;
+import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
 import com.sinesection.logisticraft.registrars.ModBlocks;
-import com.sinesection.logisticraft.tileentity.TileEntityDryDistiller;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;

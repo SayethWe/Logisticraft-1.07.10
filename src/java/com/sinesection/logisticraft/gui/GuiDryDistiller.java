@@ -3,8 +3,8 @@ package com.sinesection.logisticraft.gui;
 import org.lwjgl.opengl.GL11;
 
 import com.sinesection.logisticraft.Main;
+import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.container.ContainerDryDistiller;
-import com.sinesection.logisticraft.tileentity.TileEntityDryDistiller;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

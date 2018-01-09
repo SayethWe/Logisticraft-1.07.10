@@ -1,8 +1,8 @@
 package com.sinesection.logisticraft.network;
 
+import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.container.ContainerDryDistiller;
 import com.sinesection.logisticraft.gui.GuiDryDistiller;
-import com.sinesection.logisticraft.tileentity.TileEntityDryDistiller;
 
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;

@@ -3,7 +3,7 @@ package com.sinesection.logisticraft.registrars;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.sinesection.logisticraft.block.TileEntity.LogisticraftTileEntity;
+import com.sinesection.logisticraft.block.tileentity.LogisticraftTileEntity;
 import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
 
 import cpw.mods.fml.common.registry.GameRegistry;

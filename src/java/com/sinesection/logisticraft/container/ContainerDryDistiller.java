@@ -1,6 +1,6 @@
 package com.sinesection.logisticraft.container;
 
-import com.sinesection.logisticraft.tileentity.TileEntityDryDistiller;
+import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

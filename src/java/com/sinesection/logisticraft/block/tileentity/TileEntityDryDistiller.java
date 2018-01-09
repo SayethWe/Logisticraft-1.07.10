@@ -1,11 +1,10 @@
-package com.sinesection.logisticraft.tileentity;
+package com.sinesection.logisticraft.block.tileentity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.BlockDryDistiller;
-import com.sinesection.logisticraft.block.TileEntity.LogisticraftTileEntity;
 import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
 
@@ -62,10 +61,6 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 
 	/** Time left to process the item in slot 0. (in ticks) */
 	public int processTime;
-
-	public TileEntityDryDistiller() {
-		super(Main.MODID + ":dryDistiller");
-	}
 
 	@Override
 	public int getSizeInventory() {
