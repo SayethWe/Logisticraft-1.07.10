@@ -22,7 +22,7 @@ public class BlockRoadway extends LogisticraftBlock{
 	int variant;
 	
 	public BlockRoadway(int variant) {
-		super("roadway" + variant, Material.rock);
+		super("roadway_" + getVariantString(variant), Material.rock);
 		this.variant = variant;
 	}
 	
@@ -49,12 +49,12 @@ public class BlockRoadway extends LogisticraftBlock{
 	@Override
 	public void registerBlockIcons(IIconRegister iIconRegister) {
 		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "roadway_side");
-		iconTop = iIconRegister.registerIcon(Main.MODID + ":" + "roadway_top_" + getVariantString());
-		iconBottom = Blocks.cobblestone.getIcon(1, 0);
+		this.iconTop = iIconRegister.registerIcon(Main.MODID + ":" + "roadway_top_" + getVariantString(variant));
+		this.iconBottom = Blocks.cobblestone.getIcon(1, 0);
 	}
 	
-	private String getVariantString() {
-		switch(variant) {
+	private static String getVariantString(int variantId) {
+		switch(variantId) {
 		case 0:
 			return "straight";
 		case 1:
