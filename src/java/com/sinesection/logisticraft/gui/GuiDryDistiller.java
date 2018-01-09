@@ -1,9 +1,12 @@
 package com.sinesection.logisticraft.gui;
 
+import org.lwjgl.opengl.GL11;
+
 import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.container.ContainerDryDistiller;
 import com.sinesection.logisticraft.tileentity.TileEntityDryDistiller;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -26,7 +29,7 @@ public class GuiDryDistiller extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int i, int j) {
-		String displayName = this.tEntity.isInventoryNameLocalized() ? this.tEntity.getInventoryName() : I18n.format(this.tEntity.getInventoryName());
+		String displayName = this.tEntity.hasCustomInventoryName() ? this.tEntity.getInventoryName() : I18n.format(this.tEntity.getInventoryName());
 
 		this.fontRendererObj.drawString(displayName, this.xSize / 2 - this.fontRendererObj.getStringWidth(displayName) / 2, 6, textColor);
 		this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, textColor);
@@ -34,7 +37,10 @@ public class GuiDryDistiller extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-
+		GL11.glColor4f(1f, 1f, 1f, 1f);
+		
+		Minecraft.getMinecraft().getTextureManager().bindTexture(guiBgTexture);
+		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 
 }

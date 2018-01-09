@@ -1,7 +1,5 @@
 package com.sinesection.logisticraft.crafting;
 
-import java.util.Arrays;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 

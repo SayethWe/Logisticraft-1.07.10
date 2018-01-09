@@ -3,8 +3,11 @@ package com.sinesection.logisticraft.block;
 import java.util.Random;
 
 import com.sinesection.logisticraft.Main;
+import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
 import com.sinesection.logisticraft.registrars.ModBlocks;
+import com.sinesection.logisticraft.tileentity.TileEntityDryDistiller;
 
+import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -13,7 +16,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -105,11 +107,23 @@ public class BlockDryDistiller extends BlockContainer {
 		if(l == 3) {
 			world.setBlockMetadataWithNotify(x, y, z, 4, 2);
 		}
+		
+		if(itemStack.hasDisplayName()) {
+			((TileEntityDryDistiller) world.getTileEntity(x, y, z)).setGuiDisplayName(itemStack.getDisplayName());
+		}
+	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
+		if(!world.isRemote) {
+			FMLNetworkHandler.openGui(player, Main.instance, LogisticraftGuiHandler.guiIdDryDistiller, world, x, y, z);
+		}
+		return true;
 	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return null;
+		return new TileEntityDryDistiller();
 	}
 	
 	@Override
@@ -133,5 +147,28 @@ public class BlockDryDistiller extends BlockContainer {
     {
         return Item.getItemFromBlock(ModBlocks.dryDistillerIdle);
     }
+
+	public static void updateDryDistillerState(boolean active, World world, int x, int y, int z) {
+		int meta = world.getBlockMetadata(x, y, z);
+		TileEntityDryDistiller tEntity = (TileEntityDryDistiller) world.getTileEntity(x, y, z);
+		
+		keepInventory = true;
+		
+		if(active) {
+			world.setBlock(x, y, z, ModBlocks.dryDistillerActive);
+			
+		} else {
+			world.setBlock(x, y, z, ModBlocks.dryDistillerIdle);
+		}
+		
+		keepInventory = false;
+		
+		world.setBlockMetadataWithNotify(x, y, z, meta, 2);
+		
+		if(tEntity != null) {
+			tEntity.validate();
+			world.setTileEntity(x, y, z, tEntity);
+		}
+	}
 	
 }

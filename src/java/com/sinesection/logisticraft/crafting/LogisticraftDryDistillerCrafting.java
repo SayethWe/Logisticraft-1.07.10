@@ -1,7 +1,7 @@
 package com.sinesection.logisticraft.crafting;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.sinesection.logisticraft.registrars.ModBlocks;
 import com.sinesection.logisticraft.registrars.ModItems;
@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 
 public class LogisticraftDryDistillerCrafting {
 
-	private static final List<DryDistillerCraftingRecipe> dryDistillerCraftingRecipies = new ArrayList<DryDistillerCraftingRecipe>();
+	private static final Set<DryDistillerCraftingRecipe> dryDistillerCraftingRecipies = new HashSet<DryDistillerCraftingRecipe>();
 
 	public static void registerCrafting() {
 		LogisticraftDryDistillerCrafting.registerRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.redstone, 2), null, false, new ItemStack(ModItems.refinedRubber, 3), new ItemStack(Items.glowstone_dust)));
@@ -26,6 +26,13 @@ public class LogisticraftDryDistillerCrafting {
 				throw new IllegalArgumentException("A recipe with the input of '" + recipe.input.getDisplayName() + "' already exists in the LogisticraftDryDistillerCrafting registry!");
 		});
 		dryDistillerCraftingRecipies.add(recipe);
+	}
+
+	public static DryDistillerCraftingRecipe getRecipeFromInput(ItemStack itemStack) {
+		for(DryDistillerCraftingRecipe r : dryDistillerCraftingRecipies) {
+			if(itemStack.isItemEqual(r.input) && itemStack.stackSize >= r.input.stackSize) return r;
+		}
+		return null;
 	}
 
 }

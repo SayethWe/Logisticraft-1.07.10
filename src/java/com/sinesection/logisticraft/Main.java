@@ -31,7 +31,7 @@ public class Main {
 	@Instance
 	public static Main instance = new Main();
 	
-	@SidedProxy(clientSide="com.sinesection.geekman9097.logisticraft.proxy.ClientProxy", serverSide="com.sinesection.geekman9097.logisticraft.proxy.ServerProxy")
+	@SidedProxy(clientSide="com.sinesection.logisticraft.proxy.ClientProxy", serverSide="com.sinesection.logisticraft.proxy.ServerProxy")
 	public static CommonProxy proxy;
 
 	@EventHandler
