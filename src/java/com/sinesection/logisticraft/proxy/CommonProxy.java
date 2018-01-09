@@ -28,7 +28,6 @@ public class CommonProxy {
 		LogisticraftVanillaCrafting.registerCrafting();
 		LogisticraftVanillaCrafting.registerFurnaceCrafting();
 		LogisticraftVanillaCrafting.registerShapelessCrafting();
-		
 		LogisticraftDryDistillerCrafting.loadRecipes();
 		LogisticraftDryDistillerCrafting.registerCrafting();
 		NetworkRegistry.INSTANCE.registerGuiHandler(Main.instance, new LogisticraftGuiHandler());

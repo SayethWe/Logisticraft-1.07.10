@@ -3,7 +3,6 @@ package com.sinesection.logisticraft.registrars;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.tileentity.LogisticraftTileEntity;
 import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 
@@ -20,6 +19,6 @@ public class ModTileEntities {
     }
     
     public static void loadTileEntities() {
-    	tileEnts.put(Main.MODID + ":dryDistiller", TileEntityDryDistiller.class);
+    	tileEnts.put("dryDistiller", TileEntityDryDistiller.class);
     }
 }

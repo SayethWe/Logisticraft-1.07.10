@@ -3,14 +3,11 @@ package com.sinesection.logisticraft.block.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.BlockDryDistiller;
 import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
 import com.sinesection.utils.Utils;
-import com.sun.media.jfxmedia.logging.Logger;
 
-import akka.japi.Util;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +20,6 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityDryDistiller extends LogisticraftTileEntity implements ISidedInventory {
@@ -69,7 +65,7 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 
 	@Override
 	public int getSizeInventory() {
-		return this.slots.length;
+		return 6;
 	}
 
 	@Override
@@ -142,6 +138,7 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 		for(int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound compound = list.getCompoundTagAt(i);
 			byte slot = compound.getByte("slot");
+			Utils.getLogger().info("slot " + slot + " loaded");
 			if(slot >= 0 && slot < this.slots.length) {
 				this.slots[slot] = ItemStack.loadItemStackFromNBT(compound);
 			}

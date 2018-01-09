@@ -42,7 +42,7 @@ public class BlockDryDistiller extends BlockContainer {
 		super(Material.iron);
 		this.setBlockName(name);
 		this.isActive = isActive;
-		this.setCreativeTab(Main.tabLogisticraftBlocks);
+		if(!isActive) this.setCreativeTab(Main.tabLogisticraftBlocks);
 	}
 	
 	@SideOnly(Side.CLIENT)
