@@ -14,7 +14,7 @@ public class DryDistillerCraftingRecipe {
 		if(input == null) 
 			throw new IllegalArgumentException("Input ItemStack cannot be null!");
 		if(outputs.length > 4 || outputs.length == 0)
-			throw new IllegalArgumentException("Amout of output ItemStacks is illegal: " + outputs.length + ", Min: 1, Max: 3");
+			throw new IllegalArgumentException("Amout of output ItemStacks is illegal: " + outputs.length + ", Min: 1, Max: 4");
 		if(fluidOutput != null && !fractionatorRequired)
 			throw new IllegalArgumentException("Can only have fluid output when the Fractionator is required!");
 		
@@ -23,5 +23,7 @@ public class DryDistillerCraftingRecipe {
 		this.fluidOutput = fluidOutput;
 		this.fractionatorRequired = fractionatorRequired;
 	}
+	
+	
 
 }

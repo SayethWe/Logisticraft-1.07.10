@@ -17,7 +17,7 @@ public abstract class LogisticraftTileEntityBlock extends LogisticraftBlock impl
 	
 	@Override
 	public abstract TileEntity createNewTileEntity(World w, int meta);
-	//just because the toher naming convention is ugly,
+	//just because the other naming convention is ugly,
 	//and this keeps me from having to change it each time
 	
 	@Override

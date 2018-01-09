@@ -3,7 +3,9 @@ package com.sinesection.logisticraft.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.BlockDryDistiller;
+import com.sinesection.logisticraft.block.TileEntity.LogisticraftTileEntity;
 import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
 
@@ -20,7 +22,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityDryDistiller extends TileEntity implements ISidedInventory {
+public class TileEntityDryDistiller extends LogisticraftTileEntity implements ISidedInventory {
 
 	private String localizedName;
 
@@ -60,6 +62,10 @@ public class TileEntityDryDistiller extends TileEntity implements ISidedInventor
 
 	/** Time left to process the item in slot 0. (in ticks) */
 	public int processTime;
+
+	public TileEntityDryDistiller() {
+		super(Main.MODID + ":dryDistiller");
+	}
 
 	@Override
 	public int getSizeInventory() {

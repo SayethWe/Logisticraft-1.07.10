@@ -1,38 +1,53 @@
 package com.sinesection.logisticraft.crafting;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import com.sinesection.logisticraft.registrars.ModBlocks;
 import com.sinesection.logisticraft.registrars.ModItems;
+import com.sinesection.utils.Utils;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 public class LogisticraftDryDistillerCrafting {
 
-	private static final Set<DryDistillerCraftingRecipe> dryDistillerCraftingRecipies = new HashSet<DryDistillerCraftingRecipe>();
+	private static final Set<DryDistillerCraftingRecipe> toRegister = new HashSet<>();
+	private static final Map<ItemStack, DryDistillerCraftingRecipe> dryDistillerCraftingRecipes = new HashMap<>();
 
 	public static void registerCrafting() {
-		LogisticraftDryDistillerCrafting.registerRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.redstone, 2), null, false, new ItemStack(ModItems.refinedRubber, 3), new ItemStack(Items.glowstone_dust)));
-		System.out.println("Registering " + dryDistillerCraftingRecipies.size() + " recipe(s) for " + ModBlocks.dryDistillerIdle.getLocalizedName() + ".");
+		for (DryDistillerCraftingRecipe ddcr : toRegister) {
+			LogisticraftDryDistillerCrafting.registerRecipe(ddcr);
+		}
+		Utils.getLogger().info("Registering " + dryDistillerCraftingRecipes.size() + " recipe(s) for " + ModBlocks.dryDistillerIdle.getLocalizedName() + ".");
+	}
+
+	public static void loadRecipes() {
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.egg), null, false, new ItemStack(ModItems.sulfur, 4)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Blocks.netherrack), null, false, new ItemStack(ModItems.sulfur, 2)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.coal, 1, 1), null, false, new ItemStack(ModItems.tar), new ItemStack(ModItems.resin)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.gunpowder, 1), null, false, new ItemStack(Items.coal, 1, 1), new ItemStack(ModItems.sulfur)));
+	}
+
+	private static void loadRecipe(DryDistillerCraftingRecipe ddcr) {
+		toRegister.add(ddcr);
 	}
 
 	public static void registerRecipe(DryDistillerCraftingRecipe recipe) {
 		if (recipe == null)
 			throw new IllegalArgumentException("Can't register a null recipe!");
-		dryDistillerCraftingRecipies.forEach((r) -> {
-			if (r.input.equals(recipe.input))
+		dryDistillerCraftingRecipes.forEach((i, r) -> {
+			if (i.equals(recipe.input))
 				throw new IllegalArgumentException("A recipe with the input of '" + recipe.input.getDisplayName() + "' already exists in the LogisticraftDryDistillerCrafting registry!");
 		});
-		dryDistillerCraftingRecipies.add(recipe);
+		dryDistillerCraftingRecipes.put(recipe.input, recipe);
 	}
 
 	public static DryDistillerCraftingRecipe getRecipeFromInput(ItemStack itemStack) {
-		for(DryDistillerCraftingRecipe r : dryDistillerCraftingRecipies) {
-			if(itemStack.isItemEqual(r.input) && itemStack.stackSize >= r.input.stackSize) return r;
-		}
-		return null;
+		return dryDistillerCraftingRecipes.get(itemStack);
 	}
 
 }
