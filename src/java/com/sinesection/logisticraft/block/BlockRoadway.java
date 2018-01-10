@@ -1,8 +1,6 @@
 package com.sinesection.logisticraft.block;
 
 import com.sinesection.logisticraft.Main;
-import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -19,7 +17,7 @@ public class BlockRoadway extends LogisticraftBlock{
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop, iconBottom;
 	
-	int variant;
+	public final int variant;
 	
 	public BlockRoadway(int variant) {
 		super("roadway_" + getVariantString(variant), Material.rock);

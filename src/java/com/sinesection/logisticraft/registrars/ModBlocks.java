@@ -27,10 +27,11 @@ public class ModBlocks {
 			else
 				GameRegistry.registerBlock(block, block.getUnlocalizedName());
 		}
+		
+		creativeTabIconItem = Item.getItemFromBlock(dryDistillerIdle);
 	}
 	
 	public static void loadBlocks() {
-		creativeTabIconItem = Item.getItemFromBlock(dryDistillerIdle);
 		blocks.add(dryDistillerIdle);
 		blocks.add(dryDistillerActive);
 		blocks.add(rubberBlock);
