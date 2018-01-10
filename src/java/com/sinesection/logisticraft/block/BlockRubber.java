@@ -13,6 +13,7 @@ public class BlockRubber extends LogisticraftBlock {
 	@Override
 	public void onFallenUpon(World world, int x, int y, int z, Entity entity, float distance) {
 		entity.fallDistance = 0;
+		entity.addVelocity(0, 2, 0);
 		super.onFallenUpon(world, x, y, z, entity, distance);
 	}
 }
