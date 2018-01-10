@@ -128,4 +128,9 @@ public class BlockRoadway extends LogisticraftBlock{
 	public Item getItem(World world, int x, int y, int z) {
 		return Item.getItemFromBlock(ModBlocks.roadBlock);
 	}
+	
+	public boolean canConnectTo(int side) {
+		//TODO
+		return false;
+	}
 }

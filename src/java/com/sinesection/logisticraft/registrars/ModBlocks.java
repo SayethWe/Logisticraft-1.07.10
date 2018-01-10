@@ -31,7 +31,7 @@ public class ModBlocks {
 	}
 	
 	public static void loadBlocks() {
-		creativeTabIconItem = Item.getItemFromBlock(dryDistillerIdle);
+		creativeTabIconItem = Item.getItemFromBlock(roadBlock);
 		blocks.add(dryDistillerIdle);
 		blocks.add(dryDistillerActive);
 		blocks.add(rubberBlock);

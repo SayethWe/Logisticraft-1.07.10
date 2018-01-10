@@ -3,8 +3,7 @@ package com.sinesection.logisticraft.registrars;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.sinesection.logisticraft.item.ItemHandbook;
-import com.sinesection.logisticraft.item.LogisticraftItem;
+import com.sinesection.logisticraft.item.*;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -19,6 +18,7 @@ public final class ModItems {
 	public static final LogisticraftItem sulfur = new LogisticraftItem("sulfur");
 	public static final LogisticraftItem resin = new LogisticraftItem("resin");
 	public static final LogisticraftItem tar = new LogisticraftItem("tar");
+	public static final LogisticraftItem trafficDirector = new ItemTrafficDirector();
 
 	public static final Set<LogisticraftItem> items = new HashSet<>();
 	
@@ -37,6 +37,7 @@ public final class ModItems {
 		loadItem(sulfur);
 		loadItem(resin);
 		loadItem(tar);
+		loadItem(trafficDirector);
 	}
 	
 	private static void loadItem(LogisticraftItem i) {
