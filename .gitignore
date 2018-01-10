@@ -20,3 +20,4 @@ banned-players.json
 banned-ips.json
 servers.dat
 /bin/
+*.piko
