@@ -1,6 +1,7 @@
 package com.sinesection.logisticraft.power;
 
 import com.sinesection.logisticraft.block.LogisticraftBlock;
+import com.sinesection.utils.MaterialProperties;
 
 import net.minecraft.block.material.Material;
 
@@ -8,13 +9,15 @@ public abstract class LogisticraftHeatBlock extends LogisticraftBlock {
 
 	protected int temp;
 	protected int energy;
+	protected final float heatCapacity;
 	
 	protected LogisticraftHeatBlock(String name, String textureName, String registryName, Material mat) {
 		super(name, textureName, registryName, mat);
+		heatCapacity = MaterialProperties.getHeatCapacityOfBlock(mat);
 	}
 
 	public LogisticraftHeatBlock(String universalName) {
-		super(universalName, Material.iron);
+		this(universalName, universalName, universalName, Material.iron);
 	}
 	
 	public int getCurrentTemp() {
@@ -41,7 +44,7 @@ public abstract class LogisticraftHeatBlock extends LogisticraftBlock {
 	}
 	
 	private void ensureTempStatus() {
-		if(temp > energy) temp = energy;
+		if(temp > energy/heatCapacity) temp = energy;
 	}
 
 }
