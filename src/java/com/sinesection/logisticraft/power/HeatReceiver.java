@@ -5,4 +5,6 @@ public interface HeatReceiver {
 	public int getRequiredTemp();
 	
 	public boolean isReceiving();
+	
+	public boolean canInputFrom(int dir);
 }

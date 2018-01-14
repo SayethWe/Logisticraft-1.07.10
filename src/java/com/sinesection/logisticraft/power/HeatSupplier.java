@@ -4,4 +4,6 @@ public interface HeatSupplier {
 
 	public int getCurrentTemp();
 	
+	public boolean canOutputTo(int dir);
+	
 }
