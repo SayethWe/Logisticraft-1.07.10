@@ -3,7 +3,6 @@ package com.sinesection.logisticraft.block;
 import java.util.Random;
 
 import com.sinesection.logisticraft.Main;
-import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
 import com.sinesection.logisticraft.registrars.ModBlocks;
@@ -55,7 +54,7 @@ public class BlockFractionator extends BlockContainer {
 	public void registerBlockIcons(IIconRegister iIconRegister) {
 		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "fractionator_side");
 		iconTop = iIconRegister.registerIcon(Main.MODID + ":" + "fractionator_top");
-		iconBottom = iIconRegister.registerIcon(Main.MODID + ":" + "fractionator_bottom");
+		iconBottom = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_bottom");
 		iconFront = iIconRegister.registerIcon(Main.MODID + ":" + "fractionator_front" + (isActive ? "_active" : ""));
 	}
 

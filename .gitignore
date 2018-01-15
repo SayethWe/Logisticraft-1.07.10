@@ -25,3 +25,4 @@ servers.dat
 /crash-reports/
 /logs/
 /saves/
+*.piko-png

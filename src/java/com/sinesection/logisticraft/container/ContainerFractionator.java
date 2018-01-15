@@ -1,6 +1,5 @@
 package com.sinesection.logisticraft.container;
 
-import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 
 import cpw.mods.fml.relauncher.Side;

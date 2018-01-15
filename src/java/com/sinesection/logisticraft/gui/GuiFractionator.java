@@ -6,19 +6,14 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.sinesection.logisticraft.Main;
-import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
-import com.sinesection.logisticraft.container.ContainerDryDistiller;
 import com.sinesection.logisticraft.container.ContainerFractionator;
 
-import javafx.scene.control.TextFormatter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidRegistry;
 
 public class GuiFractionator extends GuiContainer {
 
@@ -50,10 +45,10 @@ public class GuiFractionator extends GuiContainer {
 			if(mouseY >= tankY && mouseY <= tankY + 32) {
 				List<String> tankTooltip = new ArrayList<String>();
 				if(this.tEntity.getOutputTank().getFluid() == null || this.tEntity.getOutputTank().getFluidAmount() == 0)
-					tankTooltip.add("§7§o" + I18n.format("container.guiFractionator.tankEmpty"));
+					tankTooltip.add("ï¿½7ï¿½o" + I18n.format("container.guiFractionator.tankEmpty"));
 				else {
-					tankTooltip.add("§o" + this.tEntity.getOutputTank().getFluid().getLocalizedName());
-					tankTooltip.add("§o" + this.tEntity.getOutputTank().getFluidAmount() + "mb / " + this.tEntity.getOutputTank().getCapacity() + "mb");
+					tankTooltip.add("ï¿½o" + this.tEntity.getOutputTank().getFluid().getLocalizedName());
+					tankTooltip.add("ï¿½o" + this.tEntity.getOutputTank().getFluidAmount() + "mb / " + this.tEntity.getOutputTank().getCapacity() + "mb");
 				}
 				int k = (this.width - this.xSize) / 2; // X axis on GUI
 				int l = (this.height - this.ySize) / 2; // Y axis on GUI
