@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.sinesection.logisticraft.block.tileentity.LogisticraftTileEntity;
 import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
+import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -20,5 +21,6 @@ public class ModTileEntities {
     
     public static void loadTileEntities() {
     	tileEnts.put("dryDistiller", TileEntityDryDistiller.class);
+    	tileEnts.put("fractionator", TileEntityFractionator.class);
     }
 }

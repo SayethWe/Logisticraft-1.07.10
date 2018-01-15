@@ -6,6 +6,7 @@ import java.util.List;
 import com.sinesection.logisticraft.block.BlockFractionator;
 import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
+import com.sinesection.utils.Utils;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
@@ -213,7 +214,6 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	public void updateEntity() {
 		boolean blockUpdate = isBurning();
 		boolean invChanged = false;
-
 		if (!this.worldObj.isRemote) {
 			if (isBurning()) {
 				this.burnTime--;

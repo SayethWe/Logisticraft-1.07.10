@@ -9,8 +9,12 @@ item.tar.name=Glob of Tar
 tile.blockRubber.name=Block of Rubber
 tile.dryDistillerIdle.name=Dry Distiller
 tile.dryDistillerActive.name=Dry Distiller
+tile.fractionatorIdle.name=Fractionator
+tile.fractionatorActive.name=Fractionator
 
 container.guiDryDistiller.name=Dry Distiller
+container.guiFractionator.name=Fractionator
+container.guiFractionator.tankEmpty=Empty
 
 itemGroup.tabLogisticraftItems=Logisticraft Items
 itemGroup.tabLogisticraftBlocks=Logisticraft Blocks

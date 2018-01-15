@@ -155,7 +155,7 @@ public class BlockFractionator extends BlockContainer {
 
 	public static void updateState(boolean active, World world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
-		TileEntityDryDistiller tEntity = (TileEntityDryDistiller) world.getTileEntity(x, y, z);
+		TileEntityFractionator tEntity = (TileEntityFractionator) world.getTileEntity(x, y, z);
 
 		keepInventory = true;
 
