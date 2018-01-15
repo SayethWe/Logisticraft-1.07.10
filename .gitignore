@@ -21,3 +21,7 @@ banned-ips.json
 servers.dat
 /bin/
 *.piko
+/config/
+/crash-reports/
+/logs/
+/saves/

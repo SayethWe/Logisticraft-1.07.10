@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.sinesection.logisticraft.block.BlockDryDistiller;
+import com.sinesection.logisticraft.block.BlockFractionator;
 import com.sinesection.logisticraft.block.BlockRoadway;
 import com.sinesection.logisticraft.block.BlockRubber;
 import com.sinesection.logisticraft.block.LogisticraftBlock;
@@ -17,7 +18,9 @@ public class ModBlocks {
 	public static Item creativeTabIconItem;
 	
 	public static final Block dryDistillerIdle = new BlockDryDistiller("dryDistillerIdle", false);
-	public static final Block dryDistillerActive = new BlockDryDistiller("dryDistillerActive", true).setLightLevel(3f);
+	public static final Block dryDistillerActive = new BlockDryDistiller("dryDistillerActive", true).setLightLevel(6f);
+	public static final Block fractionatorIdle = new BlockFractionator("fractionatorIdle", false);
+	public static final Block fractionatorActive = new BlockFractionator("fractionatorActive", true).setLightLevel(6f);
 	public static final LogisticraftBlock rubberBlock = new BlockRubber();
 	public static final LogisticraftBlock roadBlock = new BlockRoadway(0);
 	public static final LogisticraftBlock[] roadBlockVariants = createRoadVariants();
@@ -38,6 +41,8 @@ public class ModBlocks {
 	public static void loadBlocks() {
 		blocks.add(dryDistillerIdle);
 		blocks.add(dryDistillerActive);
+		blocks.add(fractionatorIdle);
+		blocks.add(fractionatorActive);
 		blocks.add(rubberBlock);
 		blocks.add(roadBlock);
 		for (LogisticraftBlock variant : roadBlockVariants) {

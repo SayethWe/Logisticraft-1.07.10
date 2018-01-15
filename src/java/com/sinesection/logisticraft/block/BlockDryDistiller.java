@@ -152,7 +152,7 @@ public class BlockDryDistiller extends BlockContainer {
 		return Item.getItemFromBlock(ModBlocks.dryDistillerIdle);
 	}
 
-	public static void updateDryDistillerState(boolean active, World world, int x, int y, int z) {
+	public static void updateState(boolean active, World world, int x, int y, int z) {
 		int meta = world.getBlockMetadata(x, y, z);
 		TileEntityDryDistiller tEntity = (TileEntityDryDistiller) world.getTileEntity(x, y, z);
 

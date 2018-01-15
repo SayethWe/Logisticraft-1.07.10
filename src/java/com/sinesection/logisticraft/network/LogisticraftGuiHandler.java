@@ -1,8 +1,11 @@
 package com.sinesection.logisticraft.network;
 
 import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
+import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 import com.sinesection.logisticraft.container.ContainerDryDistiller;
+import com.sinesection.logisticraft.container.ContainerFractionator;
 import com.sinesection.logisticraft.gui.GuiDryDistiller;
+import com.sinesection.logisticraft.gui.GuiFractionator;
 
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,6 +26,10 @@ public class LogisticraftGuiHandler implements IGuiHandler {
 			if(tEntity != null)
 				if(tEntity instanceof TileEntityDryDistiller)
 					return new ContainerDryDistiller(player.inventory, (TileEntityDryDistiller) tEntity);
+		case guiIdFractionator:
+			if(tEntity != null)
+				if(tEntity instanceof TileEntityFractionator)
+					return new ContainerFractionator(player.inventory, (TileEntityFractionator) tEntity);
 		default:
 			return null;
 		}
@@ -36,6 +43,10 @@ public class LogisticraftGuiHandler implements IGuiHandler {
 			if(tEntity != null)
 				if(tEntity instanceof TileEntityDryDistiller)
 					return new GuiDryDistiller(player.inventory, (TileEntityDryDistiller) tEntity);
+		case guiIdFractionator:
+			if(tEntity != null)
+				if(tEntity instanceof TileEntityFractionator)
+					return new GuiFractionator(player.inventory, (TileEntityFractionator) tEntity);
 		default:
 			return null;
 		}
