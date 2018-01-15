@@ -45,10 +45,10 @@ public class GuiFractionator extends GuiContainer {
 			if(mouseY >= tankY && mouseY <= tankY + 32) {
 				List<String> tankTooltip = new ArrayList<String>();
 				if(this.tEntity.getOutputTank().getFluid() == null || this.tEntity.getOutputTank().getFluidAmount() == 0)
-					tankTooltip.add("�7�o" + I18n.format("container.guiFractionator.tankEmpty"));
+					tankTooltip.add("§7§o" + I18n.format("container.guiFractionator.tankEmpty"));
 				else {
-					tankTooltip.add("�o" + this.tEntity.getOutputTank().getFluid().getLocalizedName());
-					tankTooltip.add("�o" + this.tEntity.getOutputTank().getFluidAmount() + "mb / " + this.tEntity.getOutputTank().getCapacity() + "mb");
+					tankTooltip.add("§o" + this.tEntity.getOutputTank().getFluid().getLocalizedName());
+					tankTooltip.add("§7§o" + this.tEntity.getOutputTank().getFluidAmount() + "mb / " + this.tEntity.getOutputTank().getCapacity() + "mb");
 				}
 				int k = (this.width - this.xSize) / 2; // X axis on GUI
 				int l = (this.height - this.ySize) / 2; // Y axis on GUI

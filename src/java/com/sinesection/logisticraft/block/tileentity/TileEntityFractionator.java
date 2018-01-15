@@ -167,10 +167,11 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 		this.processTime = nbt.getShort("processTime");
 		this.burnTime = nbt.getShort("burnTime");
 		this.currentItemBurnTime = this.getItemBurnTime(this.getStackInSlot(1));
-
-		String customName = nbt.getString("customName");
-		if (!customName.isEmpty()) {
-			this.localizedName = customName;
+		
+		this.outputTank = this.outputTank.readFromNBT(nbt);
+		
+		if (!nbt.hasKey("customName")) {
+			this.localizedName = nbt.getString("customName");
 		}
 	}
 
@@ -191,6 +192,9 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 			}
 		}
 		nbt.setTag("items", list);
+		
+		this.getOutputTank().writeToNBT(nbt);
+		
 		if (this.hasCustomInventoryName()) {
 			nbt.setString("customName", this.localizedName);
 		}
@@ -386,6 +390,8 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	}
 	
 	public int getFluidAmountScaled(int i) {
+		if(this.getOutputTank().getFluid() == null || this.getOutputTank().getFluidAmount() == 0)
+			return 0;
 		return (this.getOutputTank().getFluidAmount() * i) / this.getOutputTank().getCapacity();
 	}
 

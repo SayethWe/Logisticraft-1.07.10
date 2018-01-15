@@ -52,7 +52,7 @@ public class BlockFractionator extends BlockContainer {
 
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iIconRegister) {
-		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "fractionator_side");
+		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_side");
 		iconTop = iIconRegister.registerIcon(Main.MODID + ":" + "fractionator_top");
 		iconBottom = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_bottom");
 		iconFront = iIconRegister.registerIcon(Main.MODID + ":" + "fractionator_front" + (isActive ? "_active" : ""));
