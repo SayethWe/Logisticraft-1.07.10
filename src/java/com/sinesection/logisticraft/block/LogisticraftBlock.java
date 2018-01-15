@@ -4,8 +4,9 @@ import com.sinesection.logisticraft.Main;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 
-public class LogisticraftBlock extends Block {
+public abstract class LogisticraftBlock extends Block {
 	
 	private final String registryName;
 	
@@ -20,6 +21,11 @@ public class LogisticraftBlock extends Block {
 		this.registryName = registryName;
 		this.setCreativeTab(Main.tabLogisticraftBlocks);
 	}
+	
+	public Block setCreativeTab(CreativeTabs tab) {
+		return super.setCreativeTab(tab);
+	}
+	
 	
 	public String getRegistryName() {
 		return registryName;

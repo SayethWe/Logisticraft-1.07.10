@@ -19,28 +19,41 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityFractionator extends LogisticraftTileEntity implements ISidedInventory, IFluidHandler {
+public class TileEntityFractionator extends LogisticraftTileEntity implements ISidedInventory {
 
 	private String localizedName;
 
-	public static final int NUM_SLOTS = 7;
+	public static final int NUM_SLOTS = 8;
 	/**
 	 * In MilliBuckets;
 	 */
-	public static final int TANK_CAPACITY = 4000;
+	public static final int TANK_CAPACITY = FluidContainerRegistry.BUCKET_VOLUME * 4;
+
+	public static final int SLOT_INPUT = 0;
+	public static final int SLOT_FUEL = 1;
+	public static final int SLOT_OUTPUT1 = 2;
+	public static final int SLOT_OUTPUT2 = 3;
+	public static final int SLOT_OUTPUT3 = 4;
+	public static final int SLOT_OUTPUT4 = 5;
+	public static final int SLOT_TANK_INPUT = 6;
+	public static final int SLOT_TANK_OUTPUT = 7;
 
 	// Slot 0 = input
 	// Slot 1 = fuel
 	// Slot 2-5 = output
-	// Slot 6 = tank item slot
+	// Slot 6 = tank input slot
+	// Slot 7 = tank output slot
 	private ItemStack[] slots = new ItemStack[NUM_SLOTS];
 	private FluidTank outputTank = new FluidTank(TANK_CAPACITY);
 
@@ -51,17 +64,17 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	// Side 2-5 = n,s,e,w
 	private int[][] accesibleSlotsFromSide = new int[][] {
 			{
-					1, 2, 3, 4, 5, 6
+					1, 2, 3, 4, 5, 7
 			}, {
-					0
+					0, 6
 			}, {
-					1
+					1, 6
 			}, {
-					1
+					1, 6
 			}, {
-					1
+					1, 6
 			}, {
-					1
+					1, 6
 			}
 	};
 
@@ -95,6 +108,22 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 		if (slot < 0 || slot > getSizeInventory())
 			return null;
 		return this.slots[slot];
+	}
+
+	public boolean incrStackSize(int slot, int amount) {
+		ItemStack itemstack = getStackInSlot(slot);
+
+		if (itemstack != null) {
+			if (itemstack.stackSize >= itemstack.getMaxStackSize()) {
+				itemstack.stackSize = itemstack.getMaxStackSize();
+				this.setInventorySlotContents(slot, itemstack);
+			} else {
+				itemstack.stackSize += amount;
+				this.setInventorySlotContents(slot, itemstack);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -167,9 +196,9 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 		this.processTime = nbt.getShort("processTime");
 		this.burnTime = nbt.getShort("burnTime");
 		this.currentItemBurnTime = this.getItemBurnTime(this.getStackInSlot(1));
-		
+
 		this.outputTank = this.outputTank.readFromNBT(nbt);
-		
+
 		if (!nbt.hasKey("customName")) {
 			this.localizedName = nbt.getString("customName");
 		}
@@ -192,9 +221,9 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 			}
 		}
 		nbt.setTag("items", list);
-		
+
 		this.getOutputTank().writeToNBT(nbt);
-		
+
 		if (this.hasCustomInventoryName()) {
 			nbt.setString("customName", this.localizedName);
 		}
@@ -214,6 +243,19 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	}
 
 	@Override
+	public Packet getDescriptionPacket() {
+		NBTTagCompound compound = new NBTTagCompound();
+		writeToNBT(compound);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, compound);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+		NBTTagCompound compound = pkt.func_148857_g();
+		readFromNBT(compound);
+	}
+
+	@Override
 	public void updateEntity() {
 		boolean blockUpdate = isBurning();
 		boolean invChanged = false;
@@ -224,10 +266,10 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 			if (this.burnTime == 0 && this.canProcess()) {
 				this.currentItemBurnTime = this.burnTime = this.getItemBurnTime(getStackInSlot(1));
 				if (this.burnTime > 0) {
-					if (this.getStackInSlot(1) != null) {
-						this.getStackInSlot(1).stackSize--;
-						if (this.getStackInSlot(1).stackSize == 0) {
-							this.setInventorySlotContents(1, this.getStackInSlot(1).getItem().getContainerItem(this.getStackInSlot(1)));
+					if (this.getStackInSlot(SLOT_FUEL) != null) {
+						this.getStackInSlot(SLOT_FUEL).stackSize--;
+						if (this.getStackInSlot(SLOT_FUEL).stackSize == 0) {
+							this.setInventorySlotContents(SLOT_FUEL, this.getStackInSlot(SLOT_FUEL).getItem().getContainerItem(this.getStackInSlot(SLOT_FUEL)));
 						}
 						invChanged = true;
 					}
@@ -250,9 +292,58 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 				BlockFractionator.updateState(isBurning(), this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
 
+			if (this.getStackInSlot(5) == null)
+				return;
+			ItemStack inputSlot = ItemStack.copyItemStack(this.getStackInSlot(5));
+			inputSlot.stackSize = 1;
+			ItemStack outputSlot = ItemStack.copyItemStack(this.getStackInSlot(6));
+			FluidTank tank = this.getOutputTank();
+			boolean success = false;
+			if (FluidContainerRegistry.isEmptyContainer(inputSlot)) {
+				if (tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false) != null && tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false).amount == FluidContainerRegistry.BUCKET_VOLUME) {
+					if (!addStackToOutput(FluidContainerRegistry.fillFluidContainer(tank.getFluid(), inputSlot), false))
+						return;
+					outputSlot = FluidContainerRegistry.fillFluidContainer(tank.getFluid(), inputSlot);
+					tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+					success = true;
+				}
+
+			}
+			if (success) {
+				this.getStackInSlot(5).stackSize--;
+				if (this.getStackInSlot(5).stackSize == 0)
+					this.setInventorySlotContents(5, null);
+				this.setOutputTank(tank);
+				addStackToOutput(outputSlot, true);
+				invChanged = true;
+			}
+
 			if (invChanged) {
+				this.markForUpdate();
 				this.markDirty();
 			}
+		}
+	}
+
+	private boolean addStackToOutput(ItemStack stack, boolean doPut) {
+		ItemStack output = this.getStackInSlot(6);
+		if (stack == null) {
+			if (doPut)
+				this.markDirty();
+			return true;
+		}
+		if (output == null) {
+			if (doPut) {
+				this.setInventorySlotContents(6, stack);
+			}
+			return true;
+		} else if (stack.isItemEqual(output) && (output.stackSize + stack.stackSize) <= output.getMaxStackSize()) {
+			if (doPut) {
+				this.incrStackSize(1, stack.stackSize > 0 ? stack.stackSize : 1);
+			}
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -267,40 +358,43 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 					this.getStackInSlot(i + 2).stackSize += recipe.outputs[i].stackSize;
 				}
 			}
-			if(this.getOutputTank().fill(recipe.fluidOutput, false) == recipe.fluidOutput.amount) 
+			if (this.getOutputTank().fill(recipe.fluidOutput, false) == recipe.fluidOutput.amount)
 				this.getOutputTank().fill(recipe.fluidOutput, true);
-			this.getStackInSlot(0).stackSize -= recipe.input.stackSize;
-			if (this.getStackInSlot(0).stackSize <= 0) {
-				this.setInventorySlotContents(0, null);
+			this.getStackInSlot(SLOT_INPUT).stackSize -= recipe.input.stackSize;
+			if (this.getStackInSlot(SLOT_INPUT).stackSize <= 0) {
+				this.setInventorySlotContents(SLOT_INPUT, null);
 			}
 		}
 	}
 
 	private boolean canProcess() {
-		if (getStackInSlot(0) == null)
+		if (getStackInSlot(SLOT_INPUT) == null)
 			return false;
-		DryDistillerCraftingRecipe recipe = LogisticraftDryDistillerCrafting.getRecipeFromInput(getStackInSlot(0));
-		if(this.getOutputTank().fill(recipe.fluidOutput, false) != recipe.fluidOutput.amount)
+		DryDistillerCraftingRecipe recipe = LogisticraftDryDistillerCrafting.getRecipeFromInput(getStackInSlot(SLOT_INPUT));
+		if (this.getOutputTank().fill(recipe.fluidOutput, false) != recipe.fluidOutput.amount)
 			return false;
-		return recipe != null && canOutput(recipe) && (getStackInSlot(0).stackSize - recipe.input.stackSize) >= 0;
+		return recipe != null && canOutput(recipe) && (getStackInSlot(SLOT_INPUT).stackSize - recipe.input.stackSize) >= 0;
 	}
 
 	private boolean canOutput(DryDistillerCraftingRecipe recipe) {
 		boolean canOutput = false;
-		for (int i = 0; i < recipe.outputs.length; i++) {
-			if (getStackInSlot(i + 2) == null) {
-				canOutput = true;
-			} else {
-				int resultAmt = getStackInSlot(i + 2).stackSize + recipe.outputs[i].stackSize;
-				if (getStackInSlot(i + 2).isItemEqual(recipe.outputs[i])) {
-					if (resultAmt <= getStackInSlot(i + 2).getMaxStackSize() && resultAmt <= getInventoryStackLimit()) {
-						canOutput = true;
+		if (recipe.outputs.length == 0)
+			canOutput = true;
+		else
+			for (int i = 0; i < recipe.outputs.length; i++) {
+				if (getStackInSlot(i + 2) == null) {
+					canOutput = true;
+				} else {
+					int resultAmt = getStackInSlot(i + 2).stackSize + recipe.outputs[i].stackSize;
+					if (getStackInSlot(i + 2).isItemEqual(recipe.outputs[i])) {
+						if (resultAmt <= getStackInSlot(i + 2).getMaxStackSize() && resultAmt <= getInventoryStackLimit()) {
+							canOutput = true;
+						}
 					}
 				}
 			}
-		}
-		if(recipe.fluidOutput != null)
-			if(this.getOutputTank().fill(recipe.fluidOutput, false) < recipe.fluidOutput.amount)
+		if (recipe.fluidOutput != null)
+			if (this.getOutputTank().fill(recipe.fluidOutput, false) != recipe.fluidOutput.amount)
 				canOutput = false;
 		return canOutput;
 	}
@@ -359,7 +453,7 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-		return slot > 1 ? false : (slot == 1 ? this.isItemFuel(itemStack) : true);
+		return slot == 6 ? FluidContainerRegistry.isEmptyContainer(itemStack) : (slot > 1 ? false : (slot == 1 ? this.isItemFuel(itemStack) : true));
 	}
 
 	@Override
@@ -374,7 +468,7 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
-		return side != 0 || slot != 1 || itemStack.isItemEqual(new ItemStack(Items.bucket));
+		return (slot == 1 && itemStack.isItemEqual(new ItemStack(Items.bucket))) || (slot == 6 && FluidContainerRegistry.isFilledContainer(itemStack)) || (slot == 0);
 	}
 
 	public int getBurnTimeScaled(int i) {
@@ -388,43 +482,35 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	public int getProgressScaled(int i) {
 		return (this.processTime * i) / this.processSpeed;
 	}
-	
-	public int getFluidAmountScaled(int i) {
-		if(this.getOutputTank().getFluid() == null || this.getOutputTank().getFluidAmount() == 0)
-			return 0;
-		return (this.getOutputTank().getFluidAmount() * i) / this.getOutputTank().getCapacity();
-	}
 
 	public FluidTank getOutputTank() {
 		return this.outputTank;
 	}
 
-	@Override
+	public void setOutputTank(FluidTank tank) {
+		this.outputTank = tank;
+	}
+
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
 		return this.getOutputTank().fill(resource, doFill);
 	}
 
-	@Override
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
 		return this.getOutputTank().drain(resource.amount, doDrain);
 	}
 
-	@Override
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
 		return this.getOutputTank().drain(maxDrain, doDrain);
 	}
 
-	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
 		return false;
 	}
 
-	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
 		return this.getOutputTank().getFluidAmount() > 0;
 	}
 
-	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
 		return new FluidTankInfo[] {
 				this.getOutputTank().getInfo()

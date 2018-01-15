@@ -1,6 +1,4 @@
-package com.sinesection.logisticraft.block.tileentity;
-
-import com.sinesection.logisticraft.block.LogisticraftBlock;
+package com.sinesection.logisticraft.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;

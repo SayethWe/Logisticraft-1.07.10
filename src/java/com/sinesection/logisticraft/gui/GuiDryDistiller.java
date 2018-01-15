@@ -7,12 +7,11 @@ import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.container.ContainerDryDistiller;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiDryDistiller extends GuiContainer {
+public class GuiDryDistiller extends LogisticraftGuiContainer {
 
 	public static final ResourceLocation guiBgTexture = new ResourceLocation(Main.MODID, "textures/gui/guiDistiller.png");
 

@@ -13,6 +13,7 @@ import com.sinesection.utils.Utils;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 public class LogisticraftDryDistillerCrafting {
@@ -34,6 +35,7 @@ public class LogisticraftDryDistillerCrafting {
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.gunpowder), null, false, new ItemStack(Items.coal, 1, 1), new ItemStack(ModItems.sulfur)));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(ModItems.resin), new FluidStack(ModFluids.creosote, 1000), true, new ItemStack(ModItems.refinedRubber)));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(ModItems.tar), new FluidStack(ModFluids.turpentine, 1000), true, new ItemStack(ModItems.pitch)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Blocks.cobblestone), new FluidStack(FluidRegistry.LAVA, 250), true)); // TEST!
 	}
 
 	private static void loadRecipe(DryDistillerCraftingRecipe ddcr) {

@@ -11,82 +11,101 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 
 public class ContainerFractionator extends Container {
-	
+
 	public TileEntityFractionator tEntity;
-	
+
 	/** Last time left for fuel to be used up. (in ticks) */
 	public int lastBurnTime;
 	/** Last time it takes to burn the current item in slot 1. (in ticks) */
 	public int lastItemBurnTime;
 	/** Last time left to process the item in slot 0. (in ticks) */
 	public int lastProcessTime;
-	/** Last amount of fluid in tank */
-	public int lastFluidAmount;
+	/** Last tank */
+	private FluidTank lastTank;
+	private int tempFluidId;
 
 	public ContainerFractionator(InventoryPlayer inventory, TileEntityFractionator tEntity) {
 		this.tEntity = tEntity;
-		
-		this.addSlotToContainer(new Slot(tEntity, 0, 56, 25)); // Input
+
+		this.addSlotToContainer(new Slot(tEntity, 0, 32, 25)); // Input
 		this.addSlotToContainer(new Slot(tEntity, 1, 8, 54)); // Fuel
-		this.addSlotToContainer(new Slot(tEntity, 6, 154, 54)); // Tank Slot
-		
-		this.addSlotToContainer(new SlotFurnace(inventory.player, tEntity, 2, 114, 25)); // Output 1
-		this.addSlotToContainer(new SlotFurnace(inventory.player, tEntity, 3, 132, 25)); // Output 2
-		this.addSlotToContainer(new SlotFurnace(inventory.player, tEntity, 4, 114, 43)); // Output 3
-		this.addSlotToContainer(new SlotFurnace(inventory.player, tEntity, 5, 132, 43)); // Output 4
-		
-		for(int i = 0; i < 3; i++) {
-			for(int j = 0; j < 9; j++) {
+
+		this.addSlotToContainer(new SlotFurnace(inventory.player, tEntity, 2, 90, 25)); // Output
+																						// 1
+		this.addSlotToContainer(new SlotFurnace(inventory.player, tEntity, 3, 108, 25)); // Output
+																							// 2
+		this.addSlotToContainer(new SlotFurnace(inventory.player, tEntity, 4, 90, 43)); // Output
+																						// 3
+		this.addSlotToContainer(new SlotFurnace(inventory.player, tEntity, 5, 108, 43)); // Output
+																							// 4
+
+		this.addSlotToContainer(new BucketSlot(tEntity, 6, 152, 33)); // Tank
+																		// Input
+																		// Slot
+		this.addSlotToContainer(new BucketResultSlot(tEntity, 7, 152, 54)); // Tank
+																			// Output
+																			// Slot
+
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 9; j++) {
 				this.addSlotToContainer(new Slot(inventory, 9 + (i * 9) + j, 8 + (j * 18), 84 + (i * 18)));
 			}
 		}
-		
-		for(int i = 0; i < 9; i++) {
+
+		for (int i = 0; i < 9; i++) {
 			this.addSlotToContainer(new Slot(inventory, i, 8 + (i * 18), 142));
 		}
 	}
-	
+
 	@Override
 	public void addCraftingToCrafters(ICrafting iCrafting) {
 		super.addCraftingToCrafters(iCrafting);
 		iCrafting.sendProgressBarUpdate(this, 0, this.tEntity.processTime);
 		iCrafting.sendProgressBarUpdate(this, 1, this.tEntity.burnTime);
 		iCrafting.sendProgressBarUpdate(this, 2, this.tEntity.currentItemBurnTime);
-		iCrafting.sendProgressBarUpdate(this, 3, this.tEntity.getOutputTank().getFluidAmount());
+		if (this.tEntity.getOutputTank().getFluid() != null) {
+			iCrafting.sendProgressBarUpdate(this, 3, this.tEntity.getOutputTank().getFluid().getFluidID());
+			iCrafting.sendProgressBarUpdate(this, 4, this.tEntity.getOutputTank().getFluidAmount());
+		}
 	}
-	
+
 	@Override
 	public void detectAndSendChanges() {
 		super.detectAndSendChanges();
-		
-		for(int i = 0; i < this.crafters.size(); i++) {
+
+		for (int i = 0; i < this.crafters.size(); i++) {
 			ICrafting iCrafting = (ICrafting) this.crafters.get(i);
-			if(this.lastProcessTime != this.tEntity.processTime) {
+			if (this.lastProcessTime != this.tEntity.processTime) {
 				iCrafting.sendProgressBarUpdate(this, 0, this.tEntity.processTime);
 			}
-			if(this.lastProcessTime != this.tEntity.burnTime) {
+			if (this.lastProcessTime != this.tEntity.burnTime) {
 				iCrafting.sendProgressBarUpdate(this, 1, this.tEntity.burnTime);
 			}
-			if(this.lastItemBurnTime != this.tEntity.currentItemBurnTime) {
+			if (this.lastItemBurnTime != this.tEntity.currentItemBurnTime) {
 				iCrafting.sendProgressBarUpdate(this, 2, this.tEntity.currentItemBurnTime);
 			}
-			if(this.lastItemBurnTime != this.tEntity.currentItemBurnTime) {
-				iCrafting.sendProgressBarUpdate(this, 3, this.tEntity.getOutputTank().getFluidAmount());
+			if (lastTank != null && !lastTank.equals(this.tEntity.getOutputTank()) && this.tEntity.getOutputTank().getFluid() != null) {
+				iCrafting.sendProgressBarUpdate(this, 3, this.tEntity.getOutputTank().getFluid().getFluidID());
+				iCrafting.sendProgressBarUpdate(this, 4, this.tEntity.getOutputTank().getFluid().amount);
 			}
 		}
-		
+
 		this.lastProcessTime = this.tEntity.processTime;
 		this.lastBurnTime = this.tEntity.burnTime;
 		this.lastItemBurnTime = this.tEntity.currentItemBurnTime;
-		this.lastFluidAmount = this.tEntity.getOutputTank().getFluidAmount();
+		this.lastTank = this.tEntity.getOutputTank();
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(int id, int value) {
-		switch(id) {
+		switch (id) {
 		case 0:
 			this.tEntity.processTime = value;
 			break;
@@ -97,56 +116,59 @@ public class ContainerFractionator extends Container {
 			this.tEntity.currentItemBurnTime = value;
 			break;
 		case 3:
-			if(this.tEntity.getOutputTank().getFluid() != null)
-				 this.tEntity.getOutputTank().getFluid().amount = value;
+			this.tempFluidId = value;
+			break;
+		case 4:
+			FluidTank tank = this.tEntity.getOutputTank();
+			tank.setFluid(new FluidStack(FluidRegistry.getFluid(tempFluidId), value));
 			break;
 		}
 	}
-	
+
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
 		ItemStack iS = null;
 		Slot slot = this.getSlot(index);
-		
-		if(slot != null && slot.getHasStack()) {
+
+		if (slot != null && slot.getHasStack()) {
 			ItemStack tempStack = slot.getStack();
 			iS = tempStack.copy();
 
-			if(index < tEntity.getSizeInventory()) {
-				if(!this.mergeItemStack(tempStack, tEntity.getSizeInventory(), tEntity.getSizeInventory()+36, true)) {
+			if (index < tEntity.getSizeInventory()) {
+				if (!this.mergeItemStack(tempStack, tEntity.getSizeInventory(), tEntity.getSizeInventory() + 36, true)) {
 					return null;
 				}
 				slot.onSlotChange(tempStack, iS);
+			} else if (tEntity.getItemBurnTime(tempStack) > 0) {
+				// TODO: Cannot Shift-click fuel In
+				if (!this.mergeItemStack(tempStack, 0, 0, false)) {
+					return null;
+				}
+			} else if (!FluidContainerRegistry.isEmptyContainer(iS) || !mergeItemStack(iS, 36, 37, false)) {
+				return null;
 			} else {
-				if (tEntity.getItemBurnTime(tempStack) > 0) {
-					//TODO: Cannot Shift-click fuel In
-					if(!this.mergeItemStack(tempStack, 0, 0, false)) {
-						return null;
-					}
-				} else {
-					if (!this.mergeItemStack(tempStack, 0, tEntity.getSizeInventory(), false)) {
-						return null;
-					}
+				if (!this.mergeItemStack(tempStack, 0, tEntity.getSizeInventory(), false)) {
+					return null;
 				}
 			}
-			
-			if(tempStack.stackSize == 0) {
+
+			if (tempStack.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();
 			}
-			
-			if( tempStack.stackSize == iS.stackSize) {
+
+			if (tempStack.stackSize == iS.stackSize) {
 				return null;
 			}
-			
+
 			slot.onPickupFromSlot(player, tempStack);
-			
+
 		}
-		
+
 		return iS;
 	}
-	
+
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return this.tEntity.isUseableByPlayer(player);

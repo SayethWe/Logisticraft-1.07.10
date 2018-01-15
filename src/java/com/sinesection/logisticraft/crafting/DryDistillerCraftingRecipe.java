@@ -13,8 +13,8 @@ public class DryDistillerCraftingRecipe {
 	public DryDistillerCraftingRecipe(ItemStack input, FluidStack fluidOutput, boolean fractionatorRequired, ItemStack ...outputs) {
 		if(input == null) 
 			throw new IllegalArgumentException("Input ItemStack cannot be null!");
-		if(outputs.length > 4 || outputs.length == 0)
-			throw new IllegalArgumentException("Amout of output ItemStacks is illegal: " + outputs.length + ", Min: 1, Max: 4");
+		if(outputs.length > 4)
+			throw new IllegalArgumentException("Amout of output ItemStacks is illegal: " + outputs.length + ", Max: 4");
 		if(fluidOutput != null && !fractionatorRequired)
 			throw new IllegalArgumentException("Can only have fluid output when the Fractionator is required!");
 		

@@ -17,10 +17,10 @@ public class ModBlocks {
 	
 	public static Item creativeTabIconItem;
 	
-	public static final Block dryDistillerIdle = new BlockDryDistiller("dryDistillerIdle", false);
-	public static final Block dryDistillerActive = new BlockDryDistiller("dryDistillerActive", true).setLightLevel(6f);
-	public static final Block fractionatorIdle = new BlockFractionator("fractionatorIdle", false);
-	public static final Block fractionatorActive = new BlockFractionator("fractionatorActive", true).setLightLevel(6f);
+	public static final Block dryDistillerIdle = new BlockDryDistiller(false);
+	public static final Block dryDistillerActive = new BlockDryDistiller(true).setLightLevel(6f);
+	public static final Block fractionatorIdle = new BlockFractionator(false);
+	public static final Block fractionatorActive = new BlockFractionator(true).setLightLevel(6f);
 	public static final LogisticraftBlock rubberBlock = new BlockRubber();
 	public static final LogisticraftBlock roadBlock = new BlockRoadway(0);
 	public static final LogisticraftBlock[] roadBlockVariants = createRoadVariants();
