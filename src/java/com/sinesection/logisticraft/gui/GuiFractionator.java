@@ -6,19 +6,14 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.sinesection.logisticraft.Main;
-import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
-import com.sinesection.logisticraft.container.ContainerDryDistiller;
 import com.sinesection.logisticraft.container.ContainerFractionator;
 
-import javafx.scene.control.TextFormatter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fluids.FluidRegistry;
 
 public class GuiFractionator extends GuiContainer {
 

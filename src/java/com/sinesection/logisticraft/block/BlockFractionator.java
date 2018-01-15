@@ -3,7 +3,6 @@ package com.sinesection.logisticraft.block;
 import java.util.Random;
 
 import com.sinesection.logisticraft.Main;
-import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
 import com.sinesection.logisticraft.registrars.ModBlocks;
