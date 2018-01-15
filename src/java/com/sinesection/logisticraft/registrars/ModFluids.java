@@ -13,7 +13,7 @@ public class ModFluids {
 	public static final LogisticraftFluid turpentine = new LogisticraftFluid("turpentine");
 	public static final LogisticraftFluid lowGradeFuel = new LogisticraftFluid("gasoline");
 	public static final LogisticraftFluid midGradeFuel = new LogisticraftFluid("diesel");
-	public static final LogisticraftFluid highGradeFuel = new LogisticraftFluid("Kerothanol"); //kerosene/methanol mix
+	public static final LogisticraftFluid highGradeFuel = new LogisticraftFluid("kerothanol"); //kerosene/methanol mix
 	
 	public static final Set<LogisticraftFluid> fluids = new HashSet<>();
 	
