@@ -19,10 +19,12 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -241,6 +243,19 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	}
 
 	@Override
+	public Packet getDescriptionPacket() {
+		NBTTagCompound compound = new NBTTagCompound();
+		writeToNBT(compound);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 0, compound);
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+		NBTTagCompound compound = pkt.func_148857_g();
+		readFromNBT(compound);
+	}
+
+	@Override
 	public void updateEntity() {
 		boolean blockUpdate = isBurning();
 		boolean invChanged = false;
@@ -277,9 +292,58 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 				BlockFractionator.updateState(isBurning(), this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
 
+			if (this.getStackInSlot(5) == null)
+				return;
+			ItemStack inputSlot = ItemStack.copyItemStack(this.getStackInSlot(5));
+			inputSlot.stackSize = 1;
+			ItemStack outputSlot = ItemStack.copyItemStack(this.getStackInSlot(6));
+			FluidTank tank = this.getOutputTank();
+			boolean success = false;
+			if (FluidContainerRegistry.isEmptyContainer(inputSlot)) {
+				if (tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false) != null && tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false).amount == FluidContainerRegistry.BUCKET_VOLUME) {
+					if (!addStackToOutput(FluidContainerRegistry.fillFluidContainer(tank.getFluid(), inputSlot), false))
+						return;
+					outputSlot = FluidContainerRegistry.fillFluidContainer(tank.getFluid(), inputSlot);
+					tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
+					success = true;
+				}
+
+			}
+			if (success) {
+				this.getStackInSlot(5).stackSize--;
+				if (this.getStackInSlot(5).stackSize == 0)
+					this.setInventorySlotContents(5, null);
+				this.setOutputTank(tank);
+				addStackToOutput(outputSlot, true);
+				invChanged = true;
+			}
+
 			if (invChanged) {
+				this.markForUpdate();
 				this.markDirty();
 			}
+		}
+	}
+
+	private boolean addStackToOutput(ItemStack stack, boolean doPut) {
+		ItemStack output = this.getStackInSlot(6);
+		if (stack == null) {
+			if (doPut)
+				this.markDirty();
+			return true;
+		}
+		if (output == null) {
+			if (doPut) {
+				this.setInventorySlotContents(6, stack);
+			}
+			return true;
+		} else if (stack.isItemEqual(output) && (output.stackSize + stack.stackSize) <= output.getMaxStackSize()) {
+			if (doPut) {
+				this.incrStackSize(1, stack.stackSize > 0 ? stack.stackSize : 1);
+			}
+			return true;
+		} else {
+			return false;
 		}
 	}
 

@@ -16,7 +16,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
-public class ContainerFractionator extends Container implements IOnInventoryChangedListener {
+public class ContainerFractionator extends Container {
 
 	public TileEntityFractionator tEntity;
 
@@ -172,56 +172,6 @@ public class ContainerFractionator extends Container implements IOnInventoryChan
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
 		return this.tEntity.isUseableByPlayer(player);
-	}
-
-	@Override
-	public void onInventoryChanged() {
-		if (this.tEntity.getStackInSlot(5) == null)
-			return;
-		ItemStack inputSlot = ItemStack.copyItemStack(this.tEntity.getStackInSlot(5));
-		inputSlot.stackSize = 1;
-		ItemStack outputSlot = ItemStack.copyItemStack(this.tEntity.getStackInSlot(6));
-		FluidTank tank = this.tEntity.getOutputTank();
-		boolean success = false;
-		if (FluidContainerRegistry.isEmptyContainer(inputSlot)) {
-			if (tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false) != null && tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false).amount == FluidContainerRegistry.BUCKET_VOLUME) {
-				if (!addStackToOutput(FluidContainerRegistry.fillFluidContainer(tank.getFluid(), inputSlot), false))
-					return;
-				outputSlot = FluidContainerRegistry.fillFluidContainer(tank.getFluid(), inputSlot);
-				tank.drain(FluidContainerRegistry.BUCKET_VOLUME, true);
-				success = true;
-			}
-
-		}
-		if (success) {
-			this.tEntity.getStackInSlot(5).stackSize--;
-			if (this.tEntity.getStackInSlot(5).stackSize == 0)
-				this.tEntity.setInventorySlotContents(5, null);
-			this.tEntity.setOutputTank(tank);
-			addStackToOutput(outputSlot, true);
-		}
-	}
-
-	private boolean addStackToOutput(ItemStack stack, boolean doPut) {
-		ItemStack output = tEntity.getStackInSlot(6);
-		if (stack == null) {
-			if (doPut)
-				tEntity.markDirty();
-			return true;
-		}
-		if (output == null) {
-			if (doPut) {
-				tEntity.setInventorySlotContents(6, stack);
-			}
-			return true;
-		} else if (stack.isItemEqual(output) && (output.stackSize + stack.stackSize) <= output.getMaxStackSize()) {
-			if (doPut) {
-				tEntity.incrStackSize(1, stack.stackSize > 0 ? stack.stackSize : 1);
-			}
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 }

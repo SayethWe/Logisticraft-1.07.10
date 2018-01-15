@@ -4,6 +4,7 @@ import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
 import com.sinesection.logisticraft.crafting.LogisticraftVanillaCrafting;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
+import com.sinesection.logisticraft.network.LogisticraftNetwork;
 import com.sinesection.logisticraft.registrars.ModBlocks;
 import com.sinesection.logisticraft.registrars.ModFluids;
 import com.sinesection.logisticraft.registrars.ModItems;
@@ -18,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent e) {
+		LogisticraftNetwork.registerChannels();
 		ModItems.loadItems();
 		ModItems.registerItems();
 		ModBlocks.loadBlocks();
