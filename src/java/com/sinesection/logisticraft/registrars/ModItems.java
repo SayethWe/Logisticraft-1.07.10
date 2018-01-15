@@ -21,6 +21,7 @@ public final class ModItems {
 	public static final LogisticraftItem resin = new LogisticraftItem("resin");
 	public static final LogisticraftItem tar = new LogisticraftItem("tar");
 	public static final LogisticraftItem trafficDirector = new ItemTrafficDirector();
+	public static final LogisticraftItem pitch = new LogisticraftItem("pitch");
 
 	public static final Set<LogisticraftItem> items = new HashSet<>();
 	
@@ -40,6 +41,7 @@ public final class ModItems {
 		loadItem(resin);
 		loadItem(tar);
 		loadItem(trafficDirector);
+		loadItem(pitch);
 	}
 	
 	private static void loadItem(LogisticraftItem i) {

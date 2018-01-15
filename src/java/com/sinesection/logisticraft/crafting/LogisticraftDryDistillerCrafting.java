@@ -6,12 +6,14 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sinesection.logisticraft.registrars.ModBlocks;
+import com.sinesection.logisticraft.registrars.ModFluids;
 import com.sinesection.logisticraft.registrars.ModItems;
 import com.sinesection.utils.Utils;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
 public class LogisticraftDryDistillerCrafting {
 
@@ -29,7 +31,9 @@ public class LogisticraftDryDistillerCrafting {
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.egg), null, false, new ItemStack(ModItems.sulfur, 4)));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Blocks.netherrack), null, false, new ItemStack(ModItems.sulfur, 2)));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.coal, 1, 1), null, false, new ItemStack(ModItems.tar), new ItemStack(ModItems.resin)));
-		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.gunpowder, 1), null, false, new ItemStack(Items.coal, 1, 1), new ItemStack(ModItems.sulfur)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.gunpowder), null, false, new ItemStack(Items.coal, 1, 1), new ItemStack(ModItems.sulfur)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(ModItems.resin), new FluidStack(ModFluids.creosote, 1000), true, new ItemStack(ModItems.refinedRubber)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(ModItems.tar), new FluidStack(ModFluids.turpentine, 1000), true, new ItemStack(ModItems.pitch)));
 	}
 
 	private static void loadRecipe(DryDistillerCraftingRecipe ddcr) {
