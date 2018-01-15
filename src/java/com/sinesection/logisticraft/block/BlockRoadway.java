@@ -64,12 +64,12 @@ public class BlockRoadway extends LogisticraftBlock{
 	public void registerBlockIcons(IIconRegister iIconRegister) {
 		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "roadway_side");
 		this.iconTop = iIconRegister.registerIcon(Main.MODID + ":" + "roadway_top_" + getVariantString(variant));
-		BufferedImage[][] topImages = Utils.splitImage(UNIFIED_TEXTURE_ROWS, UNIFIED_TEXTURE_COLS, "error");
-		for(int i = 0; i < UNIFIED_TEXTURE_ROWS; i++) {
-			for(int j = 0; j < UNIFIED_TEXTURE_COLS; j++) {
-				Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(" ", new DynamicTexture(bufferedImage));
-			}
-		}
+//		BufferedImage[][] topImages = Utils.splitImage(UNIFIED_TEXTURE_ROWS, UNIFIED_TEXTURE_COLS, "error");
+//		for(int i = 0; i < UNIFIED_TEXTURE_ROWS; i++) {
+//			for(int j = 0; j < UNIFIED_TEXTURE_COLS; j++) {
+//				iIconRegister.registerIcon(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(" ", new DynamicTexture(topImages[i][j])));
+//			}
+//		}
 		 
 		this.iconBottom = Blocks.cobblestone.getIcon(1, 0);
 	}
