@@ -22,20 +22,20 @@ public class ContainerFractionator extends Container {
 	public int lastItemBurnTime;
 	/** Last time left to process the item in slot 0. (in ticks) */
 	public int lastProcessTime;
+	/** Last amount of fluid in tank */
+	public int lastFluidAmount;
 
 	public ContainerFractionator(InventoryPlayer inventory, TileEntityFractionator tEntity) {
 		this.tEntity = tEntity;
 		
 		this.addSlotToContainer(new Slot(tEntity, 0, 56, 25)); // Input
 		this.addSlotToContainer(new Slot(tEntity, 1, 8, 54)); // Fuel
-		
 		this.addSlotToContainer(new Slot(tEntity, 6, 154, 54)); // Tank Slot
 		
 		this.addSlotToContainer(new SlotFurnace(inventory.player, tEntity, 2, 114, 25)); // Output 1
 		this.addSlotToContainer(new SlotFurnace(inventory.player, tEntity, 3, 132, 25)); // Output 2
 		this.addSlotToContainer(new SlotFurnace(inventory.player, tEntity, 4, 114, 43)); // Output 3
 		this.addSlotToContainer(new SlotFurnace(inventory.player, tEntity, 5, 132, 43)); // Output 4
-		
 		
 		for(int i = 0; i < 3; i++) {
 			for(int j = 0; j < 9; j++) {
@@ -54,6 +54,7 @@ public class ContainerFractionator extends Container {
 		iCrafting.sendProgressBarUpdate(this, 0, this.tEntity.processTime);
 		iCrafting.sendProgressBarUpdate(this, 1, this.tEntity.burnTime);
 		iCrafting.sendProgressBarUpdate(this, 2, this.tEntity.currentItemBurnTime);
+		iCrafting.sendProgressBarUpdate(this, 3, this.tEntity.getOutputTank().getFluidAmount());
 	}
 	
 	@Override
@@ -71,11 +72,15 @@ public class ContainerFractionator extends Container {
 			if(this.lastItemBurnTime != this.tEntity.currentItemBurnTime) {
 				iCrafting.sendProgressBarUpdate(this, 2, this.tEntity.currentItemBurnTime);
 			}
+			if(this.lastItemBurnTime != this.tEntity.currentItemBurnTime) {
+				iCrafting.sendProgressBarUpdate(this, 3, this.tEntity.getOutputTank().getFluidAmount());
+			}
 		}
 		
 		this.lastProcessTime = this.tEntity.processTime;
 		this.lastBurnTime = this.tEntity.burnTime;
 		this.lastItemBurnTime = this.tEntity.currentItemBurnTime;
+		this.lastFluidAmount = this.tEntity.getOutputTank().getFluidAmount();
 	}
 	
 	@Override
@@ -90,6 +95,10 @@ public class ContainerFractionator extends Container {
 			break;
 		case 2:
 			this.tEntity.currentItemBurnTime = value;
+			break;
+		case 3:
+			if(this.tEntity.getOutputTank().getFluid() != null)
+				 this.tEntity.getOutputTank().getFluid().amount = value;
 			break;
 		}
 	}
