@@ -12,7 +12,11 @@ public class ItemHandbook extends LogisticraftItem {
 	
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemstack, World w, EntityPlayer p) {
+		p.setHealth(5);
+		p.setAbsorptionAmount(20);
+//		p.openGui(mod, modGuiId, world, x, y, z);
 		return itemstack;
+		
 	}
 
 	@Override
