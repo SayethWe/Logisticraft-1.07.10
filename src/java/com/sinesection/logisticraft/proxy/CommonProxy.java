@@ -5,6 +5,7 @@ import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
 import com.sinesection.logisticraft.crafting.LogisticraftVanillaCrafting;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
 import com.sinesection.logisticraft.registrars.ModBlocks;
+import com.sinesection.logisticraft.registrars.ModFluids;
 import com.sinesection.logisticraft.registrars.ModItems;
 import com.sinesection.logisticraft.registrars.ModTileEntities;
 
@@ -23,6 +24,8 @@ public class CommonProxy {
 		ModBlocks.registerBlocks();
 		ModTileEntities.loadTileEntities();
 		ModTileEntities.registerTileEntities();
+		ModFluids.loadFluids();
+		ModFluids.registerFluids();
 	}
 
 	public void init(FMLInitializationEvent e) {
