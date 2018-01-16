@@ -1,14 +1,18 @@
 package com.sinesection.logisticraft.block;
 
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.registrars.ModBlocks;
+import com.sinesection.utils.Utils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -25,6 +29,9 @@ public class BlockRoadway extends LogisticraftBlock{
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop, iconBottom;
+	
+	@SideOnly(Side.CLIENT)
+	private IIcon[][] topIcons;
 	
 	public final int variant;
 	
@@ -57,6 +64,13 @@ public class BlockRoadway extends LogisticraftBlock{
 	public void registerBlockIcons(IIconRegister iIconRegister) {
 		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "roadway_side");
 		this.iconTop = iIconRegister.registerIcon(Main.MODID + ":" + "roadway_top_" + getVariantString(variant));
+//		BufferedImage[][] topImages = Utils.splitImage(UNIFIED_TEXTURE_ROWS, UNIFIED_TEXTURE_COLS, "error");
+//		for(int i = 0; i < UNIFIED_TEXTURE_ROWS; i++) {
+//			for(int j = 0; j < UNIFIED_TEXTURE_COLS; j++) {
+//				iIconRegister.registerIcon(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(" ", new DynamicTexture(topImages[i][j])));
+//			}
+//		}
+		 
 		this.iconBottom = Blocks.cobblestone.getIcon(1, 0);
 	}
 

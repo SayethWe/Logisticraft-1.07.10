@@ -50,10 +50,10 @@ public class BlockFractionator extends LogisticraftTileEntityBlock {
 
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iIconRegister) {
-		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_side");
+		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "fractionator_side");
 		iconTop = iIconRegister.registerIcon(Main.MODID + ":" + "fractionator_top");
 		iconBottom = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_bottom");
-		iconFront = iIconRegister.registerIcon(Main.MODID + ":" + "fractionator_front" + (isActive ? "_active" : ""));
+		iconFront = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_front" + (isActive ? "_active" : ""));
 	}
 
 	@SideOnly(Side.CLIENT)
