@@ -86,7 +86,7 @@ public class GuiFractionator extends LogisticraftGuiContainer {
 
 		if (tEntity.isBurning()) {
 			int k = this.tEntity.getBurnTimeScaled(BURNER_HEIGHT);
-			drawTexturedModalRect(guiLeft + BURNER_X, guiTop + BURNER_Y + (BURNER_HEIGHT - k), xSize + BURNER_U, BURNER_X + (BURNER_HEIGHT - k) + BURNER_V, BURNER_WIDTH, k); // Burner
+			drawTexturedModalRect(guiLeft + BURNER_X, guiTop + BURNER_Y + (BURNER_HEIGHT - k), xSize + BURNER_U, (BURNER_HEIGHT - k) + BURNER_V, BURNER_WIDTH, k); // Burner
 		}
 
 		if (tEntity.isRunning()) {

@@ -194,10 +194,13 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 		}
 
 		this.processTime = nbt.getShort("processTime");
+		System.out.println(processTime);
 		this.burnTime = nbt.getShort("burnTime");
-		this.currentItemBurnTime = this.getItemBurnTime(this.getStackInSlot(1));
-
-		this.outputTank = this.outputTank.readFromNBT(nbt);
+		System.out.println(burnTime);
+		this.currentItemBurnTime = this.getItemBurnTime(this.getStackInSlot(SLOT_FUEL));
+		System.out.println(currentItemBurnTime);
+		
+		this.outputTank.readFromNBT(nbt);
 
 		if (!nbt.hasKey("customName")) {
 			this.localizedName = nbt.getString("customName");
@@ -253,6 +256,8 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 		NBTTagCompound compound = pkt.func_148857_g();
 		readFromNBT(compound);
+		this.markDirty();
+		this.markForUpdate();
 	}
 
 	@Override
@@ -371,9 +376,11 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 		if (getStackInSlot(SLOT_INPUT) == null)
 			return false;
 		DryDistillerCraftingRecipe recipe = LogisticraftDryDistillerCrafting.getRecipeFromInput(getStackInSlot(SLOT_INPUT));
+		if(recipe == null)
+			return false;
 		if (this.getOutputTank().fill(recipe.fluidOutput, false) != recipe.fluidOutput.amount)
 			return false;
-		return recipe != null && canOutput(recipe) && (getStackInSlot(SLOT_INPUT).stackSize - recipe.input.stackSize) >= 0;
+		return canOutput(recipe) && (getStackInSlot(SLOT_INPUT).stackSize - recipe.input.stackSize) >= 0;
 	}
 
 	private boolean canOutput(DryDistillerCraftingRecipe recipe) {
@@ -393,7 +400,7 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 					}
 				}
 			}
-		if (recipe.fluidOutput != null)
+		if (recipe.fluidOutput != null && recipe.fluidOutput.amount > 0)
 			if (this.getOutputTank().fill(recipe.fluidOutput, false) != recipe.fluidOutput.amount)
 				canOutput = false;
 		return canOutput;
