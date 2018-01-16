@@ -45,13 +45,8 @@ public class BlockFractionator extends LogisticraftTileEntityBlock {
 	public BlockFractionator(boolean isActive) {
 		super("fractionator" + (isActive ? "Active" : "Idle"), Material.iron);
 		this.isActive = isActive;
-	}
-	
-	@Override
-	public Block setCreativeTab(CreativeTabs tab) {
 		if(isActive)
-			return this;
-		return super.setCreativeTab(tab);
+			this.setCreativeTab(null);
 	}
 
 	@SideOnly(Side.CLIENT)

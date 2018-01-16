@@ -180,6 +180,10 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
+		
+		this.processTime = nbt.getShort("processTime");
+		this.burnTime = nbt.getShort("burnTime");
+		this.currentItemBurnTime = nbt.getShort("currentItemBurnTime");
 
 		NBTTagList list = nbt.getTagList("items", 10);
 		this.slots = new ItemStack[this.getSizeInventory()];
@@ -191,10 +195,6 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 				this.setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(compound));
 			}
 		}
-
-		this.processTime = nbt.getShort("processTime");
-		this.burnTime = nbt.getShort("burnTime");
-		this.currentItemBurnTime = this.getItemBurnTime(this.getStackInSlot(SLOT_FUEL));
 		
 		this.outputTank.readFromNBT(nbt);
 
@@ -209,6 +209,7 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 
 		nbt.setShort("processTime", (short) this.processTime);
 		nbt.setShort("burnTime", (short) this.burnTime);
+		nbt.setShort("currentItemBurnTime", (short) this.currentItemBurnTime);
 
 		NBTTagList list = new NBTTagList();
 		for (int i = 0; i < this.slots.length; i++) {
@@ -456,7 +457,7 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-		return slot == 6 ? FluidContainerRegistry.isEmptyContainer(itemStack) : (slot > 1 ? false : (slot == 1 ? this.isItemFuel(itemStack) : true));
+		return slot == SLOT_TANK_INPUT ? FluidContainerRegistry.isEmptyContainer(itemStack) : (slot > SLOT_FUEL ? false : (slot == SLOT_FUEL ? this.isItemFuel(itemStack) : true));
 	}
 
 	@Override
@@ -471,7 +472,7 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
-		return (slot == 1 && itemStack.isItemEqual(new ItemStack(Items.bucket))) || (slot == 6 && FluidContainerRegistry.isFilledContainer(itemStack)) || (slot == 0);
+		return (slot == SLOT_FUEL && itemStack.isItemEqual(new ItemStack(Items.bucket))) || (slot == SLOT_TANK_OUTPUT && FluidContainerRegistry.isFilledContainer(itemStack)) || (slot != SLOT_INPUT);
 	}
 
 	public int getBurnTimeScaled(int i) {

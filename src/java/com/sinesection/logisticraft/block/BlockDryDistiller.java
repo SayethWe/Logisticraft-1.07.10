@@ -45,17 +45,11 @@ public class BlockDryDistiller extends LogisticraftTileEntityBlock {
 	public BlockDryDistiller(boolean isActive) {
 		super("dryDistiller" + (isActive ? "Active" : "Idle"), Material.iron);
 		this.isActive = isActive;
-		if (!isActive)
-			this.setCreativeTab(Main.tabLogisticraftBlocks);
+		if(isActive)
+			this.setCreativeTab(null);
+		
 	}
 	
-	@Override
-	public Block setCreativeTab(CreativeTabs tab) {
-		if(isActive)
-			return this;
-		return super.setCreativeTab(tab);
-	}
-
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iIconRegister) {
 		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_side");

@@ -1,6 +1,7 @@
 package com.sinesection.logisticraft.container;
 
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
+import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
 import com.sinesection.logisticraft.fluid.LogisticraftFluidTank;
 
 import cpw.mods.fml.relauncher.Side;
@@ -129,46 +130,58 @@ public class ContainerFractionator extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		ItemStack iS = null;
+		ItemStack itemStack = null;
 		Slot slot = this.getSlot(index);
 
+		int playerInvStart = tEntity.getSizeInventory();
+		int playerInvEnd = tEntity.getSizeInventory() + player.inventory.mainInventory.length;
+		int playerHotbarStart = playerInvEnd - 9;
+
 		if (slot != null && slot.getHasStack()) {
-			ItemStack tempStack = slot.getStack();
-			iS = tempStack.copy();
-
-			if (index < tEntity.getSizeInventory()) {
-				if (!this.mergeItemStack(tempStack, tEntity.getSizeInventory(), tEntity.getSizeInventory() + 36, true)) {
+			ItemStack tempItemStack = slot.getStack();
+			itemStack = tempItemStack.copy();
+			if (index == TileEntityFractionator.SLOT_FUEL) {
+				if (this.mergeItemStack(tempItemStack, playerInvStart, playerInvEnd, true))
 					return null;
+				slot.onSlotChange(tempItemStack, itemStack);
+			} else if (index != TileEntityFractionator.SLOT_FUEL && index != TileEntityFractionator.SLOT_INPUT && index != TileEntityFractionator.SLOT_TANK_INPUT && index != TileEntityFractionator.SLOT_TANK_OUTPUT) {
+				if (LogisticraftDryDistillerCrafting.getRecipeFromInput(tempItemStack) != null) {
+					if (!this.mergeItemStack(tempItemStack, TileEntityFractionator.SLOT_INPUT, TileEntityFractionator.SLOT_INPUT + 1, false)) {
+						return null;
+					}
+				} else if (this.tEntity.isItemFuel(tempItemStack)) {
+					if (!this.mergeItemStack(tempItemStack, TileEntityFractionator.SLOT_FUEL, TileEntityFractionator.SLOT_FUEL + 1, false)) {
+						return null;
+					}
+				} else if (FluidContainerRegistry.isEmptyContainer(tempItemStack)) {
+					if (!this.mergeItemStack(tempItemStack, TileEntityFractionator.SLOT_TANK_INPUT, TileEntityFractionator.SLOT_TANK_INPUT + 1, false)) {
+						return null;
+					}
+				} else if (index >= playerInvStart && index < playerHotbarStart) {
+					if (!this.mergeItemStack(tempItemStack, playerHotbarStart, playerInvEnd, false)) {
+						return null;
+					}
+				} else if (index >= playerHotbarStart && index < playerInvEnd) {
+					if (!this.mergeItemStack(tempItemStack, playerInvStart, playerInvEnd, false)) {
+						return null;
+					}
 				}
-				slot.onSlotChange(tempStack, iS);
-			} else if (tEntity.getItemBurnTime(tempStack) > 0) {
-				// TODO: Cannot Shift-click fuel In
-				if (!this.mergeItemStack(tempStack, 0, 0, false)) {
-					return null;
-				}
-			} else if (!FluidContainerRegistry.isEmptyContainer(iS) || !mergeItemStack(iS, 36, 37, false)) {
+			} else if (!this.mergeItemStack(tempItemStack, playerInvStart, playerInvEnd, false)) {
 				return null;
-			} else {
-				if (!this.mergeItemStack(tempStack, 0, tEntity.getSizeInventory(), false)) {
-					return null;
-				}
 			}
 
-			if (tempStack.stackSize == 0) {
+			if (tempItemStack.stackSize == 0)
 				slot.putStack((ItemStack) null);
-			} else {
+			else
 				slot.onSlotChanged();
-			}
 
-			if (tempStack.stackSize == iS.stackSize) {
+			if (tempItemStack.stackSize == itemStack.stackSize)
 				return null;
-			}
-
-			slot.onPickupFromSlot(player, tempStack);
-
+			
+			slot.onPickupFromSlot(player, itemStack);
 		}
 
-		return iS;
+		return itemStack;
 	}
 
 	@Override
