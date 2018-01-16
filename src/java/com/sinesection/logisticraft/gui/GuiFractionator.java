@@ -30,7 +30,7 @@ public class GuiFractionator extends LogisticraftGuiContainer {
 	private static final int PROGRESS_WIDTH = 51;
 	private static final int PROGRESS_HEIGHT = 13;
 	private static final int BURNER_X = 7;
-	private static final int BURNER_Y = 43;
+	private static final int BURNER_Y = 36;
 	private static final int BURNER_U = 0;
 	private static final int BURNER_V = PROGRESS_V + PROGRESS_HEIGHT;
 	private static final int BURNER_WIDTH = 18;
@@ -91,8 +91,7 @@ public class GuiFractionator extends LogisticraftGuiContainer {
 
 		if (tEntity.isRunning()) {
 			int k = this.tEntity.getProgressScaled(PROGRESS_WIDTH);
-			drawTexturedModalRect(guiLeft + PROGRESS_X, guiTop + PROGRESS_Y, xSize + PROGRESS_U, PROGRESS_V, k, PROGRESS_HEIGHT); // Progress
-																																	// Bar
+			drawTexturedModalRect(guiLeft + PROGRESS_X, guiTop + PROGRESS_Y, xSize + PROGRESS_U, PROGRESS_V, k, PROGRESS_HEIGHT); // Progress																							// Bar
 		}
 
 		if (tEntity.getOutputTank().getFluidAmount() > 0) {

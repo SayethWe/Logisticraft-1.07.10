@@ -181,7 +181,7 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
-		NBTTagList list = nbt.getTagList("items", 0);
+		NBTTagList list = nbt.getTagList("items", 10);
 		this.slots = new ItemStack[this.getSizeInventory()];
 
 		for (int i = 0; i < list.tagCount(); i++) {
@@ -193,11 +193,8 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 		}
 
 		this.processTime = nbt.getShort("processTime");
-		System.out.println(processTime);
 		this.burnTime = nbt.getShort("burnTime");
-		System.out.println(burnTime);
 		this.currentItemBurnTime = this.getItemBurnTime(this.getStackInSlot(SLOT_FUEL));
-		System.out.println(currentItemBurnTime);
 		
 		this.outputTank.readFromNBT(nbt);
 

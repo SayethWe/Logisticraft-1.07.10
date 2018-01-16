@@ -144,7 +144,7 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 		
-		NBTTagList list = nbt.getTagList("items", 0);
+		NBTTagList list = nbt.getTagList("items", 10);
 		this.slots = new ItemStack[this.getSizeInventory()];
 		
 		for(int i = 0; i < list.tagCount(); i++) {
@@ -209,8 +209,6 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
 		NBTTagCompound compound = pkt.func_148857_g();
 		readFromNBT(compound);
-		this.markDirty();
-		this.markForUpdate();
 	}
 
 	@Override
