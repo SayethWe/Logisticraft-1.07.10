@@ -2,10 +2,6 @@ package com.sinesection.logisticraft.network.packet;
 
 import java.io.IOException;
 
-import com.sinesection.logisticraft.block.tileentity.LogisticraftTileEntity;
-import com.sinesection.logisticraft.network.LogisticraftNetwork;
-
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufInputStream;

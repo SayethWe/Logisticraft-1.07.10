@@ -6,6 +6,7 @@ import java.util.List;
 import com.sinesection.logisticraft.block.BlockFractionator;
 import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
+import com.sinesection.logisticraft.fluid.LogisticraftFluidTank;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
@@ -26,7 +27,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -55,7 +55,7 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	// Slot 6 = tank input slot
 	// Slot 7 = tank output slot
 	private ItemStack[] slots = new ItemStack[NUM_SLOTS];
-	private FluidTank outputTank = new FluidTank(TANK_CAPACITY);
+	private LogisticraftFluidTank outputTank = new LogisticraftFluidTank(TANK_CAPACITY);
 
 	private float efficiency = 0.5f;
 
@@ -298,7 +298,7 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 			ItemStack inputSlot = ItemStack.copyItemStack(this.getStackInSlot(SLOT_TANK_INPUT));
 			inputSlot.stackSize = 1;
 			ItemStack outputSlot = ItemStack.copyItemStack(this.getStackInSlot(SLOT_TANK_OUTPUT));
-			FluidTank tank = this.getOutputTank();
+			LogisticraftFluidTank tank = this.getOutputTank();
 			boolean success = false;
 			if (FluidContainerRegistry.isEmptyContainer(inputSlot)) {
 				if (tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false) != null && tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false).amount == FluidContainerRegistry.BUCKET_VOLUME) {
@@ -486,11 +486,11 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 		return (this.processTime * i) / this.processSpeed;
 	}
 
-	public FluidTank getOutputTank() {
+	public LogisticraftFluidTank getOutputTank() {
 		return this.outputTank;
 	}
 
-	public void setOutputTank(FluidTank tank) {
+	public void setOutputTank(LogisticraftFluidTank tank) {
 		this.outputTank = tank;
 	}
 

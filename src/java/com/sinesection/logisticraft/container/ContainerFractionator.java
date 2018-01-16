@@ -1,6 +1,7 @@
 package com.sinesection.logisticraft.container;
 
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
+import com.sinesection.logisticraft.fluid.LogisticraftFluidTank;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -99,7 +100,7 @@ public class ContainerFractionator extends Container {
 		this.lastProcessTime = this.tEntity.processTime;
 		this.lastBurnTime = this.tEntity.burnTime;
 		this.lastItemBurnTime = this.tEntity.currentItemBurnTime;
-		this.lastTank = this.tEntity.getOutputTank();
+		this.lastTank = this.tEntity.getOutputTank().copy();
 	}
 
 	@Override
@@ -119,7 +120,7 @@ public class ContainerFractionator extends Container {
 			this.tempFluidId = value;
 			break;
 		case 4:
-			FluidTank tank = this.tEntity.getOutputTank();
+			LogisticraftFluidTank tank = this.tEntity.getOutputTank();
 			tank.setFluid(new FluidStack(FluidRegistry.getFluid(tempFluidId), value));
 			this.tEntity.setOutputTank(tank);
 			break;
