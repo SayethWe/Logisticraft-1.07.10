@@ -85,7 +85,6 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	public int burnTime;
 	/** Time it takes to burn the current item in slot 1. (in ticks) */
 	public int currentItemBurnTime;
-
 	/** Time left to process the item in slot 0. (in ticks) */
 	public int processTime;
 
@@ -297,11 +296,11 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 				BlockFractionator.updateState(isBurning(), this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 			}
 
-			if (this.getStackInSlot(5) == null)
+			if (this.getStackInSlot(SLOT_TANK_INPUT) == null)
 				return;
-			ItemStack inputSlot = ItemStack.copyItemStack(this.getStackInSlot(5));
+			ItemStack inputSlot = ItemStack.copyItemStack(this.getStackInSlot(SLOT_TANK_INPUT));
 			inputSlot.stackSize = 1;
-			ItemStack outputSlot = ItemStack.copyItemStack(this.getStackInSlot(6));
+			ItemStack outputSlot = ItemStack.copyItemStack(this.getStackInSlot(SLOT_TANK_OUTPUT));
 			FluidTank tank = this.getOutputTank();
 			boolean success = false;
 			if (FluidContainerRegistry.isEmptyContainer(inputSlot)) {
@@ -315,9 +314,9 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 
 			}
 			if (success) {
-				this.getStackInSlot(5).stackSize--;
-				if (this.getStackInSlot(5).stackSize == 0)
-					this.setInventorySlotContents(5, null);
+				this.getStackInSlot(SLOT_TANK_INPUT).stackSize--;
+				if (this.getStackInSlot(SLOT_TANK_INPUT).stackSize == 0)
+					this.setInventorySlotContents(SLOT_TANK_INPUT, null);
 				this.setOutputTank(tank);
 				addStackToOutput(outputSlot, true);
 				invChanged = true;
@@ -331,7 +330,7 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	}
 
 	private boolean addStackToOutput(ItemStack stack, boolean doPut) {
-		ItemStack output = this.getStackInSlot(6);
+		ItemStack output = this.getStackInSlot(SLOT_TANK_OUTPUT);
 		if (stack == null) {
 			if (doPut)
 				this.markDirty();
@@ -339,12 +338,12 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 		}
 		if (output == null) {
 			if (doPut) {
-				this.setInventorySlotContents(6, stack);
+				this.setInventorySlotContents(SLOT_TANK_OUTPUT, stack);
 			}
 			return true;
 		} else if (stack.isItemEqual(output) && (output.stackSize + stack.stackSize) <= output.getMaxStackSize()) {
 			if (doPut) {
-				this.incrStackSize(1, stack.stackSize > 0 ? stack.stackSize : 1);
+				this.incrStackSize(SLOT_TANK_OUTPUT, stack.stackSize > 0 ? stack.stackSize : 1);
 			}
 			return true;
 		} else {

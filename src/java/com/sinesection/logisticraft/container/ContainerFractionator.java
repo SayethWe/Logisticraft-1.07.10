@@ -92,7 +92,7 @@ public class ContainerFractionator extends Container {
 			}
 			if (lastTank != null && !lastTank.equals(this.tEntity.getOutputTank()) && this.tEntity.getOutputTank().getFluid() != null) {
 				iCrafting.sendProgressBarUpdate(this, 3, this.tEntity.getOutputTank().getFluid().getFluidID());
-				iCrafting.sendProgressBarUpdate(this, 4, this.tEntity.getOutputTank().getFluid().amount);
+				iCrafting.sendProgressBarUpdate(this, 4, this.tEntity.getOutputTank().getFluidAmount());
 			}
 		}
 
@@ -121,6 +121,7 @@ public class ContainerFractionator extends Container {
 		case 4:
 			FluidTank tank = this.tEntity.getOutputTank();
 			tank.setFluid(new FluidStack(FluidRegistry.getFluid(tempFluidId), value));
+			this.tEntity.setOutputTank(tank);
 			break;
 		}
 	}
