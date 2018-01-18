@@ -4,7 +4,8 @@ item.shippingOrder.name=Shipping Order
 item.handbook.name=Guide To Shipping Safely
 item.sulfur.name=Sulfur
 item.resin.name=Resin
-item.tar.name=Glob of Tar
+item.tarBall.name=Glob of Tar
+item.pitch.name=Drop of Pitch
 
 tile.blockRubber.name=Block of Rubber
 tile.dryDistillerIdle.name=Dry Distiller

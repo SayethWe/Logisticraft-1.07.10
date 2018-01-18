@@ -20,7 +20,7 @@ public final class ModItems {
 	public static final LogisticraftItem handbook = new ItemHandbook();
 	public static final LogisticraftItem sulfur = new LogisticraftItem("sulfur");
 	public static final LogisticraftItem resin = new LogisticraftItem("resin");
-	public static final LogisticraftItem tar = new LogisticraftItem("tar");
+	public static final LogisticraftItem tar = new LogisticraftItem("tarBall");
 	public static final LogisticraftItem trafficDirector = new ItemTrafficDirector();
 	public static final LogisticraftItem pitch = new LogisticraftItem("pitch");
 	public static final LogisticraftItem fractionatorUpgrade = new ItemFractionatorUpgrade();
