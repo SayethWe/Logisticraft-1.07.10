@@ -14,6 +14,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 @Mod(modid=Main.MODID, name = Main.MOD_NAME, version = Main.VERSION)
 public class Main {
@@ -52,8 +53,13 @@ public class Main {
 
 	public static final CreativeTabs tabLogisticraftItems = new CreativeTabs("tabLogisticraftItems") {
 		@Override
+		public ItemStack getIconItemStack() {
+			return ModItems.creativeTabIconItemStack;
+		}
+
+		@Override
 		public Item getTabIconItem() {
-			return ModItems.creativeTabIconItem;
+			return null;
 		}
 	};
 	

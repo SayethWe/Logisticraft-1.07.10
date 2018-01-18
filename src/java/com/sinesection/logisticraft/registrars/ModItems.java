@@ -6,15 +6,17 @@ import java.util.Set;
 import com.sinesection.logisticraft.item.ItemFractionatorUpgrade;
 import com.sinesection.logisticraft.item.ItemHandbook;
 import com.sinesection.logisticraft.item.ItemTrafficDirector;
+import com.sinesection.logisticraft.item.ItemWheel;
 import com.sinesection.logisticraft.item.LogisticraftItem;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.item.ItemStack;
 
 public final class ModItems {
 	
-	public static LogisticraftItem creativeTabIconItem;
+	public static ItemStack creativeTabIconItemStack;
 	
-	public static final LogisticraftItem roadWheel = new LogisticraftItem("wheelWood");
+	public static final LogisticraftItem roadWheel = new ItemWheel();
 	public static final LogisticraftItem refinedRubber = new LogisticraftItem("rubber");
 	public static final LogisticraftItem shippingOrder = new LogisticraftItem("shippingOrder");
 	public static final LogisticraftItem handbook = new ItemHandbook();
@@ -34,7 +36,7 @@ public final class ModItems {
 	}
 	
 	public static void loadItems() {
-		creativeTabIconItem = roadWheel;
+		creativeTabIconItemStack = new ItemStack(roadWheel, 1, 1);
 		loadItem(roadWheel);
 		loadItem(refinedRubber);
 		loadItem(shippingOrder);
