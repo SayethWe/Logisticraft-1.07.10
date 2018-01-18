@@ -180,7 +180,7 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		this.processTime = nbt.getShort("processTime");
 		this.burnTime = nbt.getShort("burnTime");
 		this.currentItemBurnTime = nbt.getShort("currentItemBurnTime");
@@ -195,7 +195,7 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 				this.setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(compound));
 			}
 		}
-		
+
 		this.outputTank.readFromNBT(nbt);
 
 		if (!nbt.hasKey("customName")) {
@@ -360,8 +360,9 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 					this.getStackInSlot(i + 2).stackSize += recipe.outputs[i].stackSize;
 				}
 			}
-			if (this.getOutputTank().fill(recipe.fluidOutput, false) == recipe.fluidOutput.amount)
-				this.getOutputTank().fill(recipe.fluidOutput, true);
+			if (recipe.hasLiquidOutput())
+				if (this.getOutputTank().fill(recipe.fluidOutput, false) == recipe.fluidOutput.amount)
+					this.getOutputTank().fill(recipe.fluidOutput, true);
 			this.getStackInSlot(SLOT_INPUT).stackSize -= recipe.input.stackSize;
 			if (this.getStackInSlot(SLOT_INPUT).stackSize <= 0) {
 				this.setInventorySlotContents(SLOT_INPUT, null);
@@ -373,10 +374,11 @@ public class TileEntityFractionator extends LogisticraftTileEntity implements IS
 		if (getStackInSlot(SLOT_INPUT) == null)
 			return false;
 		DryDistillerCraftingRecipe recipe = LogisticraftDryDistillerCrafting.getRecipeFromInput(getStackInSlot(SLOT_INPUT));
-		if(recipe == null)
+		if (recipe == null)
 			return false;
-		if (this.getOutputTank().fill(recipe.fluidOutput, false) != recipe.fluidOutput.amount)
-			return false;
+		if (recipe.hasLiquidOutput())
+			if (this.getOutputTank().fill(recipe.fluidOutput, false) != recipe.fluidOutput.amount)
+				return false;
 		return canOutput(recipe) && (getStackInSlot(SLOT_INPUT).stackSize - recipe.input.stackSize) >= 0;
 	}
 

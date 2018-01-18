@@ -23,6 +23,10 @@ public class DryDistillerCraftingRecipe {
 		this.fluidOutput = fluidOutput;
 		this.fractionatorRequired = fractionatorRequired;
 	}
+
+	public boolean hasLiquidOutput() {
+		return this.fluidOutput != null && this.fluidOutput.amount > 0;
+	}
 	
 	
 
