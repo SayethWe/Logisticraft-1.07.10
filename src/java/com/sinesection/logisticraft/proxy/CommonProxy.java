@@ -3,6 +3,7 @@ package com.sinesection.logisticraft.proxy;
 import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
 import com.sinesection.logisticraft.crafting.LogisticraftVanillaCrafting;
+import com.sinesection.logisticraft.fluid.LogisticraftFluidHandler;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
 import com.sinesection.logisticraft.network.LogisticraftNetwork;
 import com.sinesection.logisticraft.registrars.ModBlocks;
@@ -15,6 +16,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy {
 
@@ -37,6 +39,7 @@ public class CommonProxy {
 		LogisticraftDryDistillerCrafting.loadRecipes();
 		LogisticraftDryDistillerCrafting.registerCrafting();
 		NetworkRegistry.INSTANCE.registerGuiHandler(Main.instance, new LogisticraftGuiHandler());
+		MinecraftForge.EVENT_BUS.register(new LogisticraftFluidHandler());
 	}
 
 	public void postInit(FMLPostInitializationEvent e) {

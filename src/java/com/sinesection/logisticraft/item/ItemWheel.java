@@ -24,7 +24,7 @@ public class ItemWheel extends LogisticraftItem {
 	private static final String[] WHEEL_TEIRS = new String[] {
 			"Wood", "Iron"
 	};
-	
+
 	private static final String[] UNLOCALIZED_WHEEL_TEIRS = new String[] {
 			"wheelTier_wood", "wheelTier_iron"
 	};
@@ -32,7 +32,7 @@ public class ItemWheel extends LogisticraftItem {
 	private static final int[] WHEEL_DURABILITES = new int[] {
 			500, 1500
 	};
-	
+
 	private static final EnumRarity[] WHEEL_RARITIES = new EnumRarity[] {
 			EnumRarity.common, EnumRarity.uncommon
 	};
@@ -60,20 +60,20 @@ public class ItemWheel extends LogisticraftItem {
 	@SuppressWarnings("deprecation")
 	@Override
 	public int getItemStackLimit(ItemStack stack) {
-		if(!stack.hasTagCompound())
+		if (!stack.hasTagCompound())
 			return this.getItemStackLimit();
-		
+
 		NBTTagCompound nbt = stack.getTagCompound();
-		
+
 		if (nbt.hasKey("wheelDamage")) {
 			return nbt.getShort("wheelDamage") > 0 ? 1 : this.getItemStackLimit();
 		}
 		return this.getItemStackLimit();
 	}
-	
+
 	@Override
 	public int getDisplayDamage(ItemStack stack) {
-		if(!stack.hasTagCompound())
+		if (!stack.hasTagCompound())
 			return 0;
 		NBTTagCompound nbt = stack.getTagCompound();
 		if (nbt.hasKey("wheelDamage")) {
@@ -81,7 +81,7 @@ public class ItemWheel extends LogisticraftItem {
 		}
 		return 0;
 	}
-	
+
 	@Override
 	public int getMaxDamage(ItemStack stack) {
 		return WHEEL_DURABILITES[stack.getItemDamage()];
@@ -91,55 +91,59 @@ public class ItemWheel extends LogisticraftItem {
 	public boolean showDurabilityBar(ItemStack stack) {
 		return getDisplayDamage(stack) > 0;
 	}
-	
+
 	@Override
 	public void onUpdate(ItemStack stack, World world, Entity entity, int slot, boolean bool) {
 		if (!stack.hasTagCompound())
 			stack.setTagCompound(new NBTTagCompound());
-		
+
 		NBTTagCompound nbt = stack.getTagCompound();
 		if (!nbt.hasKey("wheelDamage"))
 			nbt.setShort("wheelDamage", (short) WHEEL_DURABILITES[stack.getItemDamage()]);
 	}
-	
+
 	@Override
 	public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-		if(!stack.hasTagCompound())
+		if (!stack.hasTagCompound())
 			return stack;
-		
+
 		NBTTagCompound nbt = stack.getTagCompound();
-		if(nbt.hasKey("wheelDamage")) {
+		if (nbt.hasKey("wheelDamage")) {
 			int dmg = nbt.getShort("wheelDamage");
-			if(stack.stackSize > 1) {
+			ItemStack retStack = stack.copy();
+			if (stack.stackSize > 1) {
 				ItemStack tempStack = new ItemStack(stack.getItem(), stack.stackSize - 1, stack.getItemDamage());
-				stack.stackSize = 1;
-				// TODO this doesn't work for some reason?
+				retStack.stackSize = 1;
 				tempStack.setTagCompound((NBTTagCompound) nbt.copy());
-				if(!player.inventory.addItemStackToInventory(tempStack)) {
+				if (!player.inventory.addItemStackToInventory(tempStack)) {
 					EntityItem entityItem = player.entityDropItem(tempStack, 1.5f);
 					world.spawnEntityInWorld(entityItem);
 				}
+
 			}
-			
-			dmg-=10;
+
+			dmg -= 10;
 			nbt.setShort("wheelDamage", (short) dmg);
+			retStack.setTagCompound(nbt);
+			stack = retStack;
+			return retStack;
 		}
 		return stack;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void addInformation(ItemStack stack, EntityPlayer player, List infoList, boolean b) {
-		if(!stack.hasTagCompound())
+		if (!stack.hasTagCompound())
 			return;
-		
+
 		NBTTagCompound nbt = stack.getTagCompound();
-		if(nbt.hasKey("wheelDamage")) {
+		if (nbt.hasKey("wheelDamage")) {
 			infoList.add(I18n.format(UNLOCALIZED_WHEEL_TEIRS[stack.getItemDamage()]));
 			infoList.add(I18n.format("tooltip.durability") + ": " + nbt.getShort("wheelDamage") + " / " + WHEEL_DURABILITES[stack.getItemDamage()]);
 		}
 	}
-	
+
 	@Override
 	public EnumRarity getRarity(ItemStack itemStack) {
 		return WHEEL_RARITIES[itemStack.getItemDamage()];

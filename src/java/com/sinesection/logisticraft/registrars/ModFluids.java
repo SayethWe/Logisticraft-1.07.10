@@ -6,9 +6,16 @@ import java.util.Set;
 import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.fluid.LogisticraftBlockFluid;
 import com.sinesection.logisticraft.fluid.LogisticraftFluid;
+import com.sinesection.logisticraft.fluid.LogisticraftFluidHandler;
+import com.sinesection.logisticraft.item.ItemLogisticraftBucket;
+import com.sinesection.logisticraft.item.renderers.LogisticraftItemBucketRenderer;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 
 public class ModFluids {
 
@@ -20,12 +27,21 @@ public class ModFluids {
 	
 	public static final Set<LogisticraftFluid> fluids = new HashSet<LogisticraftFluid>();
 	
+	private static LogisticraftItemBucketRenderer bucketRender;
+	
+	
 	public static void registerFluids() {
+		bucketRender = new LogisticraftItemBucketRenderer();
 		for(LogisticraftFluid fluid : fluids) {
 			FluidRegistry.registerFluid(fluid);
 			LogisticraftBlockFluid fluidBlock = new LogisticraftBlockFluid(fluid).setCreativeTab(Main.tabLogisticraftBlocks);
 			GameRegistry.registerBlock(fluidBlock, fluidBlock.getRegistryName());
 			fluid.setBlock(fluidBlock);
+			ItemLogisticraftBucket itemBucket = new ItemLogisticraftBucket(fluid);
+			GameRegistry.registerItem(itemBucket, itemBucket.getUnlocalizedName());
+			MinecraftForgeClient.registerItemRenderer(itemBucket, bucketRender);
+			LogisticraftFluidHandler.registerLogisticraftFluid(fluidBlock, itemBucket);
+			FluidContainerRegistry.registerFluidContainer(new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(itemBucket));
 		}
 	}
 	
