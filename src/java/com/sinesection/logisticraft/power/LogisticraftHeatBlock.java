@@ -1,7 +1,7 @@
 package com.sinesection.logisticraft.power;
 
 import com.sinesection.logisticraft.block.LogisticraftBlock;
-import com.sinesection.utils.MaterialProperties;
+import com.sinesection.utils.MaterialHeatProperties;
 
 import net.minecraft.block.material.Material;
 
@@ -13,7 +13,7 @@ public abstract class LogisticraftHeatBlock extends LogisticraftBlock {
 	
 	protected LogisticraftHeatBlock(String name, String textureName, String registryName, Material mat) {
 		super(name, textureName, registryName, mat);
-		heatCapacity = MaterialProperties.getHeatCapacityOfBlock(mat);
+		heatCapacity = MaterialHeatProperties.getHeatCapacityOfBlock(mat);
 	}
 
 	public LogisticraftHeatBlock(String universalName) {
