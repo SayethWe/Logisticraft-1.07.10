@@ -3,6 +3,8 @@ package com.sinesection.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sinesection.logisticraft.power.LogisticraftHeatBlock;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 /**
@@ -11,6 +13,8 @@ import net.minecraft.init.Blocks;
  *
  */
 public class MaterialHeatProperties {
+	
+	public static final float AMBIENT_TEMPERATURE = 294f;
 
 	/**
 	 * the amount of energy in joules it takes to raise one mole by one degree kelvin
@@ -21,8 +25,9 @@ public class MaterialHeatProperties {
 	 */
 	private static final Map<Block,Float> masses = masses();
 	/**
-	 * the mass of one cm^3 of the Block, in grams
+	 * the base temperature of a specific block
 	 */
+	private static final Map<Block,Float> baseTemps = baseTemps();
 	
 	/**
 	 * the energy required the raise the temperature of a block one degree kelvin
@@ -40,6 +45,19 @@ public class MaterialHeatProperties {
 		}
 	}
 
+	/** get the temperature of a block
+	 * 
+	 * @param bl the block to check
+	 * @return the current temperature, as a float.
+	 */
+	public static float getCurrentTemp(Block bl) {
+		if (bl instanceof LogisticraftHeatBlock) {
+			return ((LogisticraftHeatBlock) bl).getCurrentTemp();
+		} else {
+			return baseTemps.getOrDefault(bl,AMBIENT_TEMPERATURE);
+		}
+	}
+
 	private static Map<Block, Float> masses() {
 		Map<Block,Float> result = new HashMap<>();
 		result.put(Blocks.iron_block, 7.87e3f);
@@ -54,4 +72,9 @@ public class MaterialHeatProperties {
 		return result;
 	}
 	
+	private static Map<Block, Float> baseTemps() {
+		Map<Block,Float> result = new HashMap<>();
+		result.put(Blocks.lava, 973f);
+		return result;
+	}
 }

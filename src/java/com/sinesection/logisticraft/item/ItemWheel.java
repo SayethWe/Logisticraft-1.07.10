@@ -133,7 +133,7 @@ public class ItemWheel extends LogisticraftItem {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List infoList, boolean b) {
+	public void addInformation(ItemStack stack, EntityPlayer player, @SuppressWarnings("rawtypes") List infoList, boolean b) {
 		if (!stack.hasTagCompound())
 			return;
 
