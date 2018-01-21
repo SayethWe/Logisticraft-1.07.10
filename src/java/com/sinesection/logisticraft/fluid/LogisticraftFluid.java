@@ -1,6 +1,7 @@
 package com.sinesection.logisticraft.fluid;
 
 import com.sinesection.logisticraft.Main;
+import com.sinesection.logisticraft.registrars.ModMaterials;
 
 import net.minecraft.block.material.Material;
 import net.minecraftforge.fluids.Fluid;
@@ -8,6 +9,7 @@ import net.minecraftforge.fluids.Fluid;
 public class LogisticraftFluid extends Fluid {
 	
 	protected LogisticraftBlockFluid fluidBlock;
+	protected boolean isFuel = false;
 
 	protected String stillTextureName, flowingTextureName;
 	protected int color = 0xFFFFFF;
@@ -27,6 +29,12 @@ public class LogisticraftFluid extends Fluid {
 	@Override
 	public int getColor() {
 		return color;
+	}
+	
+	public LogisticraftFluid setFuel() {
+		this.setMaterial(ModMaterials.fuel);
+		isFuel = true;
+		return this;
 	}
 	
 	public LogisticraftFluid setColor(int color, boolean affectTexture) {

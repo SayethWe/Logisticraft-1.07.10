@@ -10,12 +10,14 @@ import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.BlockFluidClassic;
 
 public class LogisticraftBlockFluid extends BlockFluidClassic {
 
 	private String registryName;
 	private IIcon[] blockIcons;
+	private boolean isFuel;
 
 	public LogisticraftBlockFluid(LogisticraftFluid fluid) {
 		this(fluid, fluid.getName(), fluid.getName());
@@ -23,6 +25,7 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 
 	public LogisticraftBlockFluid(LogisticraftFluid fluid, String name, String registryName) {
 		super(fluid, fluid.getMaterial());
+		isFuel = fluid.isFuel;
 		this.registryName = registryName;
 		setBlockName(name);
 		this.blockIcons = new IIcon[2];
@@ -93,5 +96,25 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 	public String getFlowingTextureName() {
 		return ((LogisticraftFluid) this.definedFluid).getFlowingTextureName();
 	}
+
+	@Override
+	public boolean isFlammable(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
+		return isFuel;
+	}
+
+	@Override
+	public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
+		return isFuel ? 300 : 0;
+	}
+
+	@Override
+	public int getFireSpreadSpeed(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
+		// TODO Auto-generated method stub
+		return isFuel ? 100 : 0;
+	}
+	
+	
+	
+	
 
 }

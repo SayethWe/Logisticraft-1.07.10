@@ -19,11 +19,11 @@ import net.minecraftforge.fluids.FluidStack;
 
 public class ModFluids {
 
-	public static final LogisticraftFluid creosote = new LogisticraftFluid("creosote").setColor(0x775555);
-	public static final LogisticraftFluid turpentine = new LogisticraftFluid("turpentine").setTextureNames("water_still", "water_flow").setColor(0x999999, true);
-	public static final LogisticraftFluid lowGradeFuel = new LogisticraftFluid("gasoline").setTextureNames("water_still", "water_flow").setColor(0xEEEEEE, true);
-	public static final LogisticraftFluid midGradeFuel = new LogisticraftFluid("diesel").setTextureNames("water_still", "water_flow").setColor(0xAAAAAA, true);
-	public static final LogisticraftFluid highGradeFuel = new LogisticraftFluid("kerothanol").setTextureNames("water_still", "water_flow").setColor(0x8888AA, true); //kerosene/methanol mix
+	public static final LogisticraftFluid creosote = new LogisticraftFluid("creosote").setColor(0x775555).setFuel();
+	public static final LogisticraftFluid turpentine = new LogisticraftFluid("turpentine").setTextureNames("water_still", "water_flow").setColor(0x999999, true).setFuel();
+	public static final LogisticraftFluid lowGradeFuel = new LogisticraftFluid("gasoline").setTextureNames("water_still", "water_flow").setColor(0xEEEEEE, true).setFuel();
+	public static final LogisticraftFluid midGradeFuel = new LogisticraftFluid("diesel").setTextureNames("water_still", "water_flow").setColor(0xAAAAAA, true).setFuel();
+	public static final LogisticraftFluid highGradeFuel = new LogisticraftFluid("kerothanol").setTextureNames("water_still", "water_flow").setColor(0x8888AA, true).setFuel(); //kerosene/methanol mix
 	
 	public static final Set<LogisticraftFluid> fluids = new HashSet<LogisticraftFluid>();
 	
