@@ -3,7 +3,7 @@ package com.sinesection.logisticraft;
 import com.sinesection.logisticraft.proxy.CommonProxy;
 import com.sinesection.logisticraft.registrars.ModBlocks;
 import com.sinesection.logisticraft.registrars.ModItems;
-import com.sinesection.utils.Utils;
+import com.sinesection.utils.LogisticraftUtils;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -37,7 +37,7 @@ public class Main {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
-		Utils.createLogger(MOD_NAME);
+		LogisticraftUtils.createLogger(MOD_NAME);
 		proxy.preInit(e);
 	}
 
