@@ -24,7 +24,7 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 	private String registryName;
 	private IIcon[] blockIcons;
 	private final int flammability;
-	private final boolean isToxic;
+	private final boolean isToxic, isSource;
 
 	public LogisticraftBlockFluid(LogisticraftFluid fluid) {
 		this(fluid, fluid.getName(), fluid.getName());
@@ -34,6 +34,7 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 		super(fluid, fluid.getMaterial());
 		flammability = fluid.getFlammability();
 		isToxic = fluid.isToxic();
+		isSource = true;
 		this.registryName = registryName;
 		setBlockName(name);
 		this.blockIcons = new IIcon[2];
@@ -117,7 +118,7 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 
 	@Override
 	public int getFireSpreadSpeed(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
-		return flammability*4;
+		return flammability > 0 ? 300 : 0;
 	}
 
 	@Override
