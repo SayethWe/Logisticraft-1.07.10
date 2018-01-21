@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sinesection.logisticraft.item.ItemLogisticraftBucket;
+import com.sinesection.utils.Utils;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -23,17 +24,16 @@ public class LogisticraftFluidHandler {
     }
 	
 	public static boolean registerLogisticraftFluid(LogisticraftBlockFluid block, ItemLogisticraftBucket item) {
-		if(!buckets.containsKey(block))
+		if(buckets.containsKey(block))
 			return false;
 
-		buckets.put((Block) block, item);
+		buckets.put(block, item);
 		return true;
 	}
 
     @SubscribeEvent
     public void onBucketFill(FillBucketEvent event) {
         ItemStack result = fillCustomBucket(event.world, event.target);
-        System.out.println("saucey: " + result.getDisplayName());
         if (result == null)
             return;
 

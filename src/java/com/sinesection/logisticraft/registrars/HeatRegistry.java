@@ -126,7 +126,7 @@ public class HeatRegistry {
 
 	/**
 	 * the energy required the raise the temperature of a block one degree
-	 * kelvin
+	 * Kelvin(K).
 	 * 
 	 * @param bl
 	 * @return
