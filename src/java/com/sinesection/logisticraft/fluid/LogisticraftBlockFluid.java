@@ -15,6 +15,7 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 
 public class LogisticraftBlockFluid extends BlockFluidClassic {
 
+	private int flammability;
 	private String registryName;
 	private IIcon[] blockIcons;
 	private boolean isFuel;
@@ -27,8 +28,18 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 		super(fluid, fluid.getMaterial());
 		isFuel = fluid.isFuel;
 		this.registryName = registryName;
+		this.flammability = fluid.getFlammability();
 		setBlockName(name);
 		this.blockIcons = new IIcon[2];
+	}
+	
+	public boolean isFlammable() {
+		return flammability > 0;
+	}
+	
+	@Override
+	public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
+		return flammability;
 	}
 
 	@Override

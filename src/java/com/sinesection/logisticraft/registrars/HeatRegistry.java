@@ -23,105 +23,56 @@ public class HeatRegistry {
 	public static final float NULL_VALUE = Float.MIN_VALUE;
 	public static final float AMBIENT_TEMPERATURE = 294f;
 
-	private static final Map<Block, HeatData> heatDataBlockMap = new HashMap<Block, HeatData>();
-	private static final Map<Material, HeatData> heatDataMaterialMap = new HashMap<Material, HeatData>();
+	private static final Map<Block, HeatProperties> heatDataBlockMap = new HashMap<Block, HeatProperties>();
+	private static final Map<Material, HeatProperties> heatDataMaterialMap = new HashMap<Material, HeatProperties>();
 
 	static {
-		registerHeatData(Blocks.iron_block, 25.1f, 7.87e3f, 0f);
-		registerHeatData(Blocks.water, 4.18f, 1e3f, 0f);
-		registerHeatData(Blocks.lava, 973f);
-		registerHeatData(Material.iron, 25.1f, 7.87e3f, 0f);
-		registerHeatData(Material.water, 4.18f, 1e3f, 0f);
-		registerHeatData(Material.lava, 973f);
+		registerHeatData(Blocks.iron_block, 25.1f, 7.87e3f, 79.5f);
+		registerHeatData(Blocks.water, 4.18f, 1e3f, 0.6f);
+		registerHeatData(Blocks.lava, 0.8f, 973f);
+		registerHeatData(Material.iron, 25.1f, 7.87e3f, 79.5f);
+		registerHeatData(Material.water, 0.6f);
+		registerHeatData(Material.lava, 973f, 0.8f);
 	}
 
-	/**
-	 * Registers a block to LogistiCraft's heat registry.
-	 * 
-	 * @param specificHeat
-	 *            The amount of energy in Joules(J) it takes to raise the
-	 *            temperature of one mole of the block by one degree Kelvin(K).
-	 * @param mass
-	 *            The amount the specified block has, in Kilograms(kg).
-	 * @param baseTemp
-	 *            The base temperature of a specific block, in Kelvin(K).
-	 */
-	public static void registerHeatData(Block block, float specificHeat, float mass, float baseTemp) {
+	public static void registerHeatData(Block block, float specificHeat, float mass, float conductance, float baseTemp) {
 		if (!heatDataBlockMap.containsKey(block))
-			heatDataBlockMap.put(block, HeatData.GenerateBlockHeatData(specificHeat, mass, baseTemp));
+			heatDataBlockMap.put(block, HeatProperties.GenerateBlockHeatProperties(specificHeat, mass, conductance, baseTemp));
 	}
 
-	/**
-	 * Registers a block to LogistiCraft's heat registry.
-	 * 
-	 * @param specificHeat
-	 *            The amount of energy in Joules(J) it takes to raise the
-	 *            temperature of one mole of the block by one degree Kelvin(K).
-	 * @param mass
-	 *            The amount the specified block has, in Kilograms(kg).
-	 */
-	public static void registerHeatData(Block block, float specificHeat, float mass) {
+	public static void registerHeatData(Block block, float specificHeat, float mass, float conductance) {
 		if (!heatDataBlockMap.containsKey(block))
-			heatDataBlockMap.put(block, HeatData.GenerateBlockHeatData(specificHeat, mass));
+			heatDataBlockMap.put(block, HeatProperties.GenerateBlockHeatProperties(specificHeat, mass, conductance));
 	}
 
-	/**
-	 * Registers a block to LogistiCraft's heat registry.
-	 * 
-	 * @param specificHeat
-	 *            The amount of energy in Joules(J) it takes to raise one mole
-	 *            by one degree Kelvin(K).
-	 * @param mass
-	 *            The amount the specified block has, in Kilograms(kg).
-	 * @param baseTemp
-	 *            The base temperature of a specific block, in Kelvin(K).
-	 */
-	public static void registerHeatData(Block block, float baseTemp) {
+	public static void registerHeatData(Block block, float baseTemp, float conductance) {
 		if (!heatDataBlockMap.containsKey(block))
-			heatDataBlockMap.put(block, HeatData.GenerateBlockHeatData(baseTemp));
+			heatDataBlockMap.put(block, HeatProperties.GenerateBlockHeatProperties(baseTemp, conductance));
 	}
 
-	/**
-	 * Registers a material to LogistiCraft's heat registry.
-	 * 
-	 * @param specificHeat
-	 *            The amount of energy in Joules(J) it takes to raise the
-	 *            temperature of the material one mole by one degree Kelvin(K).
-	 * @param density
-	 *            The density of the material, in Kilograms per Cubic
-	 *            Meter(Kg/m^3).
-	 * @param baseTemp
-	 *            The base temperature of a specific material, in Kelvin(K).
-	 */
-	public static void registerHeatData(Material mat, float specificHeat, float density, float baseTemp) {
-		if (!heatDataMaterialMap.containsKey(mat))
-			heatDataMaterialMap.put(mat, HeatData.GenerateMaterialHeatData(specificHeat, density, baseTemp));
+	public static void registerHeatData(Block block, float conductance) {
+		if (!heatDataBlockMap.containsKey(block))
+			heatDataBlockMap.put(block, HeatProperties.GenerateBlockHeatProperties(conductance));
 	}
 
-	/**
-	 * Registers a material to LogistiCraft's heat registry.
-	 * 
-	 * @param specificHeat
-	 *            The amount of energy in Joules(J) it takes to raise the
-	 *            temperature of the material one mole by one degree Kelvin(K).
-	 * @param density
-	 *            The density of the material, in Kilograms per Cubic
-	 *            Meter(Kg/m^3).
-	 */
-	public static void registerHeatData(Material mat, float specificHeat, float density) {
+	public static void registerHeatData(Material mat, float specificHeat, float density, float conductance, float baseTemp) {
 		if (!heatDataMaterialMap.containsKey(mat))
-			heatDataMaterialMap.put(mat, HeatData.GenerateMaterialHeatData(specificHeat, density));
+			heatDataMaterialMap.put(mat, HeatProperties.GenerateMaterialHeatProperties(specificHeat, density, conductance, baseTemp));
 	}
 
-	/**
-	 * Registers a material to LogistiCraft's heat registry.
-	 * 
-	 * @param baseTemp
-	 *            The base temperature of a specific material, in Kelvin(K).
-	 */
-	public static void registerHeatData(Material mat, float baseTemp) {
+	public static void registerHeatData(Material mat, float specificHeat, float conductance, float density) {
 		if (!heatDataMaterialMap.containsKey(mat))
-			heatDataMaterialMap.put(mat, HeatData.GenerateMaterialHeatData(baseTemp));
+			heatDataMaterialMap.put(mat, HeatProperties.GenerateMaterialHeatProperties(specificHeat, density, conductance));
+	}
+
+	public static void registerHeatData(Material mat, float baseTemp, float conductance) {
+		if (!heatDataMaterialMap.containsKey(mat))
+			heatDataMaterialMap.put(mat, HeatProperties.GenerateMaterialHeatProperties(baseTemp, conductance));
+	}
+
+	public static void registerHeatData(Material mat, float conductance) {
+		if (!heatDataMaterialMap.containsKey(mat))
+			heatDataMaterialMap.put(mat, HeatProperties.GenerateMaterialHeatProperties(conductance));
 	}
 
 	/**
@@ -134,15 +85,16 @@ public class HeatRegistry {
 	public static float getHeatCapacityOfBlock(Block bl) {
 		if (bl == null)
 			return 0f;
-		HeatData hd = getHeatData(bl);
+		HeatProperties hd = getHeatData(bl);
 		if (hd == null)
 			return 0f;
 		if (hd.canStoreHeat())
-			return hd.getMass() * hd.getSpecificHeat();
-		else if (bl instanceof IHeatBlock)
-			return hd.getDensity() * ((IHeatBlock) bl).getVolume() * hd.getSpecificHeat();
+			if (bl instanceof IHeatBlock)
+				return hd.getDensity() * ((IHeatBlock) bl).getVolume() * hd.getSpecificHeat();
+			else
+				return hd.getDensity() * hd.getSpecificHeat();
 		else
-			return hd.getDensity() * hd.getSpecificHeat();
+			return 0f;
 	}
 
 	/**
@@ -155,28 +107,28 @@ public class HeatRegistry {
 	public static float getCurrentTemp(World world, int x, int y, int z) {
 		TileEntity te = world.getTileEntity(x, y, z);
 		Block bl = world.getBlock(x, y, z);
-		HeatData hd;
+		HeatProperties hp;
 		if (te != null)
 			if (te instanceof TileEntityHeatable)
 				return ((TileEntityHeatable) te).getCurrentTemp();
-			else if ((hd = getHeatData(bl)) != null) {
-				if (hd.getType() == null)
+			else if ((hp = getHeatData(bl)) != null) {
+				if (hp.getType() == null)
 					return NULL_VALUE;
-				if (hd.hasBaseTemp())
-					return hd.getBaseTemp();
+				if (hp.hasBaseTemp())
+					return hp.getBaseTemp();
 				return AMBIENT_TEMPERATURE;
 			}
 		return NULL_VALUE;
 	}
 
-	public static HeatData getHeatData(Block bl) {
+	public static HeatProperties getHeatData(Block bl) {
 		if (bl == null)
 			return null;
-		HeatData hd;
-		if ((hd = heatDataBlockMap.get(bl)) != null)
-			return hd;
-		else if ((hd = heatDataMaterialMap.get(bl.getMaterial())) != null)
-			return hd;
+		HeatProperties hp;
+		if ((hp = heatDataBlockMap.get(bl)) != null)
+			return hp;
+		else if ((hp = heatDataMaterialMap.get(bl.getMaterial())) != null)
+			return hp;
 		return null;
 	}
 }
