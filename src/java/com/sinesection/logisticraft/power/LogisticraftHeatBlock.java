@@ -3,11 +3,13 @@ package com.sinesection.logisticraft.power;
 import com.sinesection.logisticraft.block.LogisticraftBlock;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
-public abstract class LogisticraftHeatBlock extends LogisticraftBlock {
+public abstract class LogisticraftHeatBlock extends LogisticraftBlock implements IHeatReceiver, IHeatSupplier {
 
-	protected int temp;
-	protected int energy;
+	protected float temp;
+	protected float energy;
 	
 	protected LogisticraftHeatBlock(String name, String textureName, String registryName, Material mat) {
 		super(name, textureName, registryName, mat);
@@ -16,32 +18,15 @@ public abstract class LogisticraftHeatBlock extends LogisticraftBlock {
 	public LogisticraftHeatBlock(String universalName) {
 		this(universalName, universalName, universalName, Material.iron);
 	}
-	
-	public int getCurrentTemp() {
-		return temp;
+
+	@Override
+	public float getVolume() {
+		return IHeatReceiver.super.getVolume();
 	}
 	
-	public int getEnergy() {
-		return energy;
-	}
-	
-	public boolean takeEnergy(int tempRequested) {
-		if(tempRequested <= temp) {
-			energy -= tempRequested;
-			ensureTempStatus();
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public void addEnergy(int tempIn) {
-		energy += tempIn;
-		temp = Math.max(temp, tempIn);
-	}
-	
-	private void ensureTempStatus() {
-		if(temp > energy) temp = energy;
+	@Override
+	public TileEntity createNewTileEntity(World world, int meta) {
+		return null;
 	}
 
 }
