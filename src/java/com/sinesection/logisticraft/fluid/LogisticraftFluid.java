@@ -9,12 +9,11 @@ import net.minecraftforge.fluids.Fluid;
 public class LogisticraftFluid extends Fluid {
 	
 	protected LogisticraftBlockFluid fluidBlock;
-	protected boolean isFuel = false;
 
 	protected String stillTextureName, flowingTextureName;
 	protected int color = 0xFFFFFF, flammability = 0;
 	protected Material material = Material.water;
-	protected boolean affectTexture = false;
+	protected boolean affectTexture = false, toxic = false;
 
 	public LogisticraftFluid(String fluidName) {
 		super(fluidName);
@@ -33,7 +32,13 @@ public class LogisticraftFluid extends Fluid {
 	
 	public LogisticraftFluid setFuel() {
 		this.setMaterial(ModMaterials.fuel);
-		isFuel = true;
+		flammability = 300;
+		toxic = true;
+		return this;
+	}
+	
+	public LogisticraftFluid setToxic() {
+		toxic = true;
 		return this;
 	}
 	
@@ -109,13 +114,17 @@ public class LogisticraftFluid extends Fluid {
 		return flammability;
 	}
 	
+	public boolean isToxic() {
+		return toxic;
+	}
+	
 	/**
 	 * Use {@link #setColor()} instead.
 	 * @param mapColor
 	 */
 	@Deprecated
 	public void setMapColor(int mapColor) {
-		this.color = mapColor;
+		setColor(mapColor);
 	}
 
 }

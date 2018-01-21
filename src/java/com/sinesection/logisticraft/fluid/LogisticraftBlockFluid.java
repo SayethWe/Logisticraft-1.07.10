@@ -2,11 +2,17 @@ package com.sinesection.logisticraft.fluid;
 
 import java.util.Random;
 
+import com.sinesection.utils.LogisticraftUtils;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -15,10 +21,10 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 
 public class LogisticraftBlockFluid extends BlockFluidClassic {
 
-	private int flammability;
 	private String registryName;
 	private IIcon[] blockIcons;
-	private boolean isFuel;
+	private final int flammability;
+	private final boolean isToxic;
 
 	public LogisticraftBlockFluid(LogisticraftFluid fluid) {
 		this(fluid, fluid.getName(), fluid.getName());
@@ -26,20 +32,11 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 
 	public LogisticraftBlockFluid(LogisticraftFluid fluid, String name, String registryName) {
 		super(fluid, fluid.getMaterial());
-		isFuel = fluid.isFuel;
+		flammability = fluid.getFlammability();
+		isToxic = fluid.isToxic();
 		this.registryName = registryName;
-		this.flammability = fluid.getFlammability();
 		setBlockName(name);
 		this.blockIcons = new IIcon[2];
-	}
-	
-	public boolean isFlammable() {
-		return flammability > 0;
-	}
-	
-	@Override
-	public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
-		return flammability;
 	}
 
 	@Override
@@ -110,18 +107,29 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 
 	@Override
 	public boolean isFlammable(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
-		return isFuel;
+		return flammability >0;
 	}
 
 	@Override
 	public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
-		return isFuel ? 300 : 0;
+		return flammability;
 	}
 
 	@Override
 	public int getFireSpreadSpeed(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
-		// TODO Auto-generated method stub
-		return isFuel ? 100 : 0;
+		return flammability*4;
+	}
+
+	@Override
+	public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_,
+			Entity e) {
+		if(e instanceof EntityLiving && isToxic) {
+			LogisticraftUtils.getLogger().info("Entity " + e + "Is In a fuel Liquid");
+			EntityLiving el = (EntityLiving) e;
+			el.addPotionEffect(new PotionEffect(Potion.blindness.id, 20));
+			el.addPotionEffect(new PotionEffect(Potion.wither.id, 20));
+		}
+		super.onEntityCollidedWithBlock(p_149670_1_, p_149670_2_, p_149670_3_, p_149670_4_, e);
 	}
 	
 	
