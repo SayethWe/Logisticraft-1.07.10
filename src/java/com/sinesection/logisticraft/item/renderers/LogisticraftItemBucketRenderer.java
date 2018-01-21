@@ -1,7 +1,7 @@
 package com.sinesection.logisticraft.item.renderers;
 
 import com.sinesection.logisticraft.item.ItemLogisticraftBucket;
-import com.sinesection.utils.Utils;
+import com.sinesection.utils.LogisticraftUtils;
 
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -83,7 +83,7 @@ public class LogisticraftItemBucketRenderer implements IItemRenderer {
 		} else {
 			if (!wrongRendererMsgWritten) {
 				wrongRendererMsgWritten = true;
-				Utils.getLogger().info(this.getClass().getName() + ".drawAsSlice() called with wrong Item:" + item.getDisplayName());
+				LogisticraftUtils.getLogger().info(this.getClass().getName() + ".drawAsSlice() called with wrong Item:" + item.getDisplayName());
 			}
 			return;
 		}

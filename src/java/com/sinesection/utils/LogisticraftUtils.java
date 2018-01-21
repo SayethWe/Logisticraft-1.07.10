@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-public class Utils {
+public class LogisticraftUtils {
 	
 	private static final String DEFAULT_TITLE = "Uninitialized Logger";
 	
