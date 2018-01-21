@@ -34,6 +34,8 @@ public class LogisticraftDryDistillerCrafting {
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.gunpowder), null, false, new ItemStack(Items.coal, 1, 1), new ItemStack(ModItems.sulfur)));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(ModItems.resin), new FluidStack(ModFluids.creosote, 1000), true, new ItemStack(ModItems.refinedRubber)));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(ModItems.tar), new FluidStack(ModFluids.turpentine, 1000), true, new ItemStack(ModItems.pitch)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.potato), new FluidStack(ModFluids.ethanol, 250), true));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.bone), new FluidStack(ModFluids.kerosene,1000), true));
 	}
 
 	private static void loadRecipe(DryDistillerCraftingRecipe ddcr) {
