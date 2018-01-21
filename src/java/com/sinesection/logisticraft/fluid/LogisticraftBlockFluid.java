@@ -10,10 +10,12 @@ import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.BlockFluidClassic;
 
 public class LogisticraftBlockFluid extends BlockFluidClassic {
 
+	private int flammability;
 	private String registryName;
 	private IIcon[] blockIcons;
 
@@ -24,8 +26,18 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 	public LogisticraftBlockFluid(LogisticraftFluid fluid, String name, String registryName) {
 		super(fluid, fluid.getMaterial());
 		this.registryName = registryName;
+		this.flammability = fluid.getFlammability();
 		setBlockName(name);
 		this.blockIcons = new IIcon[2];
+	}
+	
+	public boolean isFlammable() {
+		return flammability > 0;
+	}
+	
+	@Override
+	public int getFlammability(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
+		return flammability;
 	}
 
 	@Override

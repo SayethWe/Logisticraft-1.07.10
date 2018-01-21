@@ -10,7 +10,7 @@ public class LogisticraftFluid extends Fluid {
 	protected LogisticraftBlockFluid fluidBlock;
 
 	protected String stillTextureName, flowingTextureName;
-	protected int color = 0xFFFFFF;
+	protected int color = 0xFFFFFF, flammability = 0;
 	protected Material material = Material.water;
 	protected boolean affectTexture = false;
 
@@ -37,6 +37,15 @@ public class LogisticraftFluid extends Fluid {
 	
 	public LogisticraftFluid setColor(int color) {
 		return setColor(color, false);
+	}
+	
+	public LogisticraftFluid setFlammability(int flammability) {
+		if(flammability > 300)
+			flammability = 300;
+		if(flammability < 0)
+			flammability = 0;
+		this.flammability = flammability;
+		return this;
 	}
 
 	public LogisticraftFluid setMaterial(Material material) {
@@ -86,6 +95,10 @@ public class LogisticraftFluid extends Fluid {
 	
 	public boolean shouldColorAffectTexture() {
 		return affectTexture;
+	}
+	
+	public int getFlammability() {
+		return flammability;
 	}
 	
 	/**
