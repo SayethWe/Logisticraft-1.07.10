@@ -121,7 +121,7 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 	}
 
 	@Override
-	public void onEntityCollidedWithBlock(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_,
+	public void onEntityWalking(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_,
 			Entity e) {
 		if(e instanceof EntityLiving && isToxic) {
 			LogisticraftUtils.getLogger().info("Entity " + e + "Is In a fuel Liquid");
@@ -129,7 +129,7 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 			el.addPotionEffect(new PotionEffect(Potion.blindness.id, 20));
 			el.addPotionEffect(new PotionEffect(Potion.wither.id, 20));
 		}
-		super.onEntityCollidedWithBlock(p_149670_1_, p_149670_2_, p_149670_3_, p_149670_4_, e);
+		super.onEntityWalking(p_149670_1_, p_149670_2_, p_149670_3_, p_149670_4_, e);
 	}
 	
 	
