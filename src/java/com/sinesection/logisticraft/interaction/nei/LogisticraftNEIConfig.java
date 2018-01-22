@@ -7,8 +7,9 @@ import codechicken.nei.api.IConfigureNEI;
 
 public class LogisticraftNEIConfig implements IConfigureNEI{
 	
-	private static final dryDistillerHandler = new DryDistillerHandler();
-	private static final mixerHandler = new mixerHandler();
+	private static final DryDistillerHandler dryDistillerHandler = new DryDistillerHandler();
+	private static final MixerHandler mixerHandler = new MixerHandler();
+	private static final FractionationHandler fractionHandler = new FractionationHandler();
 	
 	@Override
 	public void loadConfig() {

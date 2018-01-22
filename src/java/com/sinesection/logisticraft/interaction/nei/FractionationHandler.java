@@ -3,9 +3,9 @@ package com.sinesection.logisticraft.interaction.nei;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.TemplateRecipeHandler;
 
-public class MixerHandler extends TemplateRecipeHandler {
+public class FractionationHandler extends TemplateRecipeHandler {
 	
-	public class MixerRecipe extends CachedRecipe {
+	public class FractionatorRecipe extends CachedRecipe {
 
 		@Override
 		public PositionedStack getResult() {
