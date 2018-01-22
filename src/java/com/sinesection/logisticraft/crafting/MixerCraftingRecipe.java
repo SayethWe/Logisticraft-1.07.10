@@ -22,7 +22,7 @@ public class MixerCraftingRecipe {
 			throw new IllegalArgumentException("Illegal number of fluids in : " + fluidInputs + " min: 0, Max: " + MAX_FLUIDS_IN);
 		if(failOutput != null || failFluidPercent >= 0 && failTemp == -1) throw new IllegalArgumentException("Cannot have a failure Item if it cannot fail");
 		if(requiredEnergy == 0) throw new IllegalArgumentException("Recipes require input Energy amounts.");
-		
+
 		this.itemInput = itemInput;
 		this.fluidOutput = fluidOutput;
 		this.itemOutput = itemOutput;
