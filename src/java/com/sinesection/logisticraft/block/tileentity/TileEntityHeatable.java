@@ -55,7 +55,6 @@ public class TileEntityHeatable extends TileEntity implements IHeatable {
 
 	@Override
 	public boolean isLosingEnergy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
