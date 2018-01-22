@@ -20,6 +20,8 @@ import net.minecraft.world.World;
 
 public class BlockRoadway extends LogisticraftBlock{
 
+	public static final int NUM_BLOCK_VARIANTS = 4;
+	
 	private static final int UNIFIED_TEXTURE_ROWS = 5;
 	private static final int UNIFIED_TEXTURE_COLS = 4;
 	
