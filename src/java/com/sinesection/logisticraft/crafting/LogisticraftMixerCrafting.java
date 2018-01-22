@@ -25,6 +25,10 @@ public class LogisticraftMixerCrafting {
 		}
 	}
 	
+	public static MixerCraftingRecipe getRecipefromInputs(List<FluidStack> fl, ItemStack is) {
+		return mixerCraftingRecipes.get(fl).get(is);
+	
+	}
 	private static void registerRecipe(MixerCraftingRecipe recipe) {
 		if (recipe == null) throw new IllegalArgumentException("Can't register a null recipe!");
 		@SuppressWarnings("unchecked")
