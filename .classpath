@@ -9,5 +9,6 @@
 			<attribute name="javadoc_location" value="jar:file:/Users/geekman9097/Downloads/commons-collections4-4.1/commons-collections4-4.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/geekman9097/Documents/Mod Workspace/Logisticraft 1.07.10/mods/NotEnoughItems-1.7.10-1.0.5.120-dev.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
