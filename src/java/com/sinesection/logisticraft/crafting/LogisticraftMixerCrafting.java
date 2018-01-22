@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sinesection.logisticraft.registrars.ModFluids;
+import com.sinesection.logisticraft.registrars.ModItems;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
+import scala.actors.threadpool.Arrays;
 
 public class LogisticraftMixerCrafting {
 
@@ -24,14 +26,24 @@ public class LogisticraftMixerCrafting {
 	}
 	
 	private static void registerRecipe(MixerCraftingRecipe recipe) {
-		// TODO Auto-generated method stub
 		if (recipe == null) throw new IllegalArgumentException("Can't register a null recipe!");
-		
+		@SuppressWarnings("unchecked")
+		List<FluidStack> fluidInputs = Arrays.asList(recipe.fluidInputs);
+		ItemStack itemInput = recipe.itemInput;
+		if(mixerCraftingRecipes.get(fluidInputs) != null) {
+			if (mixerCraftingRecipes.get(fluidInputs).get(itemInput) != null) {
+				throw new IllegalArgumentException("A recipe with those inputs (Fluid(s): " + fluidInputs + " ,  Item: " + itemInput + ") already exists");
+			} else {
+				mixerCraftingRecipes.put(fluidInputs, new HashMap<ItemStack, MixerCraftingRecipe>());
+			}
+		}
+		mixerCraftingRecipes.get(fluidInputs).put(itemInput, recipe);
 	}
 
 	public static void loadRecipes() {
 		//Note: If you want to have an item-> item, use two fluidstacks of water for input, as cooling.
-		loadRecipe(new MixerCraftingRecipe(new FluidStack(ModFluids.highGradeFuel, 1000), null, false, 2250, null, new FluidStack(ModFluids.ethanol, 500), new FluidStack(ModFluids.kerosene, 500)));
+		loadRecipe(new MixerCraftingRecipe(new FluidStack(ModFluids.highGradeFuel, 1000), null, 0, null, true, 1500, 2500, 35e9, null, new FluidStack(ModFluids.ethanol, 500), new FluidStack(ModFluids.kerosene, 500)));
+		loadRecipe(new MixerCraftingRecipe(new FluidStack(ModFluids.midGradeFuel, 1000), null, true, 0, 32e6, new ItemStack(ModItems.sulfur), new FluidStack(ModFluids.turpentine, 1000), new FluidStack(ModFluids.turpentine, 1000)));
 	}
 	
 	private static void loadRecipe(MixerCraftingRecipe mcr) {
