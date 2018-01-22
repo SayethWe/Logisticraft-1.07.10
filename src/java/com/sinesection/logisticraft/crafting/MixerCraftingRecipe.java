@@ -12,8 +12,9 @@ public class MixerCraftingRecipe {
 	public final FluidStack fluidOutput;
 	public final ItemStack itemOutput;
 	public final boolean requiresRefinery;
+	public final int minTemp;
 	
-	public MixerCraftingRecipe(FluidStack fluidOutput, ItemStack itemOutput, boolean requiresRefinery, ItemStack itemInput, FluidStack... fluidInputs) {
+	public MixerCraftingRecipe(FluidStack fluidOutput, ItemStack itemOutput, boolean requiresRefinery, int requiredTemp, ItemStack itemInput, FluidStack... fluidInputs) {
 		if (fluidOutput == null && itemOutput == null) throw new IllegalArgumentException("Must output Something");
 		if(fluidInputs.length > MAX_FLUIDS_IN || fluidInputs.length < 0)
 			throw new IllegalArgumentException("Illegal number of fluids in : " + fluidInputs + " min: 0, Max: " + MAX_FLUIDS_IN);
@@ -23,6 +24,7 @@ public class MixerCraftingRecipe {
 		this.itemOutput = itemOutput;
 		this.fluidInputs = fluidInputs;
 		this.requiresRefinery = requiresRefinery;
+		this.minTemp = requiredTemp;
 	}
 
 }
