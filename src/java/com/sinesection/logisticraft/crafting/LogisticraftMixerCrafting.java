@@ -48,7 +48,7 @@ public class LogisticraftMixerCrafting {
 
 	public static void loadRecipes() {
 		//Note: If you want to have an item-> item, use a coolant fluid to avoid errors.
-		loadRecipe(new MixerCraftingRecipe(new FluidStack(ModFluids.highGradeFuel, 1000), null, 0, null, true, 1500, 2500, 35e9, null, new FluidStack(ModFluids.ethanol, 500), new FluidStack(ModFluids.kerosene, 500)));
+		loadRecipe(new MixerCraftingRecipe(new FluidStack(ModFluids.highGradeFuel, 1000), null, 0, null, true, 1500, 2500, 35e9, null, new FluidStack(ModFluids.ethanol, 500), new FluidStack(ModFluids.kerosene, 500), new FluidStack(ModFluids.methanol, 500)));
 		loadRecipe(new MixerCraftingRecipe(new FluidStack(ModFluids.midGradeFuel, 1000), null, true, 0, 32e6, new ItemStack(ModItems.sulfur), new FluidStack(ModFluids.turpentine, 1000), new FluidStack(ModFluids.turpentine, 1000)));
 	}
 	

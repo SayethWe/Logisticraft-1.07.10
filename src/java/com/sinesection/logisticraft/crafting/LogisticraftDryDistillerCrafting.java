@@ -36,6 +36,7 @@ public class LogisticraftDryDistillerCrafting {
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(ModItems.tar), new FluidStack(ModFluids.turpentine, 1000), true, new ItemStack(ModItems.pitch)));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.potato), new FluidStack(ModFluids.ethanol, 250), true));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.bone), new FluidStack(ModFluids.kerosene,1000), true));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Blocks.log), new FluidStack(ModFluids.methanol, 100), true));
 	}
 
 	private static void loadRecipe(DryDistillerCraftingRecipe ddcr) {
