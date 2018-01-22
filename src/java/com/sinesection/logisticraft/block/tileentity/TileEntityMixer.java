@@ -6,6 +6,7 @@ import java.util.List;
 import com.sinesection.logisticraft.block.BlockFractionator;
 import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
+import com.sinesection.logisticraft.crafting.LogisticraftMixerCrafting;
 import com.sinesection.logisticraft.crafting.MixerCraftingRecipe;
 import com.sinesection.logisticraft.fluid.LogisticraftFluidTank;
 import com.sinesection.logisticraft.power.IHeatable;
@@ -338,7 +339,7 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 
 	private void process() {
 		if (this.canProcess()) {
-			MixerCraftingRecipe recipe = MixerCraftingRecipe.getRecipeFromInput(getStackInSlot(0));
+			MixerCraftingRecipe recipe = LogisticraftMixerCrafting.getRecipeFromInput(null, getStackInSlot(0));
 			for (int i = 0; i < recipe.outputs.length; i++) {
 				ItemStack result = recipe.outputs[i];
 				if (this.getStackInSlot(i + 2) == null) {
