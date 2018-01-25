@@ -7,6 +7,7 @@ import com.sinesection.logisticraft.container.ContainerDryDistiller;
 import com.sinesection.logisticraft.container.ContainerFractionator;
 import com.sinesection.logisticraft.gui.GuiDryDistiller;
 import com.sinesection.logisticraft.gui.GuiFractionator;
+import com.sinesection.logisticraft.gui.GuiMixer;
 
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;

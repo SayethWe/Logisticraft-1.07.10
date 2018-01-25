@@ -31,9 +31,10 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInventory, IHeatable {
+public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInventory, IFluidHandler, IHeatable {
 
 	private String localizedName;
 
@@ -57,6 +58,12 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 	public static final int SLOT_OUTPUT_TANK_I = 10;
 	public static final int SLOT_OUTPUT_TANK_O = 11;
 
+	public static final int TANK_INDEX_OUTPUT = 0;
+	public static final int TANK_INDEX_INPUT_1 = 1;
+	public static final int TANK_INDEX_INPUT_2 = 2;
+	public static final int TANK_INDEX_INPUT_3 = 3;
+	public static final int TANK_INDEX_INPUT_4 = 4;
+
 	// Slot 0 = input
 	// Slot 1 = fuel
 	// Slot 2-5 = output
@@ -69,7 +76,7 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 	// Side 0 = bottom
 	// Side 1 = top
 	// Side 2-5 = n,s,e,w
-	private static final int[][] accesibleSlotsFromSide = new int[][] {
+	private final int[][] accesibleSlotsFromSide = new int[][] {
 			{
 					SLOT_OUTPUT, SLOT_INPUT_TANK_1_O, SLOT_INPUT_TANK_2_O, SLOT_INPUT_TANK_3_O, SLOT_INPUT_TANK_4_O, SLOT_OUTPUT_TANK_O
 			}, {
@@ -85,14 +92,53 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 			}
 	};
 
-	/** Time to process the item in slot 0. (in ticks) */
-	private int processSpeed = 0;
+	// TODO Have all tanks fillable from all sides, for now
+	private final int[][] fillableTanksFromSide = new int[][] {
+			{
+					TANK_INDEX_INPUT_1, TANK_INDEX_INPUT_2, TANK_INDEX_INPUT_3, TANK_INDEX_INPUT_4
+			}, {
+					TANK_INDEX_INPUT_1, TANK_INDEX_INPUT_2, TANK_INDEX_INPUT_3, TANK_INDEX_INPUT_4
+			}, {
+					TANK_INDEX_INPUT_1, TANK_INDEX_INPUT_2, TANK_INDEX_INPUT_3, TANK_INDEX_INPUT_4
+			}, {
+					TANK_INDEX_INPUT_1, TANK_INDEX_INPUT_2, TANK_INDEX_INPUT_3, TANK_INDEX_INPUT_4
+			}, {
+					TANK_INDEX_INPUT_1, TANK_INDEX_INPUT_2, TANK_INDEX_INPUT_3, TANK_INDEX_INPUT_4
+			}, {
+					TANK_INDEX_INPUT_1, TANK_INDEX_INPUT_2, TANK_INDEX_INPUT_3, TANK_INDEX_INPUT_4
+			}
+	};
 
-	public float tempature, energy;
+	// TODO Have output tank drainable from all sides, for now
+	private final int[][] drainableTanksFromSide = new int[][] {
+			{
+					TANK_INDEX_OUTPUT
+			}, {
+					TANK_INDEX_OUTPUT
+			}, {
+					TANK_INDEX_OUTPUT
+			}, {
+					TANK_INDEX_OUTPUT
+			}, {
+					TANK_INDEX_OUTPUT
+			}, {
+					TANK_INDEX_OUTPUT
+			}
+	};
+
+	/** Time to process the item in slot 0. (in ticks) */
+	public int processSpeed = 1000;
+	public int processTime = 0;
+
+	public float tempature, energy, maxTemperature;
 
 	@Override
 	public int getSizeInventory() {
 		return NUM_SLOTS;
+	}
+
+	public int getNumTanks() {
+		return NUM_INPUT_TANKS + 1;
 	}
 
 	@Override
@@ -275,11 +321,11 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 
 	@Override
 	public void updateEntity() {
-		boolean blockUpdate = isBurning();
+		boolean blockUpdate = isRunning();
 		boolean invChanged = false;
 		if (!this.worldObj.isRemote) {
 
-			for (int i = 0; i < this.inputTanks.length + 1; i++) {
+			for (int i = 0; i < this.getNumTanks(); i++) {
 				int inputSlotNum = SLOT_INPUT_TANK_1_I + (i * 2);
 				int outputSlotNum = inputSlotNum + 1;
 				if (this.getStackInSlot(inputSlotNum) == null)
@@ -287,7 +333,7 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 				ItemStack inputSlot = ItemStack.copyItemStack(this.getStackInSlot(inputSlotNum));
 				inputSlot.stackSize = 1;
 				ItemStack outputSlot = ItemStack.copyItemStack(this.getStackInSlot(outputSlotNum));
-				LogisticraftFluidTank tank = this.getOutputTank();
+				LogisticraftFluidTank tank = this.getTank(i);
 				boolean success = false;
 				if (FluidContainerRegistry.isEmptyContainer(inputSlot)) {
 					if (tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false) != null && tank.drain(FluidContainerRegistry.BUCKET_VOLUME, false).amount == FluidContainerRegistry.BUCKET_VOLUME) {
@@ -302,7 +348,7 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 					this.getStackInSlot(inputSlotNum).stackSize--;
 					if (this.getStackInSlot(inputSlotNum).stackSize == 0)
 						this.setInventorySlotContents(inputSlotNum, null);
-					this.setOutputTank(tank);
+					this.setTank(i, tank);
 					addStackToOutput(outputSlot, outputSlotNum, true);
 					invChanged = true;
 				}
@@ -338,6 +384,7 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 	}
 
 	private void process() {
+		/** TODO
 		if (this.canProcess()) {
 			MixerCraftingRecipe recipe = LogisticraftMixerCrafting.getRecipeFromInput(null, getStackInSlot(0));
 			for (int i = 0; i < recipe.outputs.length; i++) {
@@ -355,10 +402,12 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 			if (this.getStackInSlot(SLOT_INPUT).stackSize <= 0) {
 				this.setInventorySlotContents(SLOT_INPUT, null);
 			}
-		}
+		} */
 	}
 
 	private boolean canProcess() {
+		return false;
+		/** TODO
 		if (getStackInSlot(SLOT_INPUT) == null)
 			return false;
 		DryDistillerCraftingRecipe recipe = LogisticraftDryDistillerCrafting.getRecipeFromInput(getStackInSlot(SLOT_INPUT));
@@ -391,63 +440,16 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 			if (this.getOutputTank().fill(recipe.fluidOutput, false) != recipe.fluidOutput.amount)
 				canOutput = false;
 		return canOutput;
-	}
-
-	public boolean isBurning() {
-		return this.burnTime > 0;
+		*/
 	}
 
 	public boolean isRunning() {
 		return this.processTime > 0;
 	}
 
-	public int getItemBurnTime(ItemStack itemStack) {
-		int burnTime = 0;
-		if (itemStack == null) {
-			burnTime = 0;
-		} else {
-			List<String> oreDictNames = new ArrayList<String>();
-			for (int i : OreDictionary.getOreIDs(itemStack)) {
-				oreDictNames.add(OreDictionary.getOreName(i));
-			}
-			boolean isWood = false;
-			for (String oreDictName : oreDictNames) {
-				if (oreDictName.toLowerCase().contains("wood")) {
-					isWood = true;
-					break;
-				}
-			}
-
-			if (itemStack.getItem() instanceof ItemTool)
-				isWood = ((ItemTool) itemStack.getItem()).getToolMaterialName().equalsIgnoreCase("WOOD");
-			if (itemStack.getItem() instanceof ItemSword)
-				isWood = ((ItemSword) itemStack.getItem()).getToolMaterialName().equalsIgnoreCase("WOOD");
-			if (itemStack.getItem() instanceof ItemHoe)
-				isWood = ((ItemHoe) itemStack.getItem()).getToolMaterialName().equalsIgnoreCase("WOOD");
-			if (itemStack.getItem() == Items.stick)
-				isWood = true;
-			if (itemStack.getItem() instanceof ItemBlock)
-				isWood = ((ItemBlock) itemStack.getItem()).field_150939_a.getMaterial() == Material.wood;
-
-			if (isWood) {
-				burnTime = 0;
-			} else {
-				burnTime = GameRegistry.getFuelValue(itemStack);
-			}
-
-			if (itemStack.getItem() == Items.coal)
-				burnTime = 200 * 8;
-		}
-		return (int) Math.round((float) burnTime * efficiency);
-	}
-
-	public boolean isItemFuel(ItemStack itemStack) {
-		return this.getItemBurnTime(itemStack) > 0;
-	}
-
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-		return slot == SLOT_TANK_INPUT ? FluidContainerRegistry.isEmptyContainer(itemStack) : (slot > SLOT_FUEL ? false : (slot == SLOT_FUEL ? this.isItemFuel(itemStack) : true));
+		return false; // TODO slot == SLOT_TANK_INPUT ? FluidContainerRegistry.isEmptyContainer(itemStack) : (slot > SLOT_FUEL ? false : (slot == SLOT_FUEL ? this.isItemFuel(itemStack) : true));
 	}
 
 	@Override
@@ -462,18 +464,20 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
-		return (slot == SLOT_FUEL && itemStack.isItemEqual(new ItemStack(Items.bucket))) || (slot == SLOT_TANK_OUTPUT && FluidContainerRegistry.isFilledContainer(itemStack)) || (slot != SLOT_INPUT);
+		return false; //(slot == SLOT_FUEL && itemStack.isItemEqual(new ItemStack(Items.bucket))) || (slot == SLOT_TANK_OUTPUT && FluidContainerRegistry.isFilledContainer(itemStack)) || (slot != SLOT_INPUT);
 	}
 
-	public int getBurnTimeScaled(int i) {
-		if (this.currentItemBurnTime == 0) {
-			this.currentItemBurnTime = this.processSpeed;
-		}
+	public int getTempatureScaled(int i) {
+		if (this.maxTemperature == 0) 
+			return 0;
 
-		return (this.burnTime * i) / this.currentItemBurnTime;
+		return Math.round((this.tempature * i) / this.maxTemperature);
 	}
 
-	public int getProgressScaled(int i) {
+	public int getProgressScaled(int i, int j) {
+		if(this.processSpeed == 0)
+			return 0;
+		
 		return (this.processTime * i) / this.processSpeed;
 	}
 
@@ -485,89 +489,126 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 		this.outputTank = tank;
 	}
 
+	public LogisticraftFluidTank getTank(int index) {
+		if (getNumTanks() == 0)
+			return this.outputTank;
+		return this.inputTanks[getNumTanks() - 1];
+	}
+
+	public void setTank(int i, LogisticraftFluidTank tank) {
+		this.outputTank = tank;
+	}
+
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		return this.getOutputTank().fill(resource, doFill);
+		int side = from.ordinal();
+		int[] tankIndexes = drainableTanksFromSide[side];
+		for (int j = 0; j < tankIndexes.length; j++) {
+			int tankIndex = tankIndexes[j];
+			LogisticraftFluidTank ft = getTank(tankIndex);
+			if(resource.amount + resource.amount <= ft.getCapacity())
+				return ft.fill(resource, doFill);
+		}
+		return 0;
 	}
 
 	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		return this.getOutputTank().drain(resource.amount, doDrain);
+		return drain(from, resource.amount, doDrain);
 	}
 
 	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		return this.getOutputTank().drain(maxDrain, doDrain);
+		int side = from.ordinal();
+		int[] tankIndexes = drainableTanksFromSide[side];
+		for (int j = 0; j < tankIndexes.length; j++) {
+			int tankIndex = tankIndexes[j];
+			LogisticraftFluidTank ft = getTank(tankIndex);
+			if (ft.getFluidAmount() > 0)
+				return ft.drain(maxDrain, doDrain);
+		}
+		return null;
 	}
 
+	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
+		int side = from.ordinal();
+		int[] tankIndexes = fillableTanksFromSide[side];
+		for (int j = 0; j < tankIndexes.length; j++) {
+			int tankIndex = tankIndexes[j];
+			LogisticraftFluidTank ft = getTank(tankIndex);
+			if (ft.getFluid() == null || ft.getFluid().getFluid() == fluid)
+				return true;
+		}
 		return false;
 	}
 
+	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		return this.getOutputTank().getFluidAmount() > 0;
+		int side = from.ordinal();
+		int[] tankIndexes = drainableTanksFromSide[side];
+		for (int j = 0; j < tankIndexes.length; j++) {
+			int tankIndex = tankIndexes[j];
+			LogisticraftFluidTank ft = getTank(tankIndex);
+			if (ft.getFluidAmount() > 0)
+				if (ft.getFluid() == null || ft.getFluid().getFluid() == fluid)
+					return true;
+		}
+		return false;
 	}
 
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		return new FluidTankInfo[] {
-				this.getOutputTank().getInfo()
-		};
+		FluidTankInfo[] fti = new FluidTankInfo[getNumTanks()];
+		for (int i = 0; i < getNumTanks(); i++) {
+			fti[i] = new FluidTankInfo(getTank(i));
+		}
+		return fti;
 	}
 
 	@Override
 	public float getCurrentTemp() {
-		// TODO Auto-generated method stub
-		return 0;
+		return tempature;
 	}
 
 	@Override
 	public float getRequiredTemp() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public float getCurrentEnergy() {
-		// TODO Auto-generated method stub
-		return 0;
+		return energy;
 	}
 
 	@Override
 	public float getMaxEnergy() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public boolean isReceivingEnergy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isLosingEnergy() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean takeEnergy(float tempRequested, boolean changeTemp, ForgeDirection side) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean addEnergy(float tempIn, boolean changeTemp, ForgeDirection side) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean canInputFrom(ForgeDirection dir) {
-		// TODO Auto-generated method stub
+	public boolean canInputFrom(ForgeDirection side) {
 		return false;
 	}
 
 	@Override
 	public boolean canOutputTo(ForgeDirection dir) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
