@@ -30,16 +30,12 @@ public class ContainerMixer extends Container {
 	public int lastTempature;
 	/** Last time left to process the item in slot 0. (in ticks) */
 	public int lastProcessTime;
-	/** Last tank */
-	private FluidTank[] lastInputTanks;
-	private int[] tempInputFluidId = new int[TileEntityMixer.NUM_INPUT_TANKS];
-	/** Last tank */
-	private FluidTank outputTank;
-	private int tempOutputFluidId;
-
+	/** Last fluid ids in the tanks */
+	private int[] lastFluidIds;
+	
 	public ContainerMixer(InventoryPlayer inventory, TileEntityMixer tEntity) {
 		this.tEntity = tEntity;
-		
+		lastFluidIds = new int[this.tEntity.getNumTanks()];
 
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 9; j++) {
@@ -56,11 +52,12 @@ public class ContainerMixer extends Container {
 	public void addCraftingToCrafters(ICrafting iCrafting) {
 		super.addCraftingToCrafters(iCrafting);
 		iCrafting.sendProgressBarUpdate(this, 0, this.tEntity.processTime);
-		iCrafting.sendProgressBarUpdate(this, 1, this.tEntity.burnTime);
-		iCrafting.sendProgressBarUpdate(this, 2, this.tEntity.currentItemBurnTime);
-		if (this.tEntity.getOutputTank().getFluid() != null) {
-			iCrafting.sendProgressBarUpdate(this, 3, this.tEntity.getOutputTank().getFluid().getFluidID());
-			iCrafting.sendProgressBarUpdate(this, 4, this.tEntity.getOutputTank().getFluidAmount());
+		for(int i = 0; i < this.tEntity.getNumTanks(); i++) {
+			if (this.tEntity.getTank(i).getFluid() != null) {
+				int craftersIndex = 1 + i * 2;
+				iCrafting.sendProgressBarUpdate(this, craftersIndex, this.tEntity.getTank(i).getFluid().getFluidID());
+				iCrafting.sendProgressBarUpdate(this, craftersIndex + 1, this.tEntity.getTank(i).getFluidAmount());
+			}
 		}
 	}
 
@@ -73,22 +70,19 @@ public class ContainerMixer extends Container {
 			if (this.lastProcessTime != this.tEntity.processTime) {
 				iCrafting.sendProgressBarUpdate(this, 0, this.tEntity.processTime);
 			}
-			if (this.lastProcessTime != this.tEntity.burnTime) {
-				iCrafting.sendProgressBarUpdate(this, 1, this.tEntity.burnTime);
-			}
-			if (this.lastItemBurnTime != this.tEntity.currentItemBurnTime) {
-				iCrafting.sendProgressBarUpdate(this, 2, this.tEntity.currentItemBurnTime);
-			}
-			if (lastTank != null && !lastTank.equals(this.tEntity.getOutputTank()) && this.tEntity.getOutputTank().getFluid() != null) {
-				iCrafting.sendProgressBarUpdate(this, 3, this.tEntity.getOutputTank().getFluid().getFluidID());
-				iCrafting.sendProgressBarUpdate(this, 4, this.tEntity.getOutputTank().getFluidAmount());
+			for (int tankIndex = 0; tankIndex < this.tEntity.getNumTanks(); tankIndex++) {
+				int craftersIndex = 1 + tankIndex * 2;
+				if (this.lastFluidIds[tankIndex] != this.tEntity.getTank(tankIndex).getFluid().getFluidID()) {
+					iCrafting.sendProgressBarUpdate(this, craftersIndex, this.tEntity.getTank(tankIndex).getFluid().getFluidID());
+					iCrafting.sendProgressBarUpdate(this, craftersIndex + 1, this.tEntity.getTank(tankIndex).getFluidAmount());
+				}
 			}
 		}
 
 		this.lastProcessTime = this.tEntity.processTime;
-		this.lastBurnTime = this.tEntity.burnTime;
-		this.lastItemBurnTime = this.tEntity.currentItemBurnTime;
-		this.lastTank = this.tEntity.getOutputTank().copy();
+		for (int tankIndex = 0; tankIndex < this.tEntity.getNumTanks(); tankIndex++) {
+			this.lastFluidIds[tankIndex] = this.tEntity.getTank(tankIndex).getFluid().getFluidID();
+		}
 	}
 
 	@Override
@@ -98,20 +92,21 @@ public class ContainerMixer extends Container {
 		case 0:
 			this.tEntity.processTime = value;
 			break;
-		case 1:
-			this.tEntity.burnTime = value;
-			break;
-		case 2:
-			this.tEntity.currentItemBurnTime = value;
-			break;
-		case 3:
-			this.tempFluidId = value;
-			break;
-		case 4:
-			LogisticraftFluidTank tank = this.tEntity.getOutputTank();
-			tank.setFluid(new FluidStack(FluidRegistry.getFluid(tempFluidId), value));
-			this.tEntity.setOutputTank(tank);
-			break;
+		default:
+			if (id > 0) {
+				if ((id - 1) % 2 == 0) {
+					int tankIndex = (id - 1) / 2;
+					System.out.println(id + ", " + tankIndex);
+					lastFluidIds[tankIndex] = value;
+					break;
+				} else if((id - 1) % 2 == 1) {
+					int tankIndex = (id - 1) / 2;
+					LogisticraftFluidTank tank = new LogisticraftFluidTank(this.tEntity.getTank(tankIndex).getCapacity());
+					tank.setFluid(new FluidStack(FluidRegistry.getFluid(lastFluidIds[tankIndex]), value));
+					this.tEntity.setTank((id - 1) / 2, tank);
+					break;
+				}
+			}
 		}
 	}
 
@@ -127,24 +122,8 @@ public class ContainerMixer extends Container {
 		if (slot != null && slot.getHasStack()) {
 			ItemStack tempItemStack = slot.getStack();
 			itemStack = tempItemStack.copy();
-			if (index == TileEntityFractionator.SLOT_FUEL) {
-				if (this.mergeItemStack(tempItemStack, playerInvStart, playerInvEnd, true))
-					return null;
-				slot.onSlotChange(tempItemStack, itemStack);
-			} else if (index != TileEntityFractionator.SLOT_FUEL && index != TileEntityFractionator.SLOT_INPUT && index != TileEntityFractionator.SLOT_TANK_INPUT && index != TileEntityFractionator.SLOT_TANK_OUTPUT) {
-				if (LogisticraftDryDistillerCrafting.getRecipeFromInput(tempItemStack) != null) {
-					if (!this.mergeItemStack(tempItemStack, TileEntityFractionator.SLOT_INPUT, TileEntityFractionator.SLOT_INPUT + 1, false)) {
-						return null;
-					}
-				} else if (this.tEntity.isItemFuel(tempItemStack)) {
-					if (!this.mergeItemStack(tempItemStack, TileEntityFractionator.SLOT_FUEL, TileEntityFractionator.SLOT_FUEL + 1, false)) {
-						return null;
-					}
-				} else if (FluidContainerRegistry.isEmptyContainer(tempItemStack)) {
-					if (!this.mergeItemStack(tempItemStack, TileEntityFractionator.SLOT_TANK_INPUT, TileEntityFractionator.SLOT_TANK_INPUT + 1, false)) {
-						return null;
-					}
-				} else if (index >= playerInvStart && index < playerHotbarStart) {
+			if (index != TileEntityMixer.SLOT_INPUT) {
+				if (index >= playerInvStart && index < playerHotbarStart) {
 					if (!this.mergeItemStack(tempItemStack, playerHotbarStart, playerInvEnd, false)) {
 						return null;
 					}
@@ -164,7 +143,7 @@ public class ContainerMixer extends Container {
 
 			if (tempItemStack.stackSize == itemStack.stackSize)
 				return null;
-			
+
 			slot.onPickupFromSlot(player, itemStack);
 		}
 

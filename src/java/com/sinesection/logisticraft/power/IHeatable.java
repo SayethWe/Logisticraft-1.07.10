@@ -12,7 +12,7 @@ public interface IHeatable {
 	public boolean isLosingEnergy();
 	public boolean takeEnergy(float tempRequested, boolean changeTemp, ForgeDirection side);
 	public boolean addEnergy(float tempIn, boolean changeTemp, ForgeDirection side);
-	public boolean canInputFrom(ForgeDirection dir);
-	public boolean canOutputTo(ForgeDirection dir);
+	public boolean canInputFrom(ForgeDirection side);
+	public boolean canOutputTo(ForgeDirection side);
 
 }
