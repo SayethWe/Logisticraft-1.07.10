@@ -13,6 +13,7 @@ import com.sinesection.logisticraft.item.renderers.LogisticraftItemBucketRendere
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -20,6 +21,7 @@ import net.minecraftforge.fluids.FluidStack;
 public class ModFluids {
 
 	public static final LogisticraftFluid creosote = new LogisticraftFluid("creosote").setColor(0x775555).setFuel();
+	public static final LogisticraftFluid methanol = new LogisticraftFluid("methanol").setFuel();
 	public static final LogisticraftFluid ethanol = new LogisticraftFluid("ethanol").setFlammability(150).setColor(0xf0c309).setTextureNames("water_still", "water_flow");
 	public static final LogisticraftFluid turpentine = new LogisticraftFluid("turpentine").setTextureNames("water_still", "water_flow").setColor(0x999999, true).setFuel();
 	public static final LogisticraftFluid kerosene = new LogisticraftFluid("kerosene").setTextureNames("water_still", "water_flow").setColor(0x999999, true).setFuel();

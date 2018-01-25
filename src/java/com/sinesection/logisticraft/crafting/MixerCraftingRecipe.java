@@ -40,4 +40,8 @@ public class MixerCraftingRecipe {
 		this(fluidOutput, itemOutput, -1, null, requiresRefinery, requiredTemp, -1, requiredEnergy, itemInput, fluidInputs);
 	}
 
+	public boolean hasLiquidOutput() {
+		return fluidOutput != null;
+	}
+
 }
