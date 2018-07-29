@@ -54,6 +54,7 @@ public class ModFluids {
 		loadFluid(ethanol);
 		loadFluid(kerosene);
 		loadFluid(turpentine);
+		loadFluid(methanol);
 		loadFluid(lowGradeFuel);
 		loadFluid(midGradeFuel);
 		loadFluid(highGradeFuel);
