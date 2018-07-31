@@ -4,13 +4,16 @@ import com.google.common.collect.ImmutableMap;
 import com.sinesection.logisticraft.api.gui.GuiElementAlignment;
 import com.sinesection.logisticraft.api.gui.ITextElement;
 import com.sinesection.logisticraft.api.gui.style.ITextStyle;
+import com.sinesection.utils.GuiElementUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import static com.logisticraft.gui.elements.LabelElement.FONT_RENDERER;
+import org.lwjgl.opengl.GL11;
+
+import static com.sinesection.logisticraft.gui.elements.LabelElement.FONT_RENDERER;
 
 public class SplitTextElement extends GuiElement implements ITextElement {
 
@@ -64,6 +67,6 @@ public class SplitTextElement extends GuiElement implements ITextElement {
 			posY += FONT_RENDERER.FONT_HEIGHT;
 		}
 		FONT_RENDERER.setUnicodeFlag(unicode);
-		GlStateManager.color(1.0f, 1.0f, 1.0f);
+		GL11.glColor3f(1.0f, 1.0f, 1.0f);
 	}
 }

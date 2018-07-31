@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import com.sinesection.logisticraft.Constants;
 import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 import com.sinesection.logisticraft.container.ContainerFractionator;
+import com.sinesection.logisticraft.render.LogisticraftResource;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -16,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiFractionator extends LogisticraftGuiContainer {
 
-	public static final ResourceLocation guiBgTexture = new ResourceLocation(Main.MODID, "textures/gui/guiFractionator.png");
+	public static final ResourceLocation guiBgTexture = new LogisticraftResource(Constants.TEXTURE_PATH_GUI + "/guiFractionator.png");
 
 	private static final int TEXT_COLOR = 4210752;
 
