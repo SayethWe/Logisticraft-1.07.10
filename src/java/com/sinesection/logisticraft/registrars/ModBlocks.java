@@ -16,8 +16,6 @@ import net.minecraft.item.Item;
 
 public class ModBlocks {
 	
-	public static Item creativeTabIconItem;
-	
 	public static final Block dryDistillerIdle = new BlockDryDistiller(false);
 	public static final Block dryDistillerActive = new BlockDryDistiller(true).setLightLevel(6f);
 	public static final Block fractionatorIdle = new BlockFractionator(false);
@@ -37,8 +35,6 @@ public class ModBlocks {
 			else
 				GameRegistry.registerBlock(block, block.getUnlocalizedName());
 		}
-		
-		creativeTabIconItem = Item.getItemFromBlock(roadBlock);
 	}
 	
 	public static void loadBlocks() {

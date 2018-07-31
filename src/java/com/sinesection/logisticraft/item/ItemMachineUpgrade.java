@@ -4,9 +4,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemFractionatorUpgrade extends LogisticraftItem {
+public class ItemMachineUpgrade extends LogisticraftItem {
 
-	public ItemFractionatorUpgrade() {
+	public ItemMachineUpgrade() {
 		super("tankUpgrade");
 	}
 

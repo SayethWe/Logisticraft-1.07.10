@@ -13,6 +13,8 @@ import com.sinesection.utils.LogisticraftUtils;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
 public class LogisticraftDryDistillerCrafting {
@@ -28,14 +30,14 @@ public class LogisticraftDryDistillerCrafting {
 	}
 
 	public static void loadRecipes() {
-		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.egg), null, false, new ItemStack(ModItems.sulfur, 4)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.egg), new FluidStack(FluidRegistry.WATER, 50), false, new ItemStack(ModItems.sulfur, 4)));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Blocks.netherrack), null, false, new ItemStack(ModItems.sulfur, 2)));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.coal, 1, 1), null, false, new ItemStack(ModItems.tar), new ItemStack(ModItems.resin)));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.gunpowder), null, false, new ItemStack(Items.coal, 1, 1), new ItemStack(ModItems.sulfur)));
-		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(ModItems.resin), new FluidStack(ModFluids.creosote, 1000), true, new ItemStack(ModItems.refinedRubber)));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(ModItems.resin), new FluidStack(ModFluids.creosote, 500), true, new ItemStack(ModItems.refinedRubber)));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(ModItems.tar), new FluidStack(ModFluids.turpentine, 1000), true, new ItemStack(ModItems.pitch)));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.potato), new FluidStack(ModFluids.ethanol, 250), true));
-		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.bone), new FluidStack(ModFluids.kerosene,1000), true));
+		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Items.bone), new FluidStack(ModFluids.kerosene, 1000), true));
 		loadRecipe(new DryDistillerCraftingRecipe(new ItemStack(Blocks.log), new FluidStack(ModFluids.methanol, 100), true));
 	}
 
@@ -54,8 +56,8 @@ public class LogisticraftDryDistillerCrafting {
 	}
 
 	public static DryDistillerCraftingRecipe getRecipeFromInput(ItemStack itemStack) {
-		for(ItemStack i : dryDistillerCraftingRecipes.keySet()) {
-			if(i.isItemEqual(itemStack))
+		for (ItemStack i : dryDistillerCraftingRecipes.keySet()) {
+			if (i.isItemEqual(itemStack))
 				return dryDistillerCraftingRecipes.get(i);
 		}
 		return null;

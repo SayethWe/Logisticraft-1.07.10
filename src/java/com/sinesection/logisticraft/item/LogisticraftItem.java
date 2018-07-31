@@ -16,7 +16,7 @@ public class LogisticraftItem extends Item {
 	 */
 	public LogisticraftItem(String universalName) {
 		//register a simple Item
-		this(universalName,universalName,universalName,Main.tabLogisticraftItems);
+		this(universalName,universalName,universalName, Main.tabLogisticraftItems);
 	}
 	
 	public LogisticraftItem(String unlocalizedName, String textureName, String registryName, CreativeTabs creativeTab) {

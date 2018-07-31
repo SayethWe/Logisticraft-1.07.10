@@ -13,6 +13,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -52,21 +53,22 @@ public class Main {
 	}
 
 	public static final CreativeTabs tabLogisticraftItems = new CreativeTabs("tabLogisticraftItems") {
-		@Override
-		public ItemStack getIconItemStack() {
-			return ModItems.creativeTabIconItemStack;
-		}
 
 		@Override
+		public ItemStack getIconItemStack() {
+			return new ItemStack(ModItems.roadWheel, 1, 1);
+		};
+		
+		@Override
 		public Item getTabIconItem() {
-			return null;
+			return getIconItemStack().getItem();
 		}
 	};
 	
 	public static final CreativeTabs tabLogisticraftBlocks = new CreativeTabs("tabLogisticraftBlocks") {
 		@Override
 		public Item getTabIconItem() {
-			return ModBlocks.creativeTabIconItem;
+			return Item.getItemFromBlock(ModBlocks.dryDistillerIdle);
 		}
 	};
 	

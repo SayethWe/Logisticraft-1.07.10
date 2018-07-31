@@ -75,6 +75,7 @@ public class ItemWheel extends LogisticraftItem {
 	public int getDisplayDamage(ItemStack stack) {
 		if (!stack.hasTagCompound())
 			return 0;
+		
 		NBTTagCompound nbt = stack.getTagCompound();
 		if (nbt.hasKey("wheelDamage")) {
 			return WHEEL_DURABILITES[stack.getItemDamage()] - nbt.getShort("wheelDamage");

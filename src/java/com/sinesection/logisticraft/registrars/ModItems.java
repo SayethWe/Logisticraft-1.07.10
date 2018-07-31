@@ -3,7 +3,7 @@ package com.sinesection.logisticraft.registrars;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.sinesection.logisticraft.item.ItemFractionatorUpgrade;
+import com.sinesection.logisticraft.item.ItemMachineUpgrade;
 import com.sinesection.logisticraft.item.ItemHandbook;
 import com.sinesection.logisticraft.item.ItemTrafficDirector;
 import com.sinesection.logisticraft.item.ItemWheel;
@@ -14,8 +14,6 @@ import net.minecraft.item.ItemStack;
 
 public final class ModItems {
 	
-	public static ItemStack creativeTabIconItemStack;
-	
 	public static final LogisticraftItem roadWheel = new ItemWheel();
 	public static final LogisticraftItem refinedRubber = new LogisticraftItem("rubber");
 	public static final LogisticraftItem shippingOrder = new LogisticraftItem("shippingOrder");
@@ -25,7 +23,7 @@ public final class ModItems {
 	public static final LogisticraftItem tar = new LogisticraftItem("tarBall");
 	public static final LogisticraftItem trafficDirector = new ItemTrafficDirector();
 	public static final LogisticraftItem pitch = new LogisticraftItem("pitch");
-	public static final LogisticraftItem fractionatorUpgrade = new ItemFractionatorUpgrade();
+	public static final LogisticraftItem fractionatorUpgrade = new ItemMachineUpgrade();
 
 	public static final Set<LogisticraftItem> items = new HashSet<>();
 	
@@ -36,7 +34,6 @@ public final class ModItems {
 	}
 	
 	public static void loadItems() {
-		creativeTabIconItemStack = new ItemStack(roadWheel, 1, 1);
 		loadItem(roadWheel);
 		loadItem(refinedRubber);
 		loadItem(shippingOrder);
@@ -47,6 +44,7 @@ public final class ModItems {
 		loadItem(trafficDirector);
 		loadItem(pitch);
 		loadItem(fractionatorUpgrade);
+	
 	}
 	
 	private static void loadItem(LogisticraftItem i) {
