@@ -17,17 +17,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-@Mod(modid=Main.MODID, name = Main.MOD_NAME, version = Main.VERSION)
+@Mod(modid=Constants.MOD_ID, name = Constants.MOD_NAME, version = Constants.VERSION)
 public class Main {
-	public final static String MODID = "logisticraft";
-	public final static String MOD_NAME = "Logisticraft";
-	/**
-	 * The version number, seperated as:
-	 * Release Number (Full Codebase overhaul, large rewrite, etc)
-	 * Update Number (Update to new MC Version)
-	 * Feature Number (new features, etc)
-	 */
-	public final static String VERSION = "0.0.0";
 	
 
 	@Instance
@@ -38,7 +29,7 @@ public class Main {
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
-		LogisticraftUtils.createLogger(MOD_NAME);
+		LogisticraftUtils.createLogger(Constants.MOD_NAME);
 		proxy.preInit(e);
 	}
 

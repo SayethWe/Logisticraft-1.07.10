@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
+import com.sinesection.logisticraft.Constants;
 import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 import com.sinesection.logisticraft.block.tileentity.TileEntityMixer;
@@ -19,7 +20,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiMixer extends GuiContainer {
 
-	public static final ResourceLocation guiBgTexture = new ResourceLocation(Main.MODID, "textures/gui/guiFractionator.png");
+	public static final ResourceLocation guiBgTexture = new ResourceLocation(Constants.MOD_ID, "textures/gui/guiFractionator.png");
 
 	private static final int TEXT_COLOR = 4210752;
 

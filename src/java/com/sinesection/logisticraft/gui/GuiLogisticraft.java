@@ -13,10 +13,12 @@ import com.sinesection.logisticraft.api.gui.IGuiElement;
 import com.sinesection.logisticraft.api.gui.events.GuiEvent;
 import com.sinesection.logisticraft.api.gui.events.GuiEventDestination;
 import com.sinesection.logisticraft.gui.elements.Window;
+import com.sinesection.logisticraft.gui.widgets.TankWidget;
 import com.sinesection.logisticraft.gui.widgets.Widget;
 import com.sinesection.logisticraft.gui.widgets.WidgetManager;
 import com.sinesection.logisticraft.render.ColorProperties;
 import com.sinesection.logisticraft.render.LogisticraftResource;
+import com.sinesection.utils.LogisticraftUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -80,7 +82,7 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 		window.setMousePosition(mouseX, mouseY);
 		this.drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		this.renderHoveredToolTip(mouseX, mouseY);
+		// this.renderHoveredToolTip(mouseX, mouseY);
 	}
 
 	@Override
@@ -106,15 +108,15 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 		window.postEvent(new GuiEvent.DownEvent(origin, mouseX, mouseY, mouseButton), GuiEventDestination.ALL);
 	}
 
-	@Override
-	protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		if (widgetManager.handleMouseRelease(mouseX, mouseY, mouseButton)) {
-			return;
-		}
-		IGuiElement origin = (window.getMousedOverElement() == null) ? this.window : this.window.getMousedOverElement();
-		window.postEvent(new GuiEvent.UpEvent(origin, mouseX, mouseY, mouseButton), GuiEventDestination.ALL);
-		super.mouseReleased(mouseX, mouseY, mouseButton);
-	}
+//	@Override
+//	protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+//		if (widgetManager.handleMouseRelease(mouseX, mouseY, mouseButton)) {
+//			return;
+//		}
+//		IGuiElement origin = (window.getMousedOverElement() == null) ? this.window : this.window.getMousedOverElement();
+//		window.postEvent(new GuiEvent.UpEvent(origin, mouseX, mouseY, mouseButton), GuiEventDestination.ALL);
+//		super.mouseReleased(mouseX, mouseY, mouseButton);
+//	}
 
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) {

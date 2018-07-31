@@ -15,6 +15,7 @@ import com.sinesection.logisticraft.api.gui.ITextElement;
 import com.sinesection.logisticraft.api.gui.style.ITextStyle;
 import com.sinesection.logisticraft.gui.Drawable;
 import com.sinesection.logisticraft.gui.elements.GuiElement;
+import com.sinesection.logisticraft.gui.elements.LabelElement;
 import com.sinesection.logisticraft.gui.elements.SplitTextElement;
 
 import cpw.mods.fml.relauncher.Side;

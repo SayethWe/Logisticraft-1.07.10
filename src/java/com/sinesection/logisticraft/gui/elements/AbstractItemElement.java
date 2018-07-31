@@ -6,14 +6,13 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import com.sinesection.logisticraft.api.gui.GuiUtil;
+import com.sinesection.utils.ItemToolTipUtils;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
-
-import forestry.core.utils.ItemTooltipUtil;
 
 public abstract class AbstractItemElement extends GuiElement {
 
@@ -40,7 +39,7 @@ public abstract class AbstractItemElement extends GuiElement {
 	@Override
 	public List<String> getTooltip(int mouseX, int mouseY) {
 		ItemStack itemStack = getStack();
-		return ItemTooltipUtil.getInformation(itemStack);
+		return ItemToolTipUtils.getInformation(itemStack);
 	}
 
 	@Override

@@ -2,9 +2,11 @@ package com.sinesection.logisticraft.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import com.sinesection.logisticraft.Constants;
 import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.container.ContainerDryDistiller;
+import com.sinesection.logisticraft.render.LogisticraftResource;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
@@ -13,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiDryDistiller extends LogisticraftGuiContainer {
 
-	public static final ResourceLocation guiBgTexture = new ResourceLocation(Main.MODID, "textures/gui/guiDistiller.png");
+	public static final ResourceLocation guiBgTexture = new LogisticraftResource(Constants.TEXTURE_PATH_GUI + "/guiDistiller.png");
 
 	public TileEntityDryDistiller tEntity;
 
