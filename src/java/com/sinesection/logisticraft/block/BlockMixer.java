@@ -127,7 +127,7 @@ public class BlockMixer extends LogisticraftTileEntityBlock {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileEntityFractionator();
+		return new TileEntityMixer();
 	}
 
 	@Override
