@@ -1,5 +1,6 @@
 package com.sinesection.logisticraft.fluid;
 
+import com.sinesection.logisticraft.Constants;
 import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.registrars.ModMaterials;
 
@@ -17,7 +18,7 @@ public class LogisticraftFluid extends Fluid {
 
 	public LogisticraftFluid(String fluidName) {
 		super(fluidName);
-		setTextureNames(Main.MODID + ":" + fluidName + "_still", Main.MODID + ":" + fluidName + "_flowing");
+		setTextureNames(Constants.MOD_ID + ":" + fluidName + "_still", Constants.MOD_ID + ":" + fluidName + "_flowing");
 	}
 
 	public LogisticraftFluid(String fluidName, int mapColor) {

@@ -2,6 +2,7 @@ package com.sinesection.logisticraft.block;
 
 import java.util.Random;
 
+import com.sinesection.logisticraft.Constants;
 import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 import com.sinesection.logisticraft.block.tileentity.TileEntityMixer;
@@ -51,10 +52,10 @@ public class BlockMixer extends LogisticraftTileEntityBlock {
 
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iIconRegister) {
-		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "mixer_side");
-		iconTop = iIconRegister.registerIcon(Main.MODID + ":" + "mixer_top");
-		iconBottom = iIconRegister.registerIcon(Main.MODID + ":" + "mixer_bottom");
-		iconFront = iIconRegister.registerIcon(Main.MODID + ":" + "mixer_front" + (isActive ? "_active" : ""));
+		this.blockIcon = iIconRegister.registerIcon(Constants.MOD_ID + ":" + "mixer_side");
+		iconTop = iIconRegister.registerIcon(Constants.MOD_ID + ":" + "mixer_top");
+		iconBottom = iIconRegister.registerIcon(Constants.MOD_ID + ":" + "mixer_bottom");
+		iconFront = iIconRegister.registerIcon(Constants.MOD_ID + ":" + "mixer_front" + (isActive ? "_active" : ""));
 	}
 
 	@SideOnly(Side.CLIENT)

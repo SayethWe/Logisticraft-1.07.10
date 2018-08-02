@@ -2,6 +2,7 @@ package com.sinesection.logisticraft.block;
 
 import java.util.Random;
 
+import com.sinesection.logisticraft.Constants;
 import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
@@ -51,10 +52,10 @@ public class BlockDryDistiller extends LogisticraftTileEntityBlock {
 	
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iIconRegister) {
-		this.blockIcon = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_side");
-		iconTop = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_top");
-		iconBottom = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_bottom");
-		iconFront = iIconRegister.registerIcon(Main.MODID + ":" + "distiller_front" + (isActive ? "_active" : ""));
+		this.blockIcon = iIconRegister.registerIcon(Constants.MOD_ID + ":" + "distiller_side");
+		iconTop = iIconRegister.registerIcon(Constants.MOD_ID + ":" + "distiller_top");
+		iconBottom = iIconRegister.registerIcon(Constants.MOD_ID + ":" + "distiller_bottom");
+		iconFront = iIconRegister.registerIcon(Constants.MOD_ID + ":" + "distiller_front" + (isActive ? "_active" : ""));
 	}
 
 	@SideOnly(Side.CLIENT)

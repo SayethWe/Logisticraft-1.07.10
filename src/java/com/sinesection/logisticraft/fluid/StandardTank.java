@@ -4,9 +4,11 @@ import javax.annotation.Nullable;
 
 import com.sinesection.logisticraft.gui.tooltips.ToolTip;
 import com.sinesection.logisticraft.net.IStreamable;
+import com.sinesection.logisticraft.net.PacketBufferLogisticraft;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.stream.IStream;
 import net.minecraft.item.EnumRarity;
 import net.minecraftforge.fluids.Fluid;
@@ -103,12 +105,12 @@ public class StandardTank extends FluidTank implements IStreamable {
 	}
 
 	@Override
-	public void writeData(PacketBufferForestry data) {
+	public void writeData(PacketBufferLogisticraft data) {
 		data.writeFluidStack(fluid);
 	}
 
 	@Override
-	public void readData(PacketBufferForestry data) {
+	public void readData(PacketBufferLogisticraft data) {
 		fluid = data.readFluidStack();
 	}
 
@@ -135,7 +137,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 			toolTip.add(fluidType.getLocalizedName(getFluid()), rarity.rarityColor);
 			amount = getFluid().amount;
 		}
-		String liquidAmount = Translator.translateToLocalFormatted("for.gui.tooltip.liquid.amount", amount, getCapacity());
+		String liquidAmount = I18n.format("for.gui.tooltip.liquid.amount", amount, getCapacity());
 		toolTip.add(liquidAmount);
 	}
 

@@ -1,5 +1,6 @@
 package com.sinesection.logisticraft.block;
 
+import com.sinesection.logisticraft.Constants;
 import com.sinesection.logisticraft.Main;
 
 import net.minecraft.block.Block;
@@ -17,7 +18,7 @@ public abstract class LogisticraftBlock extends Block {
 	protected LogisticraftBlock(String name, String textureName, String registryName, Material mat) {
 		super(mat);
 		this.setBlockName(name);
-		this.setBlockTextureName(Main.MODID + ":" + textureName);
+		this.setBlockTextureName(Constants.MOD_ID + ":" + textureName);
 		this.registryName = registryName;
 		this.setCreativeTab(Main.tabLogisticraftBlocks);
 	}

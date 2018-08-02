@@ -3,6 +3,7 @@ package com.sinesection.utils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
+import com.sinesection.logisticraft.Constants;
 import com.sinesection.logisticraft.Main;
 
 public class Log {
@@ -28,7 +29,7 @@ public class Log {
 	}
 
 	private static void log(Level logLevel, String message, Object... params) {
-		LogManager.getLogger(Main.MODID).log(logLevel, message, params);
+		LogManager.getLogger(Constants.MOD_ID).log(logLevel, message, params);
 	}
 
 }

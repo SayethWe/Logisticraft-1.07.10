@@ -2,6 +2,7 @@ package com.sinesection.logisticraft.item;
 
 import java.util.List;
 
+import com.sinesection.logisticraft.Constants;
 import com.sinesection.logisticraft.Main;
 
 import cpw.mods.fml.relauncher.Side;
@@ -154,7 +155,7 @@ public class ItemWheel extends LogisticraftItem {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister iIconRegister) {
 		for (int i = 0; i < WHEEL_TEIRS.length; i++) {
-			this.icons[i] = iIconRegister.registerIcon(Main.MODID + ":" + this.getUnlocalizedName().substring(5) + WHEEL_TEIRS[i]);
+			this.icons[i] = iIconRegister.registerIcon(Constants.MOD_ID + ":" + this.getUnlocalizedName().substring(5) + WHEEL_TEIRS[i]);
 		}
 	}
 

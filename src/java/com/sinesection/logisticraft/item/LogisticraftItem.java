@@ -1,5 +1,6 @@
 package com.sinesection.logisticraft.item;
 
+import com.sinesection.logisticraft.Constants;
 import com.sinesection.logisticraft.Main;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -21,7 +22,7 @@ public class LogisticraftItem extends Item {
 	
 	public LogisticraftItem(String unlocalizedName, String textureName, String registryName, CreativeTabs creativeTab) {
 		this.setUnlocalizedName(unlocalizedName);
-		this.setTextureName(Main.MODID + ":" + textureName);
+		this.setTextureName(Constants.MOD_ID + ":" + textureName);
 		this.registryName = registryName;
 		this.setCreativeTab(creativeTab);
 	}
