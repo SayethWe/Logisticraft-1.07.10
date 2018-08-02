@@ -4,7 +4,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 
 import com.sinesection.logisticraft.Constants;
-import com.sinesection.logisticraft.Main;
 
 public class Log {
 

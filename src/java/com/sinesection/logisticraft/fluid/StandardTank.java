@@ -15,9 +15,6 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 
-/**
- * @author CovertJaguar <http://www.railcraft.info>
- */
 public class StandardTank extends FluidTank implements IStreamable {
 	private static final int DEFAULT_COLOR = 0xFFFFFF;
 
