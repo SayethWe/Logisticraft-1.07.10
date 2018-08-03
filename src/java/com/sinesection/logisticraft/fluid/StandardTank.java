@@ -27,8 +27,6 @@ public class StandardTank extends FluidTank implements IStreamable {
 
 	public StandardTank(int capacity, boolean canFill, boolean canDrain) {
 		super(capacity);
-		setCanFill(canFill);
-		setCanDrain(canDrain);
 	}
 
 	public StandardTank(int capacity) {

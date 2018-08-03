@@ -1,5 +1,6 @@
 package com.sinesection.logisticraft.fluid;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,10 +13,14 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.sinesection.logisticraft.api.INbtReadable;
 import com.sinesection.logisticraft.api.INbtWritable;
+import com.sinesection.logisticraft.net.ILogisticraftPacketClient;
 import com.sinesection.logisticraft.net.IStreamable;
 import com.sinesection.logisticraft.net.PacketBufferLogisticraft;
+import com.sinesection.logisticraft.net.packet.PacketTankLevelUpdate;
 import com.sinesection.logisticraft.render.EnumTankLevel;
 import com.sinesection.logisticraft.tiles.ILiquidTankTile;
+import com.sinesection.utils.NBTUtilsLogisticraft;
+import com.sinesection.utils.NBTUtilsLogisticraft.NBTList;
 import com.sinesection.utils.NetworkUtil;
 
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -88,7 +93,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 
 	@Override
 	public void readFromNBT(NBTTagCompound data) {
-		NBTList<NBTTagCompound> tagList = NBTUtilLogisticraft.getNBTList(data, "tanks", NBTUtilLogisticraft.EnumNBTType.COMPOUND);
+		NBTList<NBTTagCompound> tagList = NBTUtilsLogisticraft.getNBTList(data, "tanks", NBTUtilsLogisticraft.EnumNBTType.COMPOUND);
 		for (NBTTagCompound tag : tagList) {
 			int slot = tag.getByte("tank");
 			if (slot >= 0 && slot < tanks.size()) {
@@ -148,7 +153,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 
 		FluidStack fluidStack = tank.getFluid();
 		FluidStack prev = prevFluidStacks.get(container, tankIndex);
-		if (FluidHelper.areFluidStacksEqual(fluidStack, prev)) {
+		if (fluidStack.isFluidEqual(prev)) {
 			return;
 		}
 
@@ -228,7 +233,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 			tankLevels.set(tankIndex, tankLevel);
 			if (sendUpdate) {
 				PacketTankLevelUpdate tankLevelUpdate = new PacketTankLevelUpdate(tile, tankIndex, tank.getFluid());
-				NetworkUtil.sendNetworkPacket(tankLevelUpdate, tile.getCoordinates(), tile.getWorldObj());
+				NetworkUtil.sendNetworkPacket(tankLevelUpdate, tile.getXCoord(), tile.getYCoord(), tile.getZCoord(), tile.getWorldObj());
 			}
 		}
 	}
@@ -267,12 +272,11 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 		}
 		return null;
 	}
-
 	@Override
-	public FluidTankInfo[] getInfo() {
-		IFluidTankProperties[] properties = new IFluidTankProperties[tanks.size()];
+	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+		FluidTankInfo[] properties = new FluidTankInfo[tanks.size()];
 		for (int i = 0; i < tanks.size(); i++) {
-			properties[i] = new FluidTankPropertiesWrapper(tanks.get(i));
+			properties[i] = new FluidTankInfo(tanks.get(i));
 		}
 		return properties;
 	}
@@ -326,85 +330,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	private static boolean tankCanDrainFluid(StandardTank tank, FluidStack fluidStack) {
-		return Fluids.areEqual(tank.getFluidType(), fluidStack) &&
+		return tank.getFluid().isFluidEqual(fluidStack) &&
 				tankCanDrain(tank);
-	}
-
-	@Override
-	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void containerAdded(Container container, ICrafting crafter) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void sendTankUpdate(Container container, List<ICrafting> crafters) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void containerRemoved(Container container) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public IFluidTank getTank(int tankIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean canFillFluidType(FluidStack fluidStack) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean canDrainFluidType(FluidStack fluidStack) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void processTankUpdate(int tankIndex, FluidStack contents) {
-		// TODO Auto-generated method stub
-		
 	}
 }
