@@ -3,16 +3,10 @@ package com.sinesection.logisticraft.registrars;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.sinesection.logisticraft.block.BlockDryDistiller;
-import com.sinesection.logisticraft.block.BlockFractionator;
-import com.sinesection.logisticraft.block.BlockMixer;
-import com.sinesection.logisticraft.block.BlockRoadway;
-import com.sinesection.logisticraft.block.BlockRubber;
-import com.sinesection.logisticraft.block.LogisticraftBlock;
+import com.sinesection.logisticraft.block.*;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 
 public class ModBlocks {
 	
@@ -25,6 +19,7 @@ public class ModBlocks {
 	public static final Block rubberBlock = new BlockRubber();
 	public static final Block roadBlock = new BlockRoadway(0);
 	public static final Block[] roadBlockVariants = createRoadVariants();
+	public static final Block crate = new BlockCrate();
 	
 	public static final Set<Block> blocks = new HashSet<>();
 
@@ -46,6 +41,7 @@ public class ModBlocks {
 		blocks.add(fractionatorActive);
 		blocks.add(mixerIdle);
 		blocks.add(mixerActive);
+		blocks.add(crate);
 		for (Block variant : roadBlockVariants) {
 			blocks.add(variant);
 		}
