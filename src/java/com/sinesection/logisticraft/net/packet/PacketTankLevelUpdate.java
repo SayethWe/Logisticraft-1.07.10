@@ -6,7 +6,7 @@ import com.sinesection.logisticraft.fluid.ITankManager;
 import com.sinesection.logisticraft.net.ILogisticraftPacketClient;
 import com.sinesection.logisticraft.net.ILogisticraftPacketHandlerClient;
 import com.sinesection.logisticraft.net.LogisticraftPacket;
-import com.sinesection.logisticraft.net.PacketBufferLogisticraft;
+import com.sinesection.logisticraft.net.LogisticraftPacketBuffer;
 import com.sinesection.logisticraft.net.PacketIdClient;
 import com.sinesection.logisticraft.tiles.ILiquidTankTile;
 import com.sinesection.utils.TileUtil;
@@ -36,7 +36,7 @@ public class PacketTankLevelUpdate extends LogisticraftPacket implements ILogist
 	}
 
 	@Override
-	protected void writeData(PacketBufferLogisticraft data) {
+	protected void writeData(LogisticraftPacketBuffer data) {
 		data.writeInt(Xpos);
 		data.writeInt(Ypos);
 		data.writeInt(Zpos);
@@ -48,7 +48,7 @@ public class PacketTankLevelUpdate extends LogisticraftPacket implements ILogist
 	public static class Handler implements ILogisticraftPacketHandlerClient {
 
 		@Override
-		public void onPacketData(PacketBufferLogisticraft data, EntityPlayer player) {
+		public void onPacketData(LogisticraftPacketBuffer data, EntityPlayer player) {
 			int Xpos = data.readVarIntFromBuffer();
 			int Ypos = data.readVarIntFromBuffer();
 			int Zpos = data.readVarIntFromBuffer();

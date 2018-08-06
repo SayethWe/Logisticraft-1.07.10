@@ -1,28 +1,21 @@
 package com.sinesection.logisticraft.api.gui;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import com.sinesection.logisticraft.gui.GuiLogisticraft;
 import com.sinesection.logisticraft.gui.IGuiSizable;
 import com.sinesection.logisticraft.gui.tooltips.IToolTipProvider;
 import com.sinesection.logisticraft.gui.tooltips.ToolTip;
 
-import cpw.mods.fml.client.config.GuiUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 

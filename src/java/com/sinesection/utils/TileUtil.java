@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import com.sinesection.logisticraft.Constants;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.BlockFlowerPot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -13,8 +14,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 
 public abstract class TileUtil {
 

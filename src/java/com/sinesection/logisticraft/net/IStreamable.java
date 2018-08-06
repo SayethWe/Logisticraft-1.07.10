@@ -7,8 +7,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 
 public interface IStreamable {
-	void writeData(PacketBufferLogisticraft data);
+	void writeData(LogisticraftPacketBuffer data);
 
 	@SideOnly(Side.CLIENT)
-	void readData(PacketBufferLogisticraft data) throws IOException;
+	void readData(LogisticraftPacketBuffer data) throws IOException;
 }

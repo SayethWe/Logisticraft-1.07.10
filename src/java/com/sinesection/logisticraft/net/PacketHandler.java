@@ -29,7 +29,7 @@ public class PacketHandler {
 
 	@SubscribeEvent
 	public void onPacket(ServerCustomPacketEvent event) {
-		PacketBufferLogisticraft data = new PacketBufferLogisticraft(event.packet.payload());
+		LogisticraftPacketBuffer data = new LogisticraftPacketBuffer(event.packet.payload());
 		EntityPlayerMP player = ((NetHandlerPlayServer) event.handler).playerEntity;
 
 		byte packetIdOrdinal = data.readByte();
@@ -47,7 +47,7 @@ public class PacketHandler {
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onPacket(ClientCustomPacketEvent event) {
-		PacketBufferLogisticraft data = new PacketBufferLogisticraft(event.packet.payload());
+		LogisticraftPacketBuffer data = new LogisticraftPacketBuffer(event.packet.payload());
 
 		byte packetIdOrdinal = data.readByte();
 		PacketIdClient packetId = PacketIdClient.VALUES[packetIdOrdinal];

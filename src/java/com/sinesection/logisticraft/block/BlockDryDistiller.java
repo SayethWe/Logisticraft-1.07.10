@@ -3,7 +3,7 @@ package com.sinesection.logisticraft.block;
 import java.util.Random;
 
 import com.sinesection.logisticraft.Constants;
-import com.sinesection.logisticraft.Main;
+import com.sinesection.logisticraft.Logisticraft;
 import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
 import com.sinesection.logisticraft.registrars.ModBlocks;
@@ -121,7 +121,7 @@ public class BlockDryDistiller extends LogisticraftTileEntityBlock {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
-			FMLNetworkHandler.openGui(player, Main.instance, LogisticraftGuiHandler.guiIdDryDistiller, world, x, y, z);
+			FMLNetworkHandler.openGui(player, Logisticraft.instance, LogisticraftGuiHandler.guiIdDryDistiller, world, x, y, z);
 		}
 		return true;
 	}

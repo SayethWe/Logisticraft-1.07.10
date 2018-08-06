@@ -3,14 +3,13 @@ package com.sinesection.logisticraft.registrars;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.sinesection.logisticraft.item.ItemMachineUpgrade;
 import com.sinesection.logisticraft.item.ItemHandbook;
+import com.sinesection.logisticraft.item.ItemMachineUpgrade;
 import com.sinesection.logisticraft.item.ItemTrafficDirector;
 import com.sinesection.logisticraft.item.ItemWheel;
 import com.sinesection.logisticraft.item.LogisticraftItem;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.item.ItemStack;
 
 public final class ModItems {
 	

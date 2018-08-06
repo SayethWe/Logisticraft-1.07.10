@@ -1,6 +1,6 @@
 package com.sinesection.logisticraft.proxy;
 
-import com.sinesection.logisticraft.Main;
+import com.sinesection.logisticraft.Logisticraft;
 import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
 import com.sinesection.logisticraft.crafting.LogisticraftVanillaCrafting;
 import com.sinesection.logisticraft.fluid.LogisticraftFluidHandler;
@@ -38,7 +38,7 @@ public class CommonProxy {
 		LogisticraftVanillaCrafting.registerShapelessCrafting();
 		LogisticraftDryDistillerCrafting.loadRecipes();
 		LogisticraftDryDistillerCrafting.registerCrafting();
-		NetworkRegistry.INSTANCE.registerGuiHandler(Main.instance, new LogisticraftGuiHandler());
+		NetworkRegistry.INSTANCE.registerGuiHandler(Logisticraft.instance, new LogisticraftGuiHandler());
 		MinecraftForge.EVENT_BUS.register(new LogisticraftFluidHandler());
 	}
 

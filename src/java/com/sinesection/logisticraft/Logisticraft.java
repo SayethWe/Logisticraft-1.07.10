@@ -1,5 +1,9 @@
 package com.sinesection.logisticraft;
 
+import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
+import com.sinesection.logisticraft.net.PacketHandler;
 import com.sinesection.logisticraft.proxy.CommonProxy;
 import com.sinesection.logisticraft.registrars.ModBlocks;
 import com.sinesection.logisticraft.registrars.ModItems;
@@ -13,22 +17,30 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 @Mod(modid=Constants.MOD_ID, name = Constants.MOD_NAME, version = Constants.VERSION)
-public class Main {
+public class Logisticraft {
 	
 
 	@Instance
-	public static Main instance = new Main();
+	public static Logisticraft instance = new Logisticraft();
 	
 	@SidedProxy(clientSide="com.sinesection.logisticraft.proxy.ClientProxy", serverSide="com.sinesection.logisticraft.proxy.ServerProxy")
 	public static CommonProxy proxy;
+	
+	@Nullable
+	private static PacketHandler packetHandler;
+
+	public static PacketHandler getPacketHandler() {
+		Preconditions.checkNotNull(packetHandler);
+		return packetHandler;
+	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e) {
+		packetHandler = new PacketHandler();
 		LogisticraftUtils.createLogger(Constants.MOD_NAME);
 		proxy.preInit(e);
 	}

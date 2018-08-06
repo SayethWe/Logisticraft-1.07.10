@@ -1,7 +1,6 @@
 package com.sinesection.logisticraft.network;
 
 import com.sinesection.logisticraft.Constants;
-import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.network.packet.handlers.LogisticraftClientPacketHandler;
 import com.sinesection.logisticraft.network.packet.handlers.LogisticraftServerPacketHandler;
 

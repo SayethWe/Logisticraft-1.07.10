@@ -1,11 +1,11 @@
 package com.sinesection.logisticraft.api.gui.events;
 
+import java.util.Collection;
+
 import javax.annotation.Nullable;
 
 import com.sinesection.logisticraft.api.gui.IElementGroup;
 import com.sinesection.logisticraft.api.gui.IGuiElement;
-
-import java.util.Collection;
 
 public enum GuiEventOrigin {
 	ANY{

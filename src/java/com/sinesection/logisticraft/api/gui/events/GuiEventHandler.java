@@ -1,10 +1,10 @@
 package com.sinesection.logisticraft.api.gui.events;
 
+import java.util.function.Consumer;
+
 import javax.annotation.Nullable;
 
 import com.sinesection.logisticraft.api.gui.IGuiElement;
-
-import java.util.function.Consumer;
 
 
 public final class GuiEventHandler<E extends GuiElementEvent> implements Consumer<E> {

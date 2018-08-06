@@ -15,7 +15,7 @@ import com.sinesection.logisticraft.api.INbtReadable;
 import com.sinesection.logisticraft.api.INbtWritable;
 import com.sinesection.logisticraft.net.ILogisticraftPacketClient;
 import com.sinesection.logisticraft.net.IStreamable;
-import com.sinesection.logisticraft.net.PacketBufferLogisticraft;
+import com.sinesection.logisticraft.net.LogisticraftPacketBuffer;
 import com.sinesection.logisticraft.net.packet.PacketTankLevelUpdate;
 import com.sinesection.logisticraft.render.EnumTankLevel;
 import com.sinesection.logisticraft.tiles.ILiquidTankTile;
@@ -34,8 +34,6 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
-
-import net.minecraftforge.fluids.TileFluidHandler;
 
 public class TankManager implements ITankManager, ITankUpdateHandler, IStreamable, INbtWritable, INbtReadable {
 
@@ -105,14 +103,14 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	@Override
-	public void writeData(PacketBufferLogisticraft data) {
+	public void writeData(LogisticraftPacketBuffer data) {
 		for (StandardTank tank : tanks) {
 			tank.writeData(data);
 		}
 	}
 
 	@Override
-	public void readData(PacketBufferLogisticraft data) throws IOException {
+	public void readData(LogisticraftPacketBuffer data) throws IOException {
 		for (StandardTank tank : tanks) {
 			tank.readData(data);
 		}
@@ -194,17 +192,17 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	@Override
-	public int fill(FluidStack resource, boolean doFill) {
+	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
 		for (StandardTank tank : tanks) {
 			if (tankAcceptsFluid(tank, resource)) {
-				return fill(tank.getTankIndex(), resource, doFill);
+				return fill(null, tank.getTankIndex(), resource, doFill);
 			}
 		}
 		
-		return EmptyFluidHandler.INSTANCE.fill(resource, doFill);
+		return 0;
 	}
 
-	public int fill(int tankIndex, FluidStack resource, boolean doFill) {
+	public int fill(ForgeDirection from, int tankIndex, FluidStack resource, boolean doFill) {
 		if (tankIndex < 0 || tankIndex >= tanks.size()) {
 			return 0;
 		}
@@ -238,40 +236,28 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 		}
 	}
 
-	@Nullable
 	@Override
-	public FluidStack drain(int maxDrain, boolean doDrain) {
+	public FluidStack drain(ForgeDirection from, int amount, boolean doDrain) {
 		for (StandardTank tank : tanks) {
-			if (tankCanDrain(tank)) {
-				return drain(tank.getTankIndex(), maxDrain, doDrain);
-			}
+				return drain(from, tank.getTankIndex(), amount, doDrain);
 		}
-		return EmptyFluidHandler.INSTANCE.drain(maxDrain, doDrain);
-	}
-
-	@Nullable
-	public FluidStack drain(int tankIndex, int maxDrain, boolean doDrain) {
-		if (tankIndex < 0 || tankIndex >= tanks.size()) {
-			return null;
-		}
-
-		StandardTank tank = tanks.get(tankIndex);
-		if (!tank.canDrain()) {
-			return null;
-		}
-
-		return tank.drain(maxDrain, doDrain);
+		return null;
 	}
 
 	@Override
-	public FluidStack drain(FluidStack resource, boolean doDrain) {
+	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
 		for (StandardTank tank : tanks) {
 			if (tankCanDrainFluid(tank, resource)) {
-				return drain(tank.getTankIndex(), resource.amount, doDrain);
+				return drain(from, tank.getTankIndex(), resource.amount, doDrain);
 			}
 		}
 		return null;
 	}
+	
+	public FluidStack drain(ForgeDirection from, int tankIndex, int amount, boolean doDrain) {
+		return tanks.get(tankIndex).drain(amount, doDrain);
+	}
+	
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
 		FluidTankInfo[] properties = new FluidTankInfo[tanks.size()];
@@ -301,7 +287,6 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -312,7 +297,6 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -332,5 +316,25 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	private static boolean tankCanDrainFluid(StandardTank tank, FluidStack fluidStack) {
 		return tank.getFluid().isFluidEqual(fluidStack) &&
 				tankCanDrain(tank);
+	}
+
+	@Override
+	public boolean canFill(ForgeDirection from, Fluid fluid) {
+		for (StandardTank tank : tanks) {
+			if (tank.canFillFluidType(fluid)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+		for (StandardTank tank : tanks) {
+			if (tank.canDrainFluidType(fluid)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

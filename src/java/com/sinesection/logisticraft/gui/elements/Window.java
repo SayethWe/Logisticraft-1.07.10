@@ -1,6 +1,5 @@
 package com.sinesection.logisticraft.gui.elements;
 
-import javax.annotation.Nullable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,14 +7,7 @@ import java.util.Deque;
 import java.util.List;
 import java.util.ListIterator;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.texture.TextureManager;
-
+import javax.annotation.Nullable;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -29,9 +21,12 @@ import com.sinesection.logisticraft.api.gui.events.GuiEventDestination;
 import com.sinesection.logisticraft.gui.IGuiSizable;
 import com.sinesection.logisticraft.gui.elements.layouts.ElementGroup;
 
-import cpw.mods.fml.client.config.GuiUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.texture.TextureManager;
 
 /**
  * This element is the top parent.

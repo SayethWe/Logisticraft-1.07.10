@@ -4,7 +4,6 @@ import com.sinesection.logisticraft.power.IHeatable;
 import com.sinesection.logisticraft.registrars.HeatProperties;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class TileEntityHeatable extends TileEntity implements IHeatable {
 	

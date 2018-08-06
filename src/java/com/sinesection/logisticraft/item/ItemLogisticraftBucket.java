@@ -1,7 +1,7 @@
 package com.sinesection.logisticraft.item;
 
 import com.sinesection.logisticraft.Constants;
-import com.sinesection.logisticraft.Main;
+import com.sinesection.logisticraft.Logisticraft;
 import com.sinesection.logisticraft.fluid.LogisticraftFluid;
 
 import net.minecraft.item.ItemBucket;
@@ -16,7 +16,7 @@ public class ItemLogisticraftBucket extends ItemBucket {
 		super(fluid.getBlock());
 		this.setUnlocalizedName(fluid.getName() + "_bucket");
 		this.setTextureName(Constants.MOD_ID + ":bucketTemplate");
-		this.setCreativeTab(Main.tabLogisticraftItems);
+		this.setCreativeTab(Logisticraft.tabLogisticraftItems);
 		this.fluid = fluid;
 	}
 	

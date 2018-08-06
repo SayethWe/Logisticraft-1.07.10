@@ -3,7 +3,7 @@ package com.sinesection.logisticraft.registrars;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.sinesection.logisticraft.Main;
+import com.sinesection.logisticraft.Logisticraft;
 import com.sinesection.logisticraft.fluid.LogisticraftBlockFluid;
 import com.sinesection.logisticraft.fluid.LogisticraftFluid;
 import com.sinesection.logisticraft.fluid.LogisticraftFluidHandler;
@@ -13,7 +13,6 @@ import com.sinesection.logisticraft.item.renderers.LogisticraftItemBucketRendere
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
@@ -38,7 +37,7 @@ public class ModFluids {
 		bucketRender = new LogisticraftItemBucketRenderer();
 		for(LogisticraftFluid fluid : fluids) {
 			FluidRegistry.registerFluid(fluid);
-			LogisticraftBlockFluid fluidBlock = new LogisticraftBlockFluid(fluid).setCreativeTab(Main.tabLogisticraftBlocks);
+			LogisticraftBlockFluid fluidBlock = new LogisticraftBlockFluid(fluid).setCreativeTab(Logisticraft.tabLogisticraftBlocks);
 			GameRegistry.registerBlock(fluidBlock, fluidBlock.getRegistryName());
 			fluid.setBlock(fluidBlock);
 			ItemLogisticraftBucket itemBucket = new ItemLogisticraftBucket(fluid);

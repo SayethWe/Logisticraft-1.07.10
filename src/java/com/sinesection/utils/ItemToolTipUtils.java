@@ -1,14 +1,13 @@
 package com.sinesection.utils;
 
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-
-import java.util.Collections;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;

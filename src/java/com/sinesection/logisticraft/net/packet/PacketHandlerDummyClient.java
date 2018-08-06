@@ -1,7 +1,7 @@
 package com.sinesection.logisticraft.net.packet;
 
 import com.sinesection.logisticraft.net.ILogisticraftPacketHandlerClient;
-import com.sinesection.logisticraft.net.PacketBufferLogisticraft;
+import com.sinesection.logisticraft.net.LogisticraftPacketBuffer;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -16,7 +16,7 @@ public class PacketHandlerDummyClient extends PacketHandlerDummy implements ILog
 	}
 
 	@Override
-	public void onPacketData(PacketBufferLogisticraft data, EntityPlayer player) {
+	public void onPacketData(LogisticraftPacketBuffer data, EntityPlayer player) {
 
 	}
 }

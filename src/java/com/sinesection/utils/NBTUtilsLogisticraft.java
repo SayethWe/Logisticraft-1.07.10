@@ -6,13 +6,25 @@ import java.util.List;
 
 import com.google.common.collect.ForwardingList;
 import com.sinesection.logisticraft.net.IStreamable;
-import com.sinesection.logisticraft.net.PacketBufferLogisticraft;
+import com.sinesection.logisticraft.net.LogisticraftPacketBuffer;
 
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.Unpooled;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagByte;
+import net.minecraft.nbt.NBTTagByteArray;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagDouble;
+import net.minecraft.nbt.NBTTagEnd;
+import net.minecraft.nbt.NBTTagFloat;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.nbt.NBTTagIntArray;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagLong;
+import net.minecraft.nbt.NBTTagShort;
+import net.minecraft.nbt.NBTTagString;
 
 public abstract class NBTUtilsLogisticraft {
 
@@ -50,7 +62,7 @@ public abstract class NBTUtilsLogisticraft {
 
 		public NBTList(NBTTagList nbtList) {
 			this.nbtList = nbtList;
-			backingList = ObfuscationReflectionHelper.getPrivateValue(NBTTagList.class, nbtList, 1);
+			backingList = ObfuscationReflectionHelper.getPrivateValue(NBTTagList.class, this.nbtList, 1);
 		}
 
 		@Override
@@ -61,7 +73,7 @@ public abstract class NBTUtilsLogisticraft {
 	}
 
 	public static NBTTagCompound writeStreamableToNbt(IStreamable streamable, NBTTagCompound nbt) {
-		PacketBufferLogisticraft data = new PacketBufferLogisticraft(Unpooled.buffer());
+		LogisticraftPacketBuffer data = new LogisticraftPacketBuffer(Unpooled.buffer());
 		streamable.writeData(data);
 
 		byte[] bytes = new byte[data.readableBytes()];
@@ -74,7 +86,7 @@ public abstract class NBTUtilsLogisticraft {
 	public static void readStreamableFromNbt(IStreamable streamable, NBTTagCompound nbt) {
 		if (nbt.hasKey("dataBytes")) {
 			byte[] bytes = nbt.getByteArray("dataBytes");
-			PacketBufferLogisticraft data = new PacketBufferLogisticraft(Unpooled.wrappedBuffer(bytes));
+			LogisticraftPacketBuffer data = new LogisticraftPacketBuffer(Unpooled.wrappedBuffer(bytes));
 			try {
 				streamable.readData(data);
 			} catch (IOException e) {

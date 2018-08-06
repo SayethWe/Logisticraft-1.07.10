@@ -1,7 +1,6 @@
 package com.sinesection.logisticraft.fluid;
 
 import com.sinesection.logisticraft.Constants;
-import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.registrars.ModMaterials;
 
 import net.minecraft.block.material.Material;

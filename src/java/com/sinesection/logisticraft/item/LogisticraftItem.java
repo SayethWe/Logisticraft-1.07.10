@@ -1,7 +1,7 @@
 package com.sinesection.logisticraft.item;
 
 import com.sinesection.logisticraft.Constants;
-import com.sinesection.logisticraft.Main;
+import com.sinesection.logisticraft.Logisticraft;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -17,7 +17,7 @@ public class LogisticraftItem extends Item {
 	 */
 	public LogisticraftItem(String universalName) {
 		//register a simple Item
-		this(universalName,universalName,universalName, Main.tabLogisticraftItems);
+		this(universalName,universalName,universalName, Logisticraft.tabLogisticraftItems);
 	}
 	
 	public LogisticraftItem(String unlocalizedName, String textureName, String registryName, CreativeTabs creativeTab) {

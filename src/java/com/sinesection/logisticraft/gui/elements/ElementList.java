@@ -20,7 +20,7 @@ import com.sinesection.logisticraft.gui.events.EventValueChanged;
 public class ElementList<V> extends VerticalLayout {
 	private final Map<V, IGuiElement> allOptions = new LinkedHashMap<>();
 	private final Map<V, IGuiElement> visibleOptions = new LinkedHashMap<>();
-	private final BiFunction<V, ElementList, IGuiElement> optionFactory;
+	private final BiFunction<V, ElementList<?>, IGuiElement> optionFactory;
 	@Nullable
 	private final V defaultValue;
 	@Nullable
@@ -28,7 +28,7 @@ public class ElementList<V> extends VerticalLayout {
 	@Nullable
 	private Predicate<V> validator;
 
-	public ElementList(int xPos, int yPos, int width, BiFunction<V, ElementList, IGuiElement> optionFactory, @Nullable V defaultValue) {
+	public ElementList(int xPos, int yPos, int width, BiFunction<V, ElementList<?>, IGuiElement> optionFactory, @Nullable V defaultValue) {
 		super(xPos, yPos, width);
 		this.optionFactory = optionFactory;
 		this.defaultValue = defaultValue;

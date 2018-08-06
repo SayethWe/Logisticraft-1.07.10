@@ -16,62 +16,79 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-public class PacketBufferLogisticraft extends PacketBuffer {
-	public PacketBufferLogisticraft(ByteBuf wrapped) {
+public class LogisticraftPacketBuffer extends PacketBuffer {
+	public LogisticraftPacketBuffer(ByteBuf wrapped) {
 		super(wrapped);
 	}
 
 	public String readString() {
-		return super.readString(1024);
+		try {
+			return super.readStringFromBuffer(1024);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public void writeItemStacks(List<ItemStack> itemStacks) {
-		writeVarInt(itemStacks.size());
+		writeVarIntToBuffer(itemStacks.size());
 		for (ItemStack stack : itemStacks) {
-			writeItemStack(stack);
+			try {
+				writeItemStackToBuffer(stack);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public List<ItemStack> readItemStacks() throws IOException {
-		int stackCount = readVarInt();
+		int stackCount = readVarIntFromBuffer();
 		List<ItemStack> itemStacks = new ArrayList<>();
 		for (int i = 0; i < stackCount; i++) {
-			itemStacks.add(readItemStack());
+			itemStacks.add(readItemStackFromBuffer());
 		}
 		return itemStacks;
 	}
 
 	public void writeInventory(IInventory inventory) {
 		int size = inventory.getSizeInventory();
-		writeVarInt(size);
+		writeVarIntToBuffer(size);
 
 		for (int i = 0; i < size; i++) {
 			ItemStack stack = inventory.getStackInSlot(i);
-			writeItemStack(stack);
+			try {
+				writeItemStackToBuffer(stack);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public void readInventory(IInventory inventory) throws IOException {
-		int size = readVarInt();
+		int size = readVarIntFromBuffer();
 
 		for (int i = 0; i < size; i++) {
-			ItemStack stack = readItemStack();
+			ItemStack stack = readItemStackFromBuffer();
 			inventory.setInventorySlotContents(i, stack);
 		}
 	}
 
 	public void writeFluidStack(@Nullable FluidStack fluidStack) {
 		if (fluidStack == null) {
-			writeVarInt(-1);
+			writeVarIntToBuffer(-1);
 		} else {
-			writeVarInt(fluidStack.amount);
-			writeString(fluidStack.getFluid().getName());
+			writeVarIntToBuffer(fluidStack.amount);
+			try {
+				writeStringToBuffer(fluidStack.getFluid().getName());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	@Nullable
 	public FluidStack readFluidStack() {
-		int amount = readVarInt();
+		int amount = readVarIntFromBuffer();
 		if (amount > 0) {
 			String fluidName = readString();
 			Fluid fluid = FluidRegistry.getFluid(fluidName);
@@ -85,12 +102,12 @@ public class PacketBufferLogisticraft extends PacketBuffer {
 	}
 
 	public void writeEntityById(Entity entity) {
-		writeVarInt(entity.getEntityId());
+		writeVarIntToBuffer(entity.getEntityId());
 	}
 
 	@Nullable
 	public Entity readEntityById(World world) {
-		int entityId = readVarInt();
+		int entityId = readVarIntFromBuffer();
 		return world.getEntityByID(entityId);
 	}
 
@@ -98,7 +115,7 @@ public class PacketBufferLogisticraft extends PacketBuffer {
 		if (enumValues.length <= 256) {
 			writeByte(enumValue.ordinal());
 		} else {
-			writeVarInt(enumValue.ordinal());
+			writeVarIntToBuffer(enumValue.ordinal());
 		}
 	}
 
@@ -107,7 +124,7 @@ public class PacketBufferLogisticraft extends PacketBuffer {
 		if (enumValues.length <= 256) {
 			ordinal = readByte();
 		} else {
-			ordinal = readVarInt();
+			ordinal = readVarIntFromBuffer();
 		}
 		return enumValues[ordinal];
 	}
@@ -159,6 +176,10 @@ public class PacketBufferLogisticraft extends PacketBuffer {
 				outputList.add(streamable);
 			}
 		}
+	}
+	
+	public interface IStreamableFactory<T extends IStreamable> {
+		T create(LogisticraftPacketBuffer data) throws IOException;
 	}
 
 }

@@ -3,7 +3,6 @@ package com.sinesection.logisticraft.item;
 import java.util.List;
 
 import com.sinesection.logisticraft.Constants;
-import com.sinesection.logisticraft.Main;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

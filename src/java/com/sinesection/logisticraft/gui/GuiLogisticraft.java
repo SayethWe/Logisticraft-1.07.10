@@ -1,8 +1,5 @@
 package com.sinesection.logisticraft.gui;
 
-import java.io.IOException;
-import java.util.List;
-
 import javax.annotation.Nullable;
 
 import org.lwjgl.opengl.GL11;
@@ -18,14 +15,13 @@ import com.sinesection.logisticraft.gui.widgets.Widget;
 import com.sinesection.logisticraft.gui.widgets.WidgetManager;
 import com.sinesection.logisticraft.render.ColorProperties;
 import com.sinesection.logisticraft.render.LogisticraftResource;
-import com.sinesection.utils.LogisticraftUtils;
 
+import javafx.scene.shape.Rectangle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -39,7 +35,7 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 	public final ResourceLocation textureFile;
 	protected final WidgetManager widgetManager;
 	protected final TextLayoutHelper textLayout;
-	protected final Window window;
+	protected final Window<?> window;
 	
 	protected GuiLogisticraft(String texture, C container) {
 		this(new LogisticraftResource(texture), container);
@@ -156,6 +152,10 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 
 	private boolean isMouseOverSlot(Slot par1Slot, int mouseX, int mouseY) {
 		return isPointInRegion(par1Slot.xDisplayPosition, par1Slot.yDisplayPosition, 16, 16, mouseX, mouseY);
+	}
+
+	private boolean isPointInRegion(int x, int y, int w, int h, int mouseX, int mouseY) {
+		return new Rectangle(x, y, w, h).contains(mouseX, mouseY);
 	}
 
 	@Override

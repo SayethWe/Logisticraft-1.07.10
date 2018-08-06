@@ -4,12 +4,11 @@ import javax.annotation.Nullable;
 
 import com.sinesection.logisticraft.gui.tooltips.ToolTip;
 import com.sinesection.logisticraft.net.IStreamable;
-import com.sinesection.logisticraft.net.PacketBufferLogisticraft;
+import com.sinesection.logisticraft.net.LogisticraftPacketBuffer;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.stream.IStream;
 import net.minecraft.item.EnumRarity;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
@@ -20,6 +19,8 @@ public class StandardTank extends FluidTank implements IStreamable {
 
 	private ITankUpdateHandler tankUpdateHandler = FakeTankUpdateHandler.instance;
 	private int tankIndex;
+	
+	private boolean canFill, canDrain;
 
 	@SideOnly(Side.CLIENT)
 	@Nullable
@@ -27,6 +28,16 @@ public class StandardTank extends FluidTank implements IStreamable {
 
 	public StandardTank(int capacity, boolean canFill, boolean canDrain) {
 		super(capacity);
+		setCanFill(canFill);
+		setCanDrain(canDrain);
+	}
+
+	public void setCanFill(boolean canFill) {
+		this.canFill = canFill;
+	}
+	
+	public void setCanDrain(boolean canDrain) {
+		this.canDrain = canDrain;
 	}
 
 	public StandardTank(int capacity) {
@@ -72,6 +83,8 @@ public class StandardTank extends FluidTank implements IStreamable {
 
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
+		if(!canFill)
+			return 0;
 		int filled = super.fill(resource, doFill);
 		if (doFill && filled > 0) {
 			tankUpdateHandler.updateTankLevels(this);
@@ -82,6 +95,8 @@ public class StandardTank extends FluidTank implements IStreamable {
 	@Override
 	@Nullable
 	public FluidStack drain(int maxDrain, boolean doDrain) {
+		if(!canDrain)
+			return null;
 		FluidStack drained = super.drain(maxDrain, doDrain);
 		if (doDrain && drained != null && drained.amount > 0) {
 			tankUpdateHandler.updateTankLevels(this);
@@ -100,12 +115,12 @@ public class StandardTank extends FluidTank implements IStreamable {
 	}
 
 	@Override
-	public void writeData(PacketBufferLogisticraft data) {
+	public void writeData(LogisticraftPacketBuffer data) {
 		data.writeFluidStack(fluid);
 	}
 
 	@Override
-	public void readData(PacketBufferLogisticraft data) {
+	public void readData(LogisticraftPacketBuffer data) {
 		fluid = data.readFluidStack();
 	}
 
@@ -135,7 +150,43 @@ public class StandardTank extends FluidTank implements IStreamable {
 		String liquidAmount = I18n.format("for.gui.tooltip.liquid.amount", amount, getCapacity());
 		toolTip.add(liquidAmount);
 	}
+	
+	public boolean canFill() {
+		return canFill;
+	}
+	
+	public boolean canDrain() {
+		return canDrain;
+	}
+	
+	public boolean canDrainFluidType(Fluid fluid) {
+		return this.canDrainFluidType(new FluidStack(fluid, 1));
+	}
 
+	public boolean canFillFluidType(Fluid fluid) {
+		return this.canFillFluidType(new FluidStack(fluid, 1));
+	}
+
+	public boolean canDrainFluidType(FluidStack fluidStack) {
+		if(fluidStack.getFluid() != this.getFluidType())
+			return false;
+		if (!canDrain()) {
+			return false;
+		}
+		FluidStack drained = drain(1, false);
+		return drained != null && drained.amount > 0;
+	}
+
+	public boolean canFillFluidType(FluidStack fluidStack) {
+		if(fluidStack.getFluid() != this.getFluidType())
+			return false;
+		if (!canFill()) {
+			return false;
+		}
+		int filled = fill(fluidStack, false);
+		return filled > 0;
+	}
+	
 	@SideOnly(Side.CLIENT)
 	private static class TankToolTip extends ToolTip {
 		private final StandardTank standardTank;

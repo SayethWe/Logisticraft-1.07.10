@@ -6,7 +6,6 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 
 import com.sinesection.logisticraft.Constants;
-import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 import com.sinesection.logisticraft.container.ContainerFractionator;
 import com.sinesection.logisticraft.render.LogisticraftResource;

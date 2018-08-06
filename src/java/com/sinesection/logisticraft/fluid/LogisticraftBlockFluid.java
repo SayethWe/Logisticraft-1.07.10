@@ -24,7 +24,7 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 	private String registryName;
 	private IIcon[] blockIcons;
 	private final int flammability;
-	private final boolean isToxic, isSource;
+	private final boolean isToxic/**, isSource*/;
 
 	public LogisticraftBlockFluid(LogisticraftFluid fluid) {
 		this(fluid, fluid.getName(), fluid.getName());
@@ -34,7 +34,7 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 		super(fluid, fluid.getMaterial());
 		flammability = fluid.getFlammability();
 		isToxic = fluid.isToxic();
-		isSource = true;
+		//isSource = true;
 		this.registryName = registryName;
 		setBlockName(name);
 		this.blockIcons = new IIcon[2];

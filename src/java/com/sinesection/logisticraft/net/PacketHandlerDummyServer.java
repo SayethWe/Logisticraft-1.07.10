@@ -12,7 +12,7 @@ public class PacketHandlerDummyServer extends PacketHandlerDummy implements ILog
 	}
 
 	@Override
-	public void onPacketData(PacketBufferLogisticraft data, EntityPlayerMP player) {
+	public void onPacketData(LogisticraftPacketBuffer data, EntityPlayerMP player) {
 
 	}
 }

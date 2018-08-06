@@ -8,5 +8,5 @@ import net.minecraft.entity.player.EntityPlayer;
 
 @SideOnly(Side.CLIENT)
 public interface ILogisticraftPacketHandlerClient extends ILogisticraftPacketHandler {
-	void onPacketData(PacketBufferLogisticraft data, EntityPlayer player) throws IOException;
+	void onPacketData(LogisticraftPacketBuffer data, EntityPlayer player) throws IOException;
 }

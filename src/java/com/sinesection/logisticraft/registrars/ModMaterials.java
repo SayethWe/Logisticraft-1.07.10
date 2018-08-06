@@ -13,8 +13,9 @@ public class ModMaterials {
 	public static final Set<LogisticraftMaterial> materials = new HashSet<>();
 	
 	public static final void registerMaterials() {
-		for(LogisticraftMaterial mat : materials) {
-		}
+		/*for(LogisticraftMaterial mat : materials) {
+			
+		}*/
 	}
 	
 	public static void loadMaterials() {

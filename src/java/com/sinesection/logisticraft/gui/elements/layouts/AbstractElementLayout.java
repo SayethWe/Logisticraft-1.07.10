@@ -1,8 +1,6 @@
 package com.sinesection.logisticraft.gui.elements.layouts;
 
 import com.sinesection.logisticraft.api.gui.IElementLayout;
-import com.sinesection.logisticraft.api.gui.IElementLayoutHelper;
-import com.sinesection.logisticraft.api.gui.IElementLayoutHelper.LayoutFactory;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

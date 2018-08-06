@@ -1,26 +1,11 @@
 package com.sinesection.logisticraft.block.tileentity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.sinesection.logisticraft.block.BlockFractionator;
-import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
-import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
-import com.sinesection.logisticraft.crafting.LogisticraftMixerCrafting;
-import com.sinesection.logisticraft.crafting.MixerCraftingRecipe;
 import com.sinesection.logisticraft.fluid.LogisticraftFluidTank;
 import com.sinesection.logisticraft.power.IHeatable;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -32,7 +17,6 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInventory, IFluidHandler, IHeatable {
 
@@ -321,7 +305,7 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 
 	@Override
 	public void updateEntity() {
-		boolean blockUpdate = isRunning();
+		//boolean blockUpdate = isRunning();
 		boolean invChanged = false;
 		if (!this.worldObj.isRemote) {
 
@@ -383,8 +367,8 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 		}
 	}
 
-	private void process() {
-		/** TODO
+/** TODO	private void process() {
+		
 		if (this.canProcess()) {
 			MixerCraftingRecipe recipe = LogisticraftMixerCrafting.getRecipeFromInput(null, getStackInSlot(0));
 			for (int i = 0; i < recipe.outputs.length; i++) {
@@ -402,12 +386,11 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 			if (this.getStackInSlot(SLOT_INPUT).stackSize <= 0) {
 				this.setInventorySlotContents(SLOT_INPUT, null);
 			}
-		} */
-	}
+		} 
+	}*/
 
-	private boolean canProcess() {
-		return false;
-		/** TODO
+/** TODO	private boolean canProcess() {
+		
 		if (getStackInSlot(SLOT_INPUT) == null)
 			return false;
 		DryDistillerCraftingRecipe recipe = LogisticraftDryDistillerCrafting.getRecipeFromInput(getStackInSlot(SLOT_INPUT));
@@ -440,8 +423,8 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 			if (this.getOutputTank().fill(recipe.fluidOutput, false) != recipe.fluidOutput.amount)
 				canOutput = false;
 		return canOutput;
-		*/
-	}
+		
+	}*/
 
 	public boolean isRunning() {
 		return this.processTime > 0;

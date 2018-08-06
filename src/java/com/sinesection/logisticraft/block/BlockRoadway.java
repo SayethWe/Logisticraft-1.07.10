@@ -3,7 +3,6 @@ package com.sinesection.logisticraft.block;
 import java.util.Random;
 
 import com.sinesection.logisticraft.Constants;
-import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.registrars.ModBlocks;
 
 import cpw.mods.fml.relauncher.Side;
@@ -23,8 +22,8 @@ public class BlockRoadway extends LogisticraftBlock{
 
 	public static final int NUM_BLOCK_VARIANTS = 4;
 	
-	private static final int UNIFIED_TEXTURE_ROWS = 5;
-	private static final int UNIFIED_TEXTURE_COLS = 4;
+	//private static final int UNIFIED_TEXTURE_ROWS = 5;
+	//private static final int UNIFIED_TEXTURE_COLS = 4;
 	
 	@SideOnly(Side.CLIENT)
 	private IIcon iconTop, iconBottom;
