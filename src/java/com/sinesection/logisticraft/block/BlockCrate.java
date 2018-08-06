@@ -23,7 +23,6 @@ import net.minecraft.world.World;
 public class BlockCrate extends LogisticraftTileEntityBlock {
 
 	private Random rand = new Random();
-
 	public BlockCrate() {
 		super("crate", Material.wood);
 		// TODO Auto-generated constructor stub
@@ -47,7 +46,10 @@ public class BlockCrate extends LogisticraftTileEntityBlock {
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemStack) {
 	// TODO
+		world.getTileEntity(x, y, z).writeToNBT(itemStack.getTagCompound());
 	}
+	
+
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
@@ -66,7 +68,9 @@ public class BlockCrate extends LogisticraftTileEntityBlock {
 		TileEntityCrate tileEntity = (TileEntityCrate) world.getTileEntity(x, y, z);
 		EntityItem blockDrop = new EntityItem(world, (double) ((float)x + xOff), (double) ((float)y + yOff), (double) ((float)z + zOff), new ItemStack(Item.getItemFromBlock(ModBlocks.crate)));
 		if(tileEntity != null) {
-			//blockDrop.getEntityItem().setTagCompound(tileEntity.getNBT()); //TODO: Save NBT
+			NBTTagCompound data = new NBTTagCompound();
+			tileEntity.writeToNBT(data);
+			blockDrop.getEntityItem().setTagCompound(data); //TODO: Save NBT
 		}
 		world.spawnEntityInWorld(blockDrop);
 		super.breakBlock(world, x, y, z, oldBlock, oldMeta);

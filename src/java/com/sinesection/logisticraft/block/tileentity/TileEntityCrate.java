@@ -1,8 +1,12 @@
 package com.sinesection.logisticraft.block.tileentity;
 
+import com.sinesection.logisticraft.api.INbtReadable;
+import com.sinesection.logisticraft.api.INbtWritable;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class TileEntityCrate extends LogisticraftTileEntity implements ISidedInventory{
 	public static final int NUM_SLOTS = 1;
@@ -98,5 +102,13 @@ public class TileEntityCrate extends LogisticraftTileEntity implements ISidedInv
 	public boolean canExtractItem(int p_102008_1_, ItemStack p_102008_2_, int p_102008_3_) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public void writeToNBT(NBTTagCompound nbt) {
+		
+	}
+
+	public void readFromNBT(NBTTagCompound nbt) {
+
 	}
 }
