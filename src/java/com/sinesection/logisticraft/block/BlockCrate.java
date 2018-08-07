@@ -2,7 +2,7 @@ package com.sinesection.logisticraft.block;
 
 import java.util.Random;
 
-import com.sinesection.logisticraft.Main;
+import com.sinesection.logisticraft.Logisticraft;
 import com.sinesection.logisticraft.block.tileentity.TileEntityCrate;
 import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
@@ -51,7 +51,7 @@ public class BlockCrate extends LogisticraftTileEntityBlock {
 			NBTTagCompound nbt = itemStack.getTagCompound();
 			LogisticraftUtils.addLocationToNBT(nbt, x, y, z);//to stop it throwing a fit about missing coord tags.
 			world.getTileEntity(x, y, z).readFromNBT(nbt);
-			LogisticraftUtils.getLogger().info("writing NBT" + nbt);
+			Log.info("writing NBT" + nbt);
 		}
 	}
 	
@@ -61,8 +61,8 @@ public class BlockCrate extends LogisticraftTileEntityBlock {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
-			FMLNetworkHandler.openGui(player, Main.instance, LogisticraftGuiHandler.guiIdCrate, world, x, y, z);
-			LogisticraftUtils.getLogger().info("Opening Crate GUI at "+ x+","+y+","+z);
+			FMLNetworkHandler.openGui(player, Logisticraft.instance, LogisticraftGuiHandler.guiIdCrate, world, x, y, z);
+			Log.info("Opening Crate GUI at "+ x+","+y+","+z);
 		}
 		return true;
 	}
