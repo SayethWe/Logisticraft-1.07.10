@@ -77,7 +77,6 @@ public class BlockCrate extends LogisticraftTileEntityBlock {
 			NBTTagCompound data = new NBTTagCompound();
 			tileEntity.writeToNBT(data);
 			item.setTagCompound(data);
-			world.removeTileEntity(x, y, z);
 		}
 		EntityItem blockDrop = new EntityItem(world, (double) ((float)x + xOff), (double) ((float)y + yOff), (double) ((float)z + zOff), item);
 		world.spawnEntityInWorld(blockDrop);

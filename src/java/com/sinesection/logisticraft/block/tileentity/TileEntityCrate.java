@@ -8,11 +8,13 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.Constants;
 
 public class TileEntityCrate extends LogisticraftTileEntity implements ISidedInventory{
 	public static final int NUM_SLOTS = 1;
 	public static final int SlOT_INVENTORY = 0;
 	private static final int STACK_LIMIT = 16;
+	private static final int[][] ACCESSIBLE_SLOTS_FROM_SIDE = {{0}};
 
 
 	//Fields
@@ -106,21 +108,18 @@ public class TileEntityCrate extends LogisticraftTileEntity implements ISidedInv
 	}
 
 	@Override
-	public int[] getAccessibleSlotsFromSide(int p_94128_1_) {
-		// TODO Auto-generated method stub
-		return null;
+	public int[] getAccessibleSlotsFromSide(int dir) {
+		return ACCESSIBLE_SLOTS_FROM_SIDE[dir];
 	}
 
 	@Override
 	public boolean canInsertItem(int p_102007_1_, ItemStack p_102007_2_, int p_102007_3_) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean canExtractItem(int p_102008_1_, ItemStack p_102008_2_, int p_102008_3_) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -144,7 +143,7 @@ public class TileEntityCrate extends LogisticraftTileEntity implements ISidedInv
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
 
-		NBTTagList list = nbt.getTagList("items", 10);
+		NBTTagList list = nbt.getTagList("items", Constants.NBT.TAG_COMPOUND);
 		this.slots = new ItemStack[this.getSizeInventory()];
 
 		for(int i = 0; i < list.tagCount(); i++) {
