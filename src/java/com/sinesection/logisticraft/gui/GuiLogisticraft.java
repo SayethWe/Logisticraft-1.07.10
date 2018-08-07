@@ -1,8 +1,5 @@
 package com.sinesection.logisticraft.gui;
 
-import java.io.IOException;
-import java.util.List;
-
 import javax.annotation.Nullable;
 
 import org.lwjgl.opengl.GL11;
@@ -18,14 +15,13 @@ import com.sinesection.logisticraft.gui.widgets.Widget;
 import com.sinesection.logisticraft.gui.widgets.WidgetManager;
 import com.sinesection.logisticraft.render.ColorProperties;
 import com.sinesection.logisticraft.render.LogisticraftResource;
-import com.sinesection.utils.LogisticraftUtils;
 
+import javafx.scene.shape.Rectangle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -39,8 +35,8 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 	public final ResourceLocation textureFile;
 	protected final WidgetManager widgetManager;
 	protected final TextLayoutHelper textLayout;
-	protected final Window window;
-	
+	protected final Window<?> window;
+
 	protected GuiLogisticraft(String texture, C container) {
 		this(new LogisticraftResource(texture), container);
 	}
@@ -108,15 +104,17 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 		window.postEvent(new GuiEvent.DownEvent(origin, mouseX, mouseY, mouseButton), GuiEventDestination.ALL);
 	}
 
-//	@Override
-//	protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-//		if (widgetManager.handleMouseRelease(mouseX, mouseY, mouseButton)) {
-//			return;
-//		}
-//		IGuiElement origin = (window.getMousedOverElement() == null) ? this.window : this.window.getMousedOverElement();
-//		window.postEvent(new GuiEvent.UpEvent(origin, mouseX, mouseY, mouseButton), GuiEventDestination.ALL);
-//		super.mouseReleased(mouseX, mouseY, mouseButton);
-//	}
+	// @Override
+	// protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+	// if (widgetManager.handleMouseRelease(mouseX, mouseY, mouseButton)) {
+	// return;
+	// }
+	// IGuiElement origin = (window.getMousedOverElement() == null) ?
+	// this.window : this.window.getMousedOverElement();
+	// window.postEvent(new GuiEvent.UpEvent(origin, mouseX, mouseY,
+	// mouseButton), GuiEventDestination.ALL);
+	// super.mouseReleased(mouseX, mouseY, mouseButton);
+	// }
 
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) {
@@ -158,6 +156,10 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 		return isPointInRegion(par1Slot.xDisplayPosition, par1Slot.yDisplayPosition, 16, 16, mouseX, mouseY);
 	}
 
+	private boolean isPointInRegion(int x, int y, int w, int h, int mouseX, int mouseY) {
+		return new Rectangle(x, y, w, h).contains(mouseX, mouseY);
+	}
+
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		InventoryPlayer playerInv = mc.thePlayer.inventory;
@@ -193,11 +195,11 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 		bindTexture(textureFile);
 	}
 
-	protected void drawBackground(){
+	protected void drawBackground() {
 		bindTexture(textureFile);
 
-		//int x = (width - xSize) / 2;
-		//int y = (height - ySize) / 2;
+		// int x = (width - xSize) / 2;
+		// int y = (height - ySize) / 2;
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 
@@ -249,4 +251,3 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 		return textLayout;
 	}
 }
-

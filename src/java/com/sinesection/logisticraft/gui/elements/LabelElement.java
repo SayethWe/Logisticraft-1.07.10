@@ -1,21 +1,14 @@
 package com.sinesection.logisticraft.gui.elements;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.function.Consumer;
-
-import com.sinesection.logisticraft.api.gui.GuiElementAlignment;
-import com.sinesection.logisticraft.api.gui.IGuiElement;
-import com.sinesection.logisticraft.api.gui.ILabelElement;
-import com.sinesection.logisticraft.api.gui.IWindowElement;
-import com.sinesection.logisticraft.api.gui.events.GuiElementEvent;
-import com.sinesection.logisticraft.api.gui.style.ITextStyle;
-import com.sinesection.utils.GuiElementUtil;
-import com.google.common.collect.ImmutableMap;
-
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
+import com.sinesection.logisticraft.api.gui.GuiElementAlignment;
+import com.sinesection.logisticraft.api.gui.ILabelElement;
+import com.sinesection.logisticraft.api.gui.style.ITextStyle;
+import com.sinesection.utils.GuiElementUtil;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -53,7 +46,7 @@ public class LabelElement extends GuiElement implements ILabelElement {
 	public ILabelElement setStyle(ITextStyle style) {
 		this.style = style;
 		this.text = GuiElementUtil.getFormattedString(style, rawText);
-		if(textLength){
+		if (textLength) {
 			boolean uni = FONT_RENDERER.getUnicodeFlag();
 			FONT_RENDERER.setUnicodeFlag(style.isUnicode());
 			setWidth(FONT_RENDERER.getStringWidth(this.text));
@@ -76,7 +69,7 @@ public class LabelElement extends GuiElement implements ILabelElement {
 	public ILabelElement setText(String text) {
 		this.rawText = text;
 		this.text = GuiElementUtil.getFormattedString(style, text);
-		if(textLength){
+		if (textLength) {
 			boolean uni = FONT_RENDERER.getUnicodeFlag();
 			FONT_RENDERER.setUnicodeFlag(style.isUnicode());
 			setWidth(FONT_RENDERER.getStringWidth(this.text));

@@ -12,15 +12,15 @@ import net.minecraft.util.ResourceLocation;
 @SideOnly(Side.CLIENT)
 public class Drawable {
 	/* Final Attributes */
-	//Position on the Texture
+	// Position on the Texture
 	public final int u;
 	public final int v;
-	//Rectangle Size
+	// Rectangle Size
 	public final int uWidth;
 	public final int vHeight;
-	//Texture
+	// Texture
 	public final ResourceLocation textureLocation;
-	//Texture Size
+	// Texture Size
 	private final int textureWidth;
 	private final int textureHeight;
 

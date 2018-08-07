@@ -1,10 +1,6 @@
 package com.sinesection.logisticraft.gui.elements;
 
-import com.google.common.collect.ImmutableMap;
-import com.sinesection.logisticraft.api.gui.GuiElementAlignment;
-import com.sinesection.logisticraft.api.gui.ITextElement;
-import com.sinesection.logisticraft.api.gui.style.ITextStyle;
-import com.sinesection.utils.GuiElementUtil;
+import static com.sinesection.logisticraft.gui.elements.LabelElement.FONT_RENDERER;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,7 +9,11 @@ import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 
-import static com.sinesection.logisticraft.gui.elements.LabelElement.FONT_RENDERER;
+import com.google.common.collect.ImmutableMap;
+import com.sinesection.logisticraft.api.gui.GuiElementAlignment;
+import com.sinesection.logisticraft.api.gui.ITextElement;
+import com.sinesection.logisticraft.api.gui.style.ITextStyle;
+import com.sinesection.utils.GuiElementUtil;
 
 public class SplitTextElement extends GuiElement implements ITextElement {
 
@@ -60,7 +60,7 @@ public class SplitTextElement extends GuiElement implements ITextElement {
 		boolean unicode = FONT_RENDERER.getUnicodeFlag();
 		FONT_RENDERER.setUnicodeFlag(style.isUnicode());
 		int posY = 0;
-		for(String text : lines) {
+		for (String text : lines) {
 			int posX = width - FONT_RENDERER.getStringWidth(text);
 			posX *= getAlign().getXOffset();
 			FONT_RENDERER.drawString(text, posX, posY, style.getColor());

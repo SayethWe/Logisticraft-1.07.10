@@ -14,14 +14,16 @@ public interface ILabelElement extends ITextElement {
 	ILabelElement setStyle(ITextStyle style);
 
 	/**
-	 * @return The current text of this element with its {@link net.minecraft.util.text.TextFormatting}s.
+	 * @return The current text of this element with its
+	 *         {@link net.minecraft.util.text.TextFormatting}s.
 	 */
 	String getText();
 
 	ILabelElement setText(String text);
 
 	/**
-	 * The current text of this element without its {@link net.minecraft.util.text.TextFormatting}s.
+	 * The current text of this element without its
+	 * {@link net.minecraft.util.text.TextFormatting}s.
 	 */
 	String getRawText();
 }

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sinesection.logisticraft.item.ItemLogisticraftBucket;
-import com.sinesection.utils.LogisticraftUtils;
 
 import cpw.mods.fml.common.eventhandler.Event;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -29,7 +28,7 @@ public class LogisticraftFluidHandler {
 
 	@SubscribeEvent
 	public void onBucketFill(FillBucketEvent event) {
-		ItemStack result = fillCustomBucket(event.world, event.target);       
+		ItemStack result = fillCustomBucket(event.world, event.target);
 		if (result != null) {
 			event.result = result;
 			event.setResult(Event.Result.ALLOW);

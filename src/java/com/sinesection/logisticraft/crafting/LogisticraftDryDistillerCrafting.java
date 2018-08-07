@@ -8,12 +8,11 @@ import java.util.Set;
 import com.sinesection.logisticraft.registrars.ModBlocks;
 import com.sinesection.logisticraft.registrars.ModFluids;
 import com.sinesection.logisticraft.registrars.ModItems;
-import com.sinesection.utils.LogisticraftUtils;
+import com.sinesection.utils.Log;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -26,7 +25,7 @@ public class LogisticraftDryDistillerCrafting {
 		for (DryDistillerCraftingRecipe ddcr : toRegister) {
 			LogisticraftDryDistillerCrafting.registerRecipe(ddcr);
 		}
-		LogisticraftUtils.getLogger().info("Registering " + dryDistillerCraftingRecipes.size() + " recipe(s) for " + ModBlocks.dryDistillerIdle.getLocalizedName() + ".");
+		Log.info("Registering " + dryDistillerCraftingRecipes.size() + " recipe(s) for " + ModBlocks.dryDistillerIdle.getLocalizedName() + ".");
 	}
 
 	public static void loadRecipes() {

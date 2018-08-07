@@ -1,9 +1,9 @@
 package com.sinesection.logisticraft.gui.events;
 
+import javax.annotation.Nullable;
+
 import com.sinesection.logisticraft.api.gui.IGuiElement;
 import com.sinesection.logisticraft.api.gui.events.GuiElementEvent;
-
-import javax.annotation.Nullable;
 
 public class EventValueChanged<V> extends GuiElementEvent {
 	@Nullable

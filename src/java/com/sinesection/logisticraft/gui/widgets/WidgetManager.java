@@ -11,11 +11,11 @@ import net.minecraft.client.Minecraft;
 
 public class WidgetManager {
 
-	public final GuiLogisticraft gui;
+	public final GuiLogisticraft<?> gui;
 	public final Minecraft minecraft;
 	protected final List<Widget> widgets = new ArrayList<>();
 
-	public WidgetManager(GuiLogisticraft gui) {
+	public WidgetManager(GuiLogisticraft<?> gui) {
 		this.gui = gui;
 		this.minecraft = Minecraft.getMinecraft();
 	}

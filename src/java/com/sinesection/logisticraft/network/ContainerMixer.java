@@ -1,26 +1,18 @@
 package com.sinesection.logisticraft.network;
 
-import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 import com.sinesection.logisticraft.block.tileentity.TileEntityMixer;
-import com.sinesection.logisticraft.container.BucketResultSlot;
-import com.sinesection.logisticraft.container.BucketSlot;
-import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
 import com.sinesection.logisticraft.fluid.LogisticraftFluidTank;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.BlockJukebox.TileEntityJukebox;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTank;
 
 public class ContainerMixer extends Container {
 
@@ -32,7 +24,7 @@ public class ContainerMixer extends Container {
 	public int lastProcessTime;
 	/** Last fluid ids in the tanks */
 	private int[] lastFluidIds;
-	
+
 	public ContainerMixer(InventoryPlayer inventory, TileEntityMixer tEntity) {
 		this.tEntity = tEntity;
 		lastFluidIds = new int[this.tEntity.getNumTanks()];
@@ -52,7 +44,7 @@ public class ContainerMixer extends Container {
 	public void addCraftingToCrafters(ICrafting iCrafting) {
 		super.addCraftingToCrafters(iCrafting);
 		iCrafting.sendProgressBarUpdate(this, 0, this.tEntity.processTime);
-		for(int i = 0; i < this.tEntity.getNumTanks(); i++) {
+		for (int i = 0; i < this.tEntity.getNumTanks(); i++) {
 			if (this.tEntity.getTank(i).getFluid() != null) {
 				int craftersIndex = 1 + i * 2;
 				iCrafting.sendProgressBarUpdate(this, craftersIndex, this.tEntity.getTank(i).getFluid().getFluidID());
@@ -99,7 +91,7 @@ public class ContainerMixer extends Container {
 					System.out.println(id + ", " + tankIndex);
 					lastFluidIds[tankIndex] = value;
 					break;
-				} else if((id - 1) % 2 == 1) {
+				} else if ((id - 1) % 2 == 1) {
 					int tankIndex = (id - 1) / 2;
 					LogisticraftFluidTank tank = new LogisticraftFluidTank(this.tEntity.getTank(tankIndex).getCapacity());
 					tank.setFluid(new FluidStack(FluidRegistry.getFluid(lastFluidIds[tankIndex]), value));

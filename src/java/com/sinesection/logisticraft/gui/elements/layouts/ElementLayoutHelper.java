@@ -1,5 +1,9 @@
 package com.sinesection.logisticraft.gui.elements.layouts;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import com.sinesection.logisticraft.api.gui.GuiElementAlignment;
@@ -7,10 +11,6 @@ import com.sinesection.logisticraft.api.gui.IElementGroup;
 import com.sinesection.logisticraft.api.gui.IElementLayout;
 import com.sinesection.logisticraft.api.gui.IElementLayoutHelper;
 import com.sinesection.logisticraft.api.gui.IGuiElement;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 public class ElementLayoutHelper implements IElementLayoutHelper {
 	private final List<IElementLayout> layouts = new ArrayList<>();

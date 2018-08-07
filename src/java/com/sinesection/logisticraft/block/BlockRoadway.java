@@ -2,8 +2,9 @@ package com.sinesection.logisticraft.block;
 
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import com.sinesection.logisticraft.Constants;
-import com.sinesection.logisticraft.Main;
 import com.sinesection.logisticraft.registrars.ModBlocks;
 
 import cpw.mods.fml.relauncher.Side;
@@ -18,31 +19,28 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
+import scala.actors.threadpool.Arrays;
 
-public class BlockRoadway extends LogisticraftBlock{
+public class BlockRoadway extends LogisticraftBlock implements IBlockRoadway {
 
-	public static final int NUM_BLOCK_VARIANTS = 4;
-	
-	private static final int UNIFIED_TEXTURE_ROWS = 5;
-	private static final int UNIFIED_TEXTURE_COLS = 4;
-	
+	public static final int TEXTURE_ROWS = 3;
+	public static final int TEXTURE_COLS = 4;
+
 	@SideOnly(Side.CLIENT)
-	private IIcon iconTop, iconBottom;
-	
+	private IIcon iconBottom;
+
 	@SideOnly(Side.CLIENT)
-	private IIcon[][] topIcons;
-	
-	public final int variant;
-	
-	public BlockRoadway(int variant) {
-		super("roadway_" + getVariantString(variant), Material.rock);
-		this.variant = variant;
+	private IIcon[] topIcons;
+
+	public BlockRoadway() {
+		super("roadway", Material.rock);
 	}
 
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemStack) {
 		int l = MathHelper.floor_double((double) (entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		switch(l) {
+		switch (l) {
 		case 0:
 			world.setBlockMetadataWithNotify(x, y, z, 2, 2);
 			break;
@@ -62,42 +60,31 @@ public class BlockRoadway extends LogisticraftBlock{
 	@Override
 	public void registerBlockIcons(IIconRegister iIconRegister) {
 		this.blockIcon = iIconRegister.registerIcon(Constants.MOD_ID + ":" + "roadway_side");
-		this.iconTop = iIconRegister.registerIcon(Constants.MOD_ID + ":" + "roadway_top_" + getVariantString(variant));
-//		BufferedImage[][] topImages = Utils.splitImage(UNIFIED_TEXTURE_ROWS, UNIFIED_TEXTURE_COLS, "error");
-//		for(int i = 0; i < UNIFIED_TEXTURE_ROWS; i++) {
-//			for(int j = 0; j < UNIFIED_TEXTURE_COLS; j++) {
-//				iIconRegister.registerIcon(Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(" ", new DynamicTexture(topImages[i][j])));
-//			}
-//		}
-		 
 		this.iconBottom = Blocks.cobblestone.getIcon(1, 0);
+		this.topIcons = new IIcon[TEXTURE_ROWS * TEXTURE_COLS];
+		for (int i = 0; i < this.topIcons.length; i++) {
+			this.topIcons[i] = iIconRegister.registerIcon(Constants.MOD_ID + ":" + "roadway_" + i);
+		}
 	}
 
-	private static String getVariantString(int variantId) {
-		switch(variantId) {
-		case 0:
-			return "straight";
-		case 1:
-			return "curveRight";
-		case 2:
-			return "curveLeft";
-		case 3:
-			return "3intersect";
-		case 4:
-			return "4intersect";
-		default:
-			return "straight";
-		}
+	// 0 - North
+	// 1 - East
+	// 2 - South
+	// 3 - West
+	public boolean canConnect(World world, int x, int y, int z, ForgeDirection side) {
+		if (side == ForgeDirection.UP || side == ForgeDirection.DOWN)
+			return false;
+		return world.getBlock(x + side.offsetX, y + side.offsetY, z + side.offsetZ) instanceof IBlockRoadway;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
 	public IIcon getIcon(int side, int metadata) {
-		switch(side) {
+		switch (side) {
 		case 0:
 			return iconBottom;
 		case 1:
-			return iconTop;
+			return getTopIconFromMeta(metadata);
 		default:
 			return this.blockIcon;
 		}
@@ -106,45 +93,81 @@ public class BlockRoadway extends LogisticraftBlock{
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
 		super.onBlockAdded(world, x, y, z);
-		this.setDefaultDirection(world, x, y, z);
-	}
 
-	private void setDefaultDirection(World world, int x, int y, int z) {
-		if (!world.isRemote) {
-			Block l = world.getBlock(x, y, z - 1);
-			Block il = world.getBlock(x, y, z + 1);
-			Block jl = world.getBlock(x - 1, y, z);
-			Block kl = world.getBlock(x + 1, y, z);
-			byte b0 = 3;
-			if (l.isOpaqueCube() && !il.isOpaqueCube()) {
-				b0 = 3;
-			}
-			if (il.isOpaqueCube() && !l.isOpaqueCube()) {
-				b0 = 2;
-			}
-			if (kl.isOpaqueCube() && !jl.isOpaqueCube()) {
-				b0 = 5;
-			}
-			if (jl.isOpaqueCube() && !kl.isOpaqueCube()) {
-				b0 = 4;
-			}
-			world.setBlockMetadataWithNotify(x, y, z, b0, 2);
+		for (int i = 2; i < ForgeDirection.values().length - 1; i++) {
+			ForgeDirection dir = ForgeDirection.values()[i];
+			world.scheduledUpdatesAreImmediate = true;
+			int bx = x + dir.offsetX, by = y + dir.offsetY, bz = z + dir.offsetZ;
+			Block b = world.getBlock(bx, by, bz);
+			world.scheduleBlockUpdate(bx, by, bz, b, 0);
 		}
 	}
-	
+
+	@Override
+	public void updateTick(World world, int x, int y, int z, Random rand) {
+		int meta = world.getBlockMetadata(x, y, z);
+		boolean[] oldConnections = decodeMeta(meta);
+		boolean[] connections = new boolean[4];
+		for (int i = 2; i < ForgeDirection.values().length - 1; i++) {
+			ForgeDirection dir = ForgeDirection.values()[i];
+			connections[i - 2] = canConnectTo(world, x, y, z, dir);
+		}
+		if (!Arrays.equals(connections, oldConnections))
+			world.setBlockMetadataWithNotify(x, y, z, encodeMeta(connections), 2);
+	}
+
 	@Override
 	public Item getItemDropped(int par1, Random random, int par3) {
 		return Item.getItemFromBlock(ModBlocks.roadBlock);
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public Item getItem(World world, int x, int y, int z) {
 		return Item.getItemFromBlock(ModBlocks.roadBlock);
 	}
-	
-	public boolean canConnectTo(int side) {
-		//TODO
-		return false;
+
+	@Override
+	public IIcon getTopIconFromMeta(int meta) {
+		boolean[] connections = decodeMeta(meta);
+
+		return topIcons[0];
+	}
+
+	@Override
+	public boolean canConnectTo(World world, int x, int y, int z, ForgeDirection side) {
+		if (side == ForgeDirection.UP || side == ForgeDirection.DOWN)
+			return false;
+		return world.getBlock(x + side.offsetX, y + side.offsetY, z + side.offsetZ) instanceof IBlockRoadway;
+	}
+
+	// Metadata will be stored like this:
+	// cccc00oo
+	// c = connection (n,s,w,e)
+	// o = orientation (1-4 = n,s,w,e)
+
+	@Override
+	public int encodeMeta(@Nullable boolean[] connections) {
+		byte consEncoded = 0;
+		if (connections != null) {
+			if (connections.length == 4) {
+				for (int i = 0; i < connections.length; i++) {
+					consEncoded = (byte) ((consEncoded << 1) | (connections[i] ? 1 : 0));
+				}
+			}
+		}
+		return consEncoded;
+	}
+
+	@Override
+	public boolean[] decodeMeta(int meta) {
+		meta = (meta >> 4) & 15;
+		boolean[] connections = new boolean[4];
+		for (int i = 0; i < connections.length; i++) {
+			boolean flag = (meta & 1) == 1;
+			connections[(connections.length - 1) - i] = flag;
+			meta >>= 1;
+		}
+		return connections;
 	}
 }

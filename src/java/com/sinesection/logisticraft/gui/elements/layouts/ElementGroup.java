@@ -1,13 +1,14 @@
 package com.sinesection.logisticraft.gui.elements.layouts;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 import com.sinesection.logisticraft.api.gui.GuiConstants;
 import com.sinesection.logisticraft.api.gui.GuiElementAlignment;
 import com.sinesection.logisticraft.api.gui.IElementGroup;
-import com.sinesection.logisticraft.api.gui.IElementLayout;
 import com.sinesection.logisticraft.api.gui.IElementLayoutHelper;
-import com.sinesection.logisticraft.api.gui.IElementLayoutHelper.LayoutFactory;
 import com.sinesection.logisticraft.api.gui.IGuiElement;
 import com.sinesection.logisticraft.api.gui.IItemElement;
 import com.sinesection.logisticraft.api.gui.ILabelElement;
@@ -21,14 +22,6 @@ import com.sinesection.logisticraft.gui.elements.SplitTextElement;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
-
-
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.minecraft.item.ItemStack;
-
 
 @SideOnly(Side.CLIENT)
 public abstract class ElementGroup extends GuiElement implements IElementGroup {

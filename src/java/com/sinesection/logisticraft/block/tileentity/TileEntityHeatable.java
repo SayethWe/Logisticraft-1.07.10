@@ -4,17 +4,16 @@ import com.sinesection.logisticraft.power.IHeatable;
 import com.sinesection.logisticraft.registrars.HeatProperties;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.util.ForgeDirection;
 
 public abstract class TileEntityHeatable extends TileEntity implements IHeatable {
-	
+
 	protected float temp, energy;
 	protected final HeatProperties heatProperties;
-	
+
 	public TileEntityHeatable(HeatProperties hp) {
 		this.heatProperties = hp;
 	}
-	
+
 	@Override
 	public float getCurrentTemp() {
 		return temp;
@@ -24,5 +23,5 @@ public abstract class TileEntityHeatable extends TileEntity implements IHeatable
 	public float getCurrentEnergy() {
 		return energy;
 	}
-	
+
 }

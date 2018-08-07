@@ -11,6 +11,7 @@ import com.sinesection.utils.ColorUtils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
@@ -137,7 +138,7 @@ public class BlockLogisticraftFluid extends BlockFluidClassic {
 			return super.getMaterial();
 		}
 	}
-	
+
 	@Override
 	public void updateTick(World world, int x, int y, int z, Random rand) {
 		super.updateTick(world, x, y, z, rand);

@@ -18,7 +18,8 @@ public interface IElementLayoutHelper {
 	void clear();
 
 	/**
-	 * Adds the layouts to the parent of the {@link IElementGroup}. And calls {@link #clear()}
+	 * Adds the layouts to the parent of the {@link IElementGroup}. And calls
+	 * {@link #clear()}
 	 */
 	void finish(boolean centerX);
 
@@ -27,7 +28,8 @@ public interface IElementLayoutHelper {
 	}
 
 	/**
-	 * @return All layouts that were created with the help of this helper since the last {@link #clear()} or {@link #finish()}.
+	 * @return All layouts that were created with the help of this helper since
+	 *         the last {@link #clear()} or {@link #finish()}.
 	 */
 	Collection<IElementLayout> layouts();
 

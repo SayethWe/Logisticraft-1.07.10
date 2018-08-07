@@ -1,5 +1,8 @@
 package com.sinesection.logisticraft.api.gui;
 
+import java.util.Collection;
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import com.sinesection.logisticraft.api.gui.style.ITextStyle;
@@ -7,9 +10,6 @@ import com.sinesection.logisticraft.api.gui.style.ITextStyle;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
-
-import java.util.Collection;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public interface IElementGroup extends IGuiElement {

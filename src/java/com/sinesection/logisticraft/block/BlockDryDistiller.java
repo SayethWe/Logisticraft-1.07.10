@@ -3,7 +3,7 @@ package com.sinesection.logisticraft.block;
 import java.util.Random;
 
 import com.sinesection.logisticraft.Constants;
-import com.sinesection.logisticraft.Main;
+import com.sinesection.logisticraft.Logisticraft;
 import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
 import com.sinesection.logisticraft.registrars.ModBlocks;
@@ -39,17 +39,17 @@ public class BlockDryDistiller extends LogisticraftTileEntityBlock {
 	private IIcon iconTop, iconBottom;
 
 	private static boolean keepInventory;
-	
+
 	private Random rand = new Random();
 
 	public BlockDryDistiller(boolean isActive) {
 		super("dryDistiller" + (isActive ? "Active" : "Idle"), Material.iron);
 		this.isActive = isActive;
-		if(isActive)
+		if (isActive)
 			this.setCreativeTab(null);
-		
+
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister iIconRegister) {
 		this.blockIcon = iIconRegister.registerIcon(Constants.MOD_ID + ":" + "distiller_side");
@@ -121,7 +121,7 @@ public class BlockDryDistiller extends LogisticraftTileEntityBlock {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
-			FMLNetworkHandler.openGui(player, Main.instance, LogisticraftGuiHandler.guiIdDryDistiller, world, x, y, z);
+			FMLNetworkHandler.openGui(player, Logisticraft.instance, LogisticraftGuiHandler.guiIdDryDistiller, world, x, y, z);
 		}
 		return true;
 	}
@@ -177,50 +177,52 @@ public class BlockDryDistiller extends LogisticraftTileEntityBlock {
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, Block oldBlock, int oldMeta) {
-		if(!keepInventory) {
+		if (!keepInventory) {
 			TileEntityDryDistiller tEntity = (TileEntityDryDistiller) world.getTileEntity(x, y, z);
-			
-			if(tEntity != null) {
-				for(int i = 0; i < tEntity.getSizeInventory(); i++) {
+
+			if (tEntity != null) {
+				for (int i = 0; i < tEntity.getSizeInventory(); i++) {
 					ItemStack slotContents = tEntity.getStackInSlot(i);
-					
-					if(slotContents != null) {
+
+					if (slotContents != null) {
 						float xOff = this.rand.nextFloat() * 0.8f + 0.1f;
 						float yOff = this.rand.nextFloat() * 0.8f + 0.1f;
 						float zOff = this.rand.nextFloat() * 0.8f + 0.1f;
-						
-						while(slotContents.stackSize > 0) {
+
+						while (slotContents.stackSize > 0) {
 							int j = this.rand.nextInt(21) + 10;
-							
-							if(j > slotContents.stackSize)
+
+							if (j > slotContents.stackSize)
 								j = slotContents.stackSize;
-							
+
 							slotContents.stackSize -= j;
-							
-							EntityItem item = new EntityItem(world, (double) ((float)x + xOff), (double) ((float)y + yOff), (double) ((float)z + zOff), new ItemStack(slotContents.getItem(), j, slotContents.getItemDamage()));
-							
-							if(slotContents.hasTagCompound())
+
+							EntityItem item = new EntityItem(world, (double) ((float) x + xOff), (double) ((float) y + yOff), (double) ((float) z + zOff), new ItemStack(slotContents.getItem(), j, slotContents.getItemDamage()));
+
+							if (slotContents.hasTagCompound())
 								item.getEntityItem().setTagCompound((NBTTagCompound) slotContents.getTagCompound().copy());
-							
+
 							float speedMult = 0.05f;
 							item.motionX = (double) ((float) this.rand.nextGaussian() * speedMult);
 							item.motionY = (double) ((float) this.rand.nextGaussian() * speedMult + 0.2f);
 							item.motionZ = (double) ((float) this.rand.nextGaussian() * speedMult);
-							
+
 							world.spawnEntityInWorld(item);
 						}
 					}
 				}
-				
-				world.func_147453_f(x, y, z, oldBlock); // Pretty sure this sends block updates
+
+				world.func_147453_f(x, y, z, oldBlock); // Pretty sure this
+														// sends block updates
 			}
 		}
-		
+
 		super.breakBlock(world, x, y, z, oldBlock, oldMeta);
 	}
 
 	@Override
 	public void randomDisplayTick(World world, int x, int y, int z, Random random) {
-		super.randomDisplayTick(world, x, y, z, random); // TODO Particles and stuff
+		super.randomDisplayTick(world, x, y, z, random); // TODO Particles and
+															// stuff
 	}
 }

@@ -1,14 +1,11 @@
 package com.sinesection.logisticraft.gui.elements;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
+import javax.annotation.Nullable;
 
 import org.lwjgl.opengl.GL11;
 
@@ -21,6 +18,9 @@ import com.sinesection.logisticraft.api.gui.events.GuiEventDestination;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
 
 @SideOnly(Side.CLIENT)
 public class GuiElement extends Gui implements IGuiElement {
@@ -120,7 +120,7 @@ public class GuiElement extends Gui implements IGuiElement {
 			IGuiElement cropRelative = cropElement != null ? cropElement : this;
 			int posX = cropRelative.getAbsoluteX();
 			int posY = cropRelative.getAbsoluteY();
-			GL11.glScissor((int) ((posX + cropX) * res.getScaledWidth_double()), (int) (mc.displayHeight - ((posY + cropY + cropHeight) * res.getScaledWidth_double())), (int) (cropWidth * res.getScaledHeight_double()), (int) (cropHeight *  res.getScaledHeight_double()));
+			GL11.glScissor((int) ((posX + cropX) * res.getScaledWidth_double()), (int) (mc.displayHeight - ((posY + cropY + cropHeight) * res.getScaledWidth_double())), (int) (cropWidth * res.getScaledHeight_double()), (int) (cropHeight * res.getScaledHeight_double()));
 		}
 
 		drawElement(mouseX, mouseY);

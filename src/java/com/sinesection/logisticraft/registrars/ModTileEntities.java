@@ -15,7 +15,7 @@ public class ModTileEntities {
 	private static final Map<String, Class<? extends LogisticraftTileEntity>> tileEnts = new HashMap<>();
 
 	public static void registerTileEntities() {
-		for(String s : tileEnts.keySet()) {
+		for (String s : tileEnts.keySet()) {
 			GameRegistry.registerTileEntity(tileEnts.get(s), s);
 		}
 	}

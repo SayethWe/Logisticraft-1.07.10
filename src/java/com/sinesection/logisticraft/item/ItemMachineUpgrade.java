@@ -11,8 +11,8 @@ public class ItemMachineUpgrade extends LogisticraftItem {
 	}
 
 	@Override
-	public boolean onItemUseFirst(ItemStack is, EntityPlayer ep, World world, int x, int y, int z, int s, float par8, float par9, float par10){
+	public boolean onItemUseFirst(ItemStack is, EntityPlayer ep, World world, int x, int y, int z, int s, float par8, float par9, float par10) {
 		return false;
 	}
-	
+
 }

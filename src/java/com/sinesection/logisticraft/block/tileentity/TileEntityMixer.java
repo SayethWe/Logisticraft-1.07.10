@@ -1,26 +1,11 @@
 package com.sinesection.logisticraft.block.tileentity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.sinesection.logisticraft.block.BlockFractionator;
-import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
-import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
-import com.sinesection.logisticraft.crafting.LogisticraftMixerCrafting;
-import com.sinesection.logisticraft.crafting.MixerCraftingRecipe;
 import com.sinesection.logisticraft.fluid.LogisticraftFluidTank;
 import com.sinesection.logisticraft.power.IHeatable;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
@@ -32,7 +17,6 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInventory, IFluidHandler, IHeatable {
 
@@ -321,7 +305,7 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 
 	@Override
 	public void updateEntity() {
-		boolean blockUpdate = isRunning();
+		// boolean blockUpdate = isRunning();
 		boolean invChanged = false;
 		if (!this.worldObj.isRemote) {
 
@@ -383,65 +367,49 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 		}
 	}
 
-	private void process() {
-		/** TODO
-		if (this.canProcess()) {
-			MixerCraftingRecipe recipe = LogisticraftMixerCrafting.getRecipeFromInput(null, getStackInSlot(0));
-			for (int i = 0; i < recipe.outputs.length; i++) {
-				ItemStack result = recipe.outputs[i];
-				if (this.getStackInSlot(i + 2) == null) {
-					this.setInventorySlotContents(i + 2, result.copy());
-				} else if (this.getStackInSlot(i + 2).isItemEqual(recipe.outputs[i])) {
-					this.getStackInSlot(i + 2).stackSize += recipe.outputs[i].stackSize;
-				}
-			}
-			if (recipe.hasLiquidOutput())
-				if (this.getOutputTank().fill(recipe.fluidOutput, false) == recipe.fluidOutput.amount)
-					this.getOutputTank().fill(recipe.fluidOutput, true);
-			this.getStackInSlot(SLOT_INPUT).stackSize -= recipe.input.stackSize;
-			if (this.getStackInSlot(SLOT_INPUT).stackSize <= 0) {
-				this.setInventorySlotContents(SLOT_INPUT, null);
-			}
-		} */
-	}
+	/**
+	 * TODO private void process() {
+	 * 
+	 * if (this.canProcess()) { MixerCraftingRecipe recipe =
+	 * LogisticraftMixerCrafting.getRecipeFromInput(null, getStackInSlot(0));
+	 * for (int i = 0; i < recipe.outputs.length; i++) { ItemStack result =
+	 * recipe.outputs[i]; if (this.getStackInSlot(i + 2) == null) {
+	 * this.setInventorySlotContents(i + 2, result.copy()); } else if
+	 * (this.getStackInSlot(i + 2).isItemEqual(recipe.outputs[i])) {
+	 * this.getStackInSlot(i + 2).stackSize += recipe.outputs[i].stackSize; } }
+	 * if (recipe.hasLiquidOutput()) if
+	 * (this.getOutputTank().fill(recipe.fluidOutput, false) ==
+	 * recipe.fluidOutput.amount) this.getOutputTank().fill(recipe.fluidOutput,
+	 * true); this.getStackInSlot(SLOT_INPUT).stackSize -=
+	 * recipe.input.stackSize; if (this.getStackInSlot(SLOT_INPUT).stackSize <=
+	 * 0) { this.setInventorySlotContents(SLOT_INPUT, null); } } }
+	 */
 
-	private boolean canProcess() {
-		return false;
-		/** TODO
-		if (getStackInSlot(SLOT_INPUT) == null)
-			return false;
-		DryDistillerCraftingRecipe recipe = LogisticraftDryDistillerCrafting.getRecipeFromInput(getStackInSlot(SLOT_INPUT));
-		if (recipe == null)
-			return false;
-		if (recipe.hasLiquidOutput())
-			if (this.getOutputTank().fill(recipe.fluidOutput, false) != recipe.fluidOutput.amount)
-				return false;
-		return canOutput(recipe) && (getStackInSlot(SLOT_INPUT).stackSize - recipe.input.stackSize) >= 0;
-	}
-
-	private boolean canOutput(DryDistillerCraftingRecipe recipe) {
-		boolean canOutput = false;
-		if (recipe.outputs.length == 0)
-			canOutput = true;
-		else
-			for (int i = 0; i < recipe.outputs.length; i++) {
-				if (getStackInSlot(i + 2) == null) {
-					canOutput = true;
-				} else {
-					int resultAmt = getStackInSlot(i + 2).stackSize + recipe.outputs[i].stackSize;
-					if (getStackInSlot(i + 2).isItemEqual(recipe.outputs[i])) {
-						if (resultAmt <= getStackInSlot(i + 2).getMaxStackSize() && resultAmt <= getInventoryStackLimit()) {
-							canOutput = true;
-						}
-					}
-				}
-			}
-		if (recipe.fluidOutput != null && recipe.fluidOutput.amount > 0)
-			if (this.getOutputTank().fill(recipe.fluidOutput, false) != recipe.fluidOutput.amount)
-				canOutput = false;
-		return canOutput;
-		*/
-	}
+	/**
+	 * TODO private boolean canProcess() {
+	 * 
+	 * if (getStackInSlot(SLOT_INPUT) == null) return false;
+	 * DryDistillerCraftingRecipe recipe =
+	 * LogisticraftDryDistillerCrafting.getRecipeFromInput(getStackInSlot(SLOT_INPUT));
+	 * if (recipe == null) return false; if (recipe.hasLiquidOutput()) if
+	 * (this.getOutputTank().fill(recipe.fluidOutput, false) !=
+	 * recipe.fluidOutput.amount) return false; return canOutput(recipe) &&
+	 * (getStackInSlot(SLOT_INPUT).stackSize - recipe.input.stackSize) >= 0; }
+	 * 
+	 * private boolean canOutput(DryDistillerCraftingRecipe recipe) { boolean
+	 * canOutput = false; if (recipe.outputs.length == 0) canOutput = true; else
+	 * for (int i = 0; i < recipe.outputs.length; i++) { if (getStackInSlot(i +
+	 * 2) == null) { canOutput = true; } else { int resultAmt = getStackInSlot(i
+	 * + 2).stackSize + recipe.outputs[i].stackSize; if (getStackInSlot(i +
+	 * 2).isItemEqual(recipe.outputs[i])) { if (resultAmt <= getStackInSlot(i +
+	 * 2).getMaxStackSize() && resultAmt <= getInventoryStackLimit()) {
+	 * canOutput = true; } } } } if (recipe.fluidOutput != null &&
+	 * recipe.fluidOutput.amount > 0) if
+	 * (this.getOutputTank().fill(recipe.fluidOutput, false) !=
+	 * recipe.fluidOutput.amount) canOutput = false; return canOutput;
+	 * 
+	 * }
+	 */
 
 	public boolean isRunning() {
 		return this.processTime > 0;
@@ -449,7 +417,10 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
-		return false; // TODO slot == SLOT_TANK_INPUT ? FluidContainerRegistry.isEmptyContainer(itemStack) : (slot > SLOT_FUEL ? false : (slot == SLOT_FUEL ? this.isItemFuel(itemStack) : true));
+		return false; // TODO slot == SLOT_TANK_INPUT ?
+						// FluidContainerRegistry.isEmptyContainer(itemStack) :
+						// (slot > SLOT_FUEL ? false : (slot == SLOT_FUEL ?
+						// this.isItemFuel(itemStack) : true));
 	}
 
 	@Override
@@ -464,20 +435,24 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack itemStack, int side) {
-		return false; //(slot == SLOT_FUEL && itemStack.isItemEqual(new ItemStack(Items.bucket))) || (slot == SLOT_TANK_OUTPUT && FluidContainerRegistry.isFilledContainer(itemStack)) || (slot != SLOT_INPUT);
+		return false; // (slot == SLOT_FUEL && itemStack.isItemEqual(new
+						// ItemStack(Items.bucket))) || (slot ==
+						// SLOT_TANK_OUTPUT &&
+						// FluidContainerRegistry.isFilledContainer(itemStack))
+						// || (slot != SLOT_INPUT);
 	}
 
 	public int getTempatureScaled(int i) {
-		if (this.maxTemperature == 0) 
+		if (this.maxTemperature == 0)
 			return 0;
 
 		return Math.round((this.tempature * i) / this.maxTemperature);
 	}
 
 	public int getProgressScaled(int i, int j) {
-		if(this.processSpeed == 0)
+		if (this.processSpeed == 0)
 			return 0;
-		
+
 		return (this.processTime * i) / this.processSpeed;
 	}
 
@@ -505,7 +480,7 @@ public class TileEntityMixer extends LogisticraftTileEntity implements ISidedInv
 		for (int j = 0; j < tankIndexes.length; j++) {
 			int tankIndex = tankIndexes[j];
 			LogisticraftFluidTank ft = getTank(tankIndex);
-			if(resource.amount + resource.amount <= ft.getCapacity())
+			if (resource.amount + resource.amount <= ft.getCapacity())
 				return ft.fill(resource, doFill);
 		}
 		return 0;

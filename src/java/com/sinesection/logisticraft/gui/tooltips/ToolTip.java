@@ -10,13 +10,13 @@
  ******************************************************************************/
 package com.sinesection.logisticraft.gui.tooltips;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.util.EnumChatFormatting;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.util.EnumChatFormatting;
 
 /**
  * @author CovertJaguar <http://www.railcraft.info/>
@@ -39,7 +39,7 @@ public class ToolTip {
 	public void clear() {
 		lines.clear();
 	}
-	
+
 	public boolean add(String line, EnumChatFormatting formatting) {
 		return lines.add(line);
 	}

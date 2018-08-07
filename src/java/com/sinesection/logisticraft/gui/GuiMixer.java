@@ -1,18 +1,9 @@
 package com.sinesection.logisticraft.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.opengl.GL11;
-
 import com.sinesection.logisticraft.Constants;
-import com.sinesection.logisticraft.Main;
-import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 import com.sinesection.logisticraft.block.tileentity.TileEntityMixer;
-import com.sinesection.logisticraft.container.ContainerFractionator;
 import com.sinesection.logisticraft.network.ContainerMixer;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -28,7 +19,7 @@ public class GuiMixer extends GuiContainer {
 	private static final int GUI_HEIGHT = 166;
 
 	public TileEntityMixer tEntity;
-	private float mouseX, mouseY;
+	// private float mouseX, mouseY;
 
 	public GuiMixer(InventoryPlayer inventory, TileEntityMixer tEntity) {
 		super(new ContainerMixer(inventory, tEntity));
@@ -54,8 +45,8 @@ public class GuiMixer extends GuiContainer {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float par3) {
-		this.mouseX = (float) mouseX;
-		this.mouseY = (float) mouseY;
+		// this.mouseX = (float) mouseX;
+		// this.mouseY = (float) mouseY;
 		super.drawScreen(mouseX, mouseY, par3);
 	}
 

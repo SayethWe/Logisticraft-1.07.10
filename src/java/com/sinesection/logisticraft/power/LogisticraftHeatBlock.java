@@ -10,7 +10,7 @@ public abstract class LogisticraftHeatBlock extends LogisticraftBlock implements
 
 	protected float temp;
 	protected float energy;
-	
+
 	protected LogisticraftHeatBlock(String name, String textureName, String registryName, Material mat) {
 		super(name, textureName, registryName, mat);
 	}
@@ -23,7 +23,7 @@ public abstract class LogisticraftHeatBlock extends LogisticraftBlock implements
 	public float getVolume() {
 		return IHeatReceiver.super.getVolume();
 	}
-	
+
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return null;

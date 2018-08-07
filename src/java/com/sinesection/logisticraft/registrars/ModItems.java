@@ -3,17 +3,16 @@ package com.sinesection.logisticraft.registrars;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.sinesection.logisticraft.item.ItemMachineUpgrade;
 import com.sinesection.logisticraft.item.ItemHandbook;
+import com.sinesection.logisticraft.item.ItemMachineUpgrade;
 import com.sinesection.logisticraft.item.ItemTrafficDirector;
 import com.sinesection.logisticraft.item.ItemWheel;
 import com.sinesection.logisticraft.item.LogisticraftItem;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.item.ItemStack;
 
 public final class ModItems {
-	
+
 	public static final LogisticraftItem roadWheel = new ItemWheel();
 	public static final LogisticraftItem refinedRubber = new LogisticraftItem("rubber");
 	public static final LogisticraftItem shippingOrder = new LogisticraftItem("shippingOrder");
@@ -26,13 +25,13 @@ public final class ModItems {
 	public static final LogisticraftItem fractionatorUpgrade = new ItemMachineUpgrade();
 
 	public static final Set<LogisticraftItem> items = new HashSet<>();
-	
+
 	public static final void registerItems() {
-		for(LogisticraftItem item : items) {
+		for (LogisticraftItem item : items) {
 			GameRegistry.registerItem(item, item.getRegistryName());
 		}
 	}
-	
+
 	public static void loadItems() {
 		loadItem(roadWheel);
 		loadItem(refinedRubber);
@@ -44,9 +43,9 @@ public final class ModItems {
 		loadItem(trafficDirector);
 		loadItem(pitch);
 		loadItem(fractionatorUpgrade);
-	
+
 	}
-	
+
 	private static void loadItem(LogisticraftItem i) {
 		items.add(i);
 	}

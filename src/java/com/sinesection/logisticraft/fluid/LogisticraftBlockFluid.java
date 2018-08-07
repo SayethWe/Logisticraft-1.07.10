@@ -2,7 +2,7 @@ package com.sinesection.logisticraft.fluid;
 
 import java.util.Random;
 
-import com.sinesection.utils.LogisticraftUtils;
+import com.sinesection.utils.Log;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,7 +24,8 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 	private String registryName;
 	private IIcon[] blockIcons;
 	private final int flammability;
-	private final boolean isToxic, isSource;
+	private final boolean isToxic/** , isSource */
+	;
 
 	public LogisticraftBlockFluid(LogisticraftFluid fluid) {
 		this(fluid, fluid.getName(), fluid.getName());
@@ -34,7 +35,7 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 		super(fluid, fluid.getMaterial());
 		flammability = fluid.getFlammability();
 		isToxic = fluid.isToxic();
-		isSource = true;
+		// isSource = true;
 		this.registryName = registryName;
 		setBlockName(name);
 		this.blockIcons = new IIcon[2];
@@ -108,7 +109,7 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 
 	@Override
 	public boolean isFlammable(IBlockAccess world, int x, int y, int z, ForgeDirection face) {
-		return flammability >0;
+		return flammability > 0;
 	}
 
 	@Override
@@ -122,19 +123,14 @@ public class LogisticraftBlockFluid extends BlockFluidClassic {
 	}
 
 	@Override
-	public void onEntityWalking(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_,
-			Entity e) {
-		if(e instanceof EntityLiving && isToxic) {
-			LogisticraftUtils.getLogger().info("Entity " + e + "Is In a fuel Liquid");
+	public void onEntityWalking(World p_149670_1_, int p_149670_2_, int p_149670_3_, int p_149670_4_, Entity e) {
+		if (e instanceof EntityLiving && isToxic) {
+			Log.info("Entity " + e + "Is In a fuel Liquid");
 			EntityLiving el = (EntityLiving) e;
 			el.addPotionEffect(new PotionEffect(Potion.blindness.id, 20));
 			el.addPotionEffect(new PotionEffect(Potion.wither.id, 20));
 		}
 		super.onEntityWalking(p_149670_1_, p_149670_2_, p_149670_3_, p_149670_4_, e);
 	}
-	
-	
-	
-	
 
 }

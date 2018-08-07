@@ -18,7 +18,8 @@ public interface ITextElement extends IGuiElement {
 	ITextElement setText(String text);
 
 	/**
-	 * @return The raw text this element displays without any formations and their style.
+	 * @return The raw text this element displays without any formations and
+	 *         their style.
 	 */
 	Map<ITextStyle, String> getRawLines();
 }

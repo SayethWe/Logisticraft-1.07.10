@@ -1,5 +1,6 @@
 package com.sinesection.logisticraft.fluid;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,10 +13,14 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.sinesection.logisticraft.api.INbtReadable;
 import com.sinesection.logisticraft.api.INbtWritable;
+import com.sinesection.logisticraft.net.ILogisticraftPacketClient;
 import com.sinesection.logisticraft.net.IStreamable;
-import com.sinesection.logisticraft.net.PacketBufferLogisticraft;
+import com.sinesection.logisticraft.net.LogisticraftPacketBuffer;
+import com.sinesection.logisticraft.net.packet.PacketTankLevelUpdate;
 import com.sinesection.logisticraft.render.EnumTankLevel;
 import com.sinesection.logisticraft.tiles.ILiquidTankTile;
+import com.sinesection.utils.NBTUtilsLogisticraft;
+import com.sinesection.utils.NBTUtilsLogisticraft.NBTList;
 import com.sinesection.utils.NetworkUtil;
 
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -30,13 +35,12 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
 
-import net.minecraftforge.fluids.TileFluidHandler;
-
 public class TankManager implements ITankManager, ITankUpdateHandler, IStreamable, INbtWritable, INbtReadable {
 
 	private final List<StandardTank> tanks = new ArrayList<>();
 
-	// for container updates, keeps track of the fluids known to each client (container)
+	// for container updates, keeps track of the fluids known to each client
+	// (container)
 	private final Table<Container, Integer, FluidStack> prevFluidStacks = HashBasedTable.create();
 
 	// tank tile updates, for blocks that show fluid levels on the outside
@@ -88,7 +92,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 
 	@Override
 	public void readFromNBT(NBTTagCompound data) {
-		NBTList<NBTTagCompound> tagList = NBTUtilLogisticraft.getNBTList(data, "tanks", NBTUtilLogisticraft.EnumNBTType.COMPOUND);
+		NBTList<NBTTagCompound> tagList = NBTUtilsLogisticraft.getNBTList(data, "tanks", NBTUtilsLogisticraft.EnumNBTType.COMPOUND);
 		for (NBTTagCompound tag : tagList) {
 			int slot = tag.getByte("tank");
 			if (slot >= 0 && slot < tanks.size()) {
@@ -100,14 +104,14 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	@Override
-	public void writeData(PacketBufferLogisticraft data) {
+	public void writeData(LogisticraftPacketBuffer data) {
 		for (StandardTank tank : tanks) {
 			tank.writeData(data);
 		}
 	}
 
 	@Override
-	public void readData(PacketBufferLogisticraft data) throws IOException {
+	public void readData(LogisticraftPacketBuffer data) throws IOException {
 		for (StandardTank tank : tanks) {
 			tank.readData(data);
 		}
@@ -148,7 +152,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 
 		FluidStack fluidStack = tank.getFluid();
 		FluidStack prev = prevFluidStacks.get(container, tankIndex);
-		if (FluidHelper.areFluidStacksEqual(fluidStack, prev)) {
+		if (fluidStack.isFluidEqual(prev)) {
 			return;
 		}
 
@@ -189,17 +193,17 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	@Override
-	public int fill(FluidStack resource, boolean doFill) {
+	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
 		for (StandardTank tank : tanks) {
 			if (tankAcceptsFluid(tank, resource)) {
-				return fill(tank.getTankIndex(), resource, doFill);
+				return fill(null, tank.getTankIndex(), resource, doFill);
 			}
 		}
-		
-		return EmptyFluidHandler.INSTANCE.fill(resource, doFill);
+
+		return 0;
 	}
 
-	public int fill(int tankIndex, FluidStack resource, boolean doFill) {
+	public int fill(ForgeDirection from, int tankIndex, FluidStack resource, boolean doFill) {
 		if (tankIndex < 0 || tankIndex >= tanks.size()) {
 			return 0;
 		}
@@ -228,51 +232,38 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 			tankLevels.set(tankIndex, tankLevel);
 			if (sendUpdate) {
 				PacketTankLevelUpdate tankLevelUpdate = new PacketTankLevelUpdate(tile, tankIndex, tank.getFluid());
-				NetworkUtil.sendNetworkPacket(tankLevelUpdate, tile.getCoordinates(), tile.getWorldObj());
+				NetworkUtil.sendNetworkPacket(tankLevelUpdate, tile.getXCoord(), tile.getYCoord(), tile.getZCoord(), tile.getWorldObj());
 			}
 		}
-	}
-
-	@Nullable
-	@Override
-	public FluidStack drain(int maxDrain, boolean doDrain) {
-		for (StandardTank tank : tanks) {
-			if (tankCanDrain(tank)) {
-				return drain(tank.getTankIndex(), maxDrain, doDrain);
-			}
-		}
-		return EmptyFluidHandler.INSTANCE.drain(maxDrain, doDrain);
-	}
-
-	@Nullable
-	public FluidStack drain(int tankIndex, int maxDrain, boolean doDrain) {
-		if (tankIndex < 0 || tankIndex >= tanks.size()) {
-			return null;
-		}
-
-		StandardTank tank = tanks.get(tankIndex);
-		if (!tank.canDrain()) {
-			return null;
-		}
-
-		return tank.drain(maxDrain, doDrain);
 	}
 
 	@Override
-	public FluidStack drain(FluidStack resource, boolean doDrain) {
+	public FluidStack drain(ForgeDirection from, int amount, boolean doDrain) {
 		for (StandardTank tank : tanks) {
-			if (tankCanDrainFluid(tank, resource)) {
-				return drain(tank.getTankIndex(), resource.amount, doDrain);
-			}
+			return drain(from, tank.getTankIndex(), amount, doDrain);
 		}
 		return null;
 	}
 
 	@Override
-	public FluidTankInfo[] getInfo() {
-		IFluidTankProperties[] properties = new IFluidTankProperties[tanks.size()];
+	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+		for (StandardTank tank : tanks) {
+			if (tankCanDrainFluid(tank, resource)) {
+				return drain(from, tank.getTankIndex(), resource.amount, doDrain);
+			}
+		}
+		return null;
+	}
+
+	public FluidStack drain(ForgeDirection from, int tankIndex, int amount, boolean doDrain) {
+		return tanks.get(tankIndex).drain(amount, doDrain);
+	}
+
+	@Override
+	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+		FluidTankInfo[] properties = new FluidTankInfo[tanks.size()];
 		for (int i = 0; i < tanks.size(); i++) {
-			properties[i] = new FluidTankPropertiesWrapper(tanks.get(i));
+			properties[i] = new FluidTankInfo(tanks.get(i));
 		}
 		return properties;
 	}
@@ -297,7 +288,6 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -308,13 +298,11 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 				return true;
 			}
 		}
-
 		return false;
 	}
 
 	private static boolean tankAcceptsFluid(StandardTank tank, FluidStack fluidStack) {
-		return tank.canFill() &&
-				tank.fill(fluidStack, false) > 0;
+		return tank.canFill() && tank.fill(fluidStack, false) > 0;
 	}
 
 	private static boolean tankCanDrain(StandardTank tank) {
@@ -326,85 +314,26 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	private static boolean tankCanDrainFluid(StandardTank tank, FluidStack fluidStack) {
-		return Fluids.areEqual(tank.getFluidType(), fluidStack) &&
-				tankCanDrain(tank);
-	}
-
-	@Override
-	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
-		// TODO Auto-generated method stub
-		return null;
+		return tank.getFluid().isFluidEqual(fluidStack) && tankCanDrain(tank);
 	}
 
 	@Override
 	public boolean canFill(ForgeDirection from, Fluid fluid) {
-		// TODO Auto-generated method stub
+		for (StandardTank tank : tanks) {
+			if (tank.canFillFluidType(fluid)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean canDrain(ForgeDirection from, Fluid fluid) {
-		// TODO Auto-generated method stub
+		for (StandardTank tank : tanks) {
+			if (tank.canDrainFluidType(fluid)) {
+				return true;
+			}
+		}
 		return false;
-	}
-
-	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void containerAdded(Container container, ICrafting crafter) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void sendTankUpdate(Container container, List<ICrafting> crafters) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void containerRemoved(Container container) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public IFluidTank getTank(int tankIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean canFillFluidType(FluidStack fluidStack) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean canDrainFluidType(FluidStack fluidStack) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void processTankUpdate(int tankIndex, FluidStack contents) {
-		// TODO Auto-generated method stub
-		
 	}
 }
