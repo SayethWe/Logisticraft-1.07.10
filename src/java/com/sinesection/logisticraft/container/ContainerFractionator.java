@@ -1,7 +1,8 @@
 package com.sinesection.logisticraft.container;
 
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
-import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
+import com.sinesection.logisticraft.crafting.DryDistillerRecipeManager;
+import com.sinesection.logisticraft.crafting.FractionatorRecipeManager;
 import com.sinesection.logisticraft.fluid.LogisticraftFluidTank;
 
 import cpw.mods.fml.relauncher.Side;
@@ -145,7 +146,7 @@ public class ContainerFractionator extends Container {
 					return null;
 				slot.onSlotChange(tempItemStack, itemStack);
 			} else if (index != TileEntityFractionator.SLOT_FUEL && index != TileEntityFractionator.SLOT_INPUT && index != TileEntityFractionator.SLOT_TANK_INPUT && index != TileEntityFractionator.SLOT_TANK_OUTPUT) {
-				if (LogisticraftDryDistillerCrafting.getRecipeFromInput(tempItemStack) != null) {
+				if (FractionatorRecipeManager.findMatchingRecipe(tempItemStack) != null || DryDistillerRecipeManager.findMatchingRecipe(tempItemStack) != null) {
 					if (!this.mergeItemStack(tempItemStack, TileEntityFractionator.SLOT_INPUT, TileEntityFractionator.SLOT_INPUT + 1, false)) {
 						return null;
 					}

@@ -6,8 +6,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import net.minecraft.nbt.NBTTagCompound;
 import com.sinesection.logisticraft.Logisticraft;
+
+import net.minecraft.nbt.NBTTagCompound;
 
 public class LogisticraftUtils {
 

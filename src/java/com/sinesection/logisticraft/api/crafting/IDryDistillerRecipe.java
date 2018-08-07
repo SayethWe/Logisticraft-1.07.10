@@ -6,7 +6,7 @@ import java.util.Random;
 
 import net.minecraft.item.ItemStack;
 
-public interface IDryDistillerRecipe {
+public interface IDryDistillerRecipe extends ILogisticraftRecipe {
 
 	/**
 	 * @return Number of work cycles required to craft the recipe once.
@@ -14,18 +14,23 @@ public interface IDryDistillerRecipe {
 	int getProcessTime();
 
 	/**
-	 * The item for this recipe to match against.
+	 * @return The item for this recipe to match against.
 	 **/
 	ItemStack getInput();
 
 	/**
-	 * Returns a list of all possible products and their estimated probabilities
-	 * (0.0 to 1.0], to help mods that display recipes
+	 * @return A list of all possible products and their estimated probabilities
+	 * (0.0 to 1.0], to help mods that display recipes.
 	 **/
 	Map<ItemStack, Float> getAllProducts();
 
 	/**
-	 * Returns the randomized products from processing one input item.
+	 * @return The randomized products from processing one input item.
 	 **/
 	List<ItemStack> getProducts(Random random);
+	
+	/**
+	 * @return The unique items made from processing one input item.
+	 **/
+	List<ItemStack> getUniqueProducts();
 }

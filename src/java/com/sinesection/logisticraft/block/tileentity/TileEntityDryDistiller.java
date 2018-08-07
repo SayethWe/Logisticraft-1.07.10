@@ -1,11 +1,12 @@
 package com.sinesection.logisticraft.block.tileentity;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import com.sinesection.logisticraft.api.crafting.IDryDistillerRecipe;
 import com.sinesection.logisticraft.block.BlockDryDistiller;
-import com.sinesection.logisticraft.crafting.DryDistillerCraftingRecipe;
-import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
+import com.sinesection.logisticraft.crafting.FractionatorRecipeManager;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
@@ -29,6 +30,12 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	private String localizedName;
 
 	public static final int NUM_SLOTS = 6;
+
+	public static final int SLOT_INPUT = 0;
+	public static final int SLOT_FUEL = 1;
+	public static final int[] SLOT_OUTPUTS = {
+			2, 3, 4, 5
+	};
 
 	// Slot 0 = input
 	// Slot 1 = fuel
@@ -57,13 +64,14 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	};
 
 	/** Time to process the item in slot 0. (in ticks) */
-	private int processSpeed = 150;
+	public static final int DEFAULT_PROCESS_SPEED = 200;
 
 	/** Time left for fuel to be used up. (in ticks) */
 	public int burnTime;
 	/** Time it takes to burn the current item in slot 1. (in ticks) */
 	public int currentItemBurnTime;
-
+	/** Total time to process the item in slot 0. (in ticks) */
+	public int currentItemProcessTime;
 	/** Time left to process the item in slot 0. (in ticks) */
 	public int processTime;
 
@@ -86,6 +94,22 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 		if (slot < 0 || slot > getSizeInventory())
 			return null;
 		return this.slots[slot];
+	}
+
+	public boolean incrStackSize(int slot, int amount) {
+		ItemStack itemstack = getStackInSlot(slot);
+
+		if (itemstack != null) {
+			if (itemstack.stackSize >= itemstack.getMaxStackSize()) {
+				itemstack.stackSize = itemstack.getMaxStackSize();
+				this.setInventorySlotContents(slot, itemstack);
+			} else {
+				itemstack.stackSize += amount;
+				this.setInventorySlotContents(slot, itemstack);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -158,6 +182,10 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 		this.processTime = nbt.getShort("processTime");
 		this.burnTime = nbt.getShort("burnTime");
 		this.currentItemBurnTime = this.getItemBurnTime(this.getStackInSlot(1));
+		this.currentItemProcessTime = 0;
+		IDryDistillerRecipe recipe = getCurrentRecipe();
+		if(recipe != null)
+			this.currentItemProcessTime = recipe.getProcessTime();
 
 		String customName = nbt.getString("customName");
 		if (!customName.isEmpty()) {
@@ -169,8 +197,6 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
 
-		nbt.setShort("processTime", (short) this.processTime);
-		nbt.setShort("burnTime", (short) this.burnTime);
 
 		NBTTagList list = new NBTTagList();
 		for (int i = 0; i < this.slots.length; i++) {
@@ -182,6 +208,10 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 			}
 		}
 		nbt.setTag("items", list);
+		
+		nbt.setShort("processTime", (short) this.processTime);
+		nbt.setShort("burnTime", (short) this.burnTime);
+		
 		if (this.hasCustomInventoryName()) {
 			nbt.setString("customName", this.localizedName);
 		}
@@ -222,6 +252,7 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 			if (isBurning()) {
 				this.burnTime--;
 			}
+			
 			if (this.burnTime == 0 && this.canProcess()) {
 				this.currentItemBurnTime = this.burnTime = this.getItemBurnTime(getStackInSlot(1));
 				if (this.burnTime > 0) {
@@ -236,14 +267,18 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 			}
 
 			if (isBurning() && canProcess()) {
+				if(this.currentItemProcessTime == 0) {
+					this.currentItemProcessTime = getCurrentRecipe().getProcessTime();
+				}
 				this.processTime++;
-				if (this.processTime == this.processSpeed) {
+				if (this.processTime == this.currentItemProcessTime) {
 					this.processTime = 0;
 					this.process();
 					invChanged = true;
 				}
 			} else {
 				this.processTime = 0;
+				this.currentItemProcessTime = 0;
 			}
 
 			if (blockUpdate != isBurning()) {
@@ -259,44 +294,22 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 
 	private void process() {
 		if (this.canProcess()) {
-			DryDistillerCraftingRecipe recipe = LogisticraftDryDistillerCrafting.getRecipeFromInput(getStackInSlot(0));
-			for (int i = 0; i < recipe.outputs.length; i++) {
-				ItemStack result = recipe.outputs[i];
-				if (this.getStackInSlot(i + 2) == null) {
-					this.setInventorySlotContents(i + 2, result.copy());
-				} else if (this.getStackInSlot(i + 2).isItemEqual(recipe.outputs[i])) {
-					this.getStackInSlot(i + 2).stackSize += recipe.outputs[i].stackSize;
-				}
-			}
-			this.getStackInSlot(0).stackSize -= recipe.input.stackSize;
-			if (this.getStackInSlot(0).stackSize <= 0) {
-				this.setInventorySlotContents(0, null);
+			IDryDistillerRecipe recipe = getCurrentRecipe();
+			insertStacksIntoOutputSlots(recipe.getProducts(this.worldObj.rand), true);
+			this.getStackInSlot(SLOT_INPUT).stackSize -= recipe.getInput().stackSize;
+			if (this.getStackInSlot(SLOT_INPUT).stackSize <= 0) {
+				this.setInventorySlotContents(SLOT_INPUT, null);
 			}
 		}
 	}
 
 	private boolean canProcess() {
-		if (getStackInSlot(0) == null)
+		if (getStackInSlot(SLOT_INPUT) == null)
 			return false;
-		DryDistillerCraftingRecipe recipe = LogisticraftDryDistillerCrafting.getRecipeFromInput(getStackInSlot(0));
-		return recipe != null && !recipe.fractionatorRequired && canOutput(recipe) && (getStackInSlot(0).stackSize - recipe.input.stackSize) >= 0;
-	}
-
-	private boolean canOutput(DryDistillerCraftingRecipe recipe) {
-		boolean canOutput = false;
-		for (int i = 0; i < recipe.outputs.length; i++) {
-			if (getStackInSlot(i + 2) == null) {
-				canOutput = true;
-			} else {
-				int resultAmt = getStackInSlot(i + 2).stackSize + recipe.outputs[i].stackSize;
-				if (getStackInSlot(i + 2).isItemEqual(recipe.outputs[i])) {
-					if (resultAmt <= getStackInSlot(i + 2).getMaxStackSize() && resultAmt <= getInventoryStackLimit()) {
-						canOutput = true;
-					}
-				}
-			}
-		}
-		return canOutput;
+		IDryDistillerRecipe recipe = getCurrentRecipe();
+		if (recipe == null)
+			return false;
+		return insertStacksIntoOutputSlots(recipe.getAllProducts().keySet(), false) && (getStackInSlot(SLOT_INPUT).stackSize - recipe.getInput().stackSize) >= 0;
 	}
 
 	public boolean isBurning() {
@@ -351,6 +364,80 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 		return getItemBurnTime(itemStack) > 0;
 	}
 
+	private boolean insertStacksIntoOutputSlots(Collection<ItemStack> itemStacks, boolean doInsert) {
+		int yetToInsert = itemStacks.size();
+		ItemStack carryOver = null;
+		for (ItemStack stack : itemStacks) {
+			for (int i = 0; i < SLOT_OUTPUTS.length; i++) {
+				int slotNum = SLOT_OUTPUTS[i];
+				ItemStack slot = getStackInSlot(slotNum);
+				// CARRY OVER
+				if(carryOver != null) {
+					if (slot == null) {
+						if (doInsert)
+							setInventorySlotContents(slotNum, carryOver);
+						carryOver = null;
+						continue;
+					} else if (slot.isItemEqual(carryOver)) {
+						int result = slot.stackSize + carryOver.stackSize;
+						if (result <= slot.getMaxStackSize() && result <= getInventoryStackLimit()) {
+							if (doInsert)
+								incrStackSize(slotNum, carryOver.stackSize);
+							carryOver = null;
+							continue;
+						} else if (result > slot.getMaxStackSize() && result > getInventoryStackLimit()) {
+							int itemsLeft = 0;
+							if(slot.getMaxStackSize() >= getInventoryStackLimit()) {
+								itemsLeft = result - slot.getMaxStackSize();
+							} else {
+								itemsLeft = result - getInventoryStackLimit();
+							}
+							carryOver = new ItemStack(carryOver.getItem(), itemsLeft, carryOver.getItemDamage());
+							continue;
+						}
+					}
+				}
+				// ITEM INSERTION
+				if (slot == null) {
+					if (doInsert)
+						setInventorySlotContents(slotNum, stack);
+					yetToInsert--;
+					break;
+				} else if (slot.isItemEqual(stack)) {
+					int result = slot.stackSize + stack.stackSize;
+					if (result <= slot.getMaxStackSize() && result <= getInventoryStackLimit()) {
+						if (doInsert)
+							incrStackSize(slotNum, stack.stackSize);
+						yetToInsert--;
+						break;
+					} else if (result > slot.getMaxStackSize() || result > getInventoryStackLimit()) {
+						int itemsLeft = 0;
+						if(slot.getMaxStackSize() <= getInventoryStackLimit()) {
+							itemsLeft = result - slot.getMaxStackSize();
+							if (doInsert)
+								setInventorySlotContents(slotNum, new ItemStack(stack.getItem(), slot.getMaxStackSize(), stack.getItemDamage()));
+							yetToInsert--;
+						} else {
+							itemsLeft = result - getInventoryStackLimit();
+							if (doInsert)
+								setInventorySlotContents(slotNum, new ItemStack(stack.getItem(), getInventoryStackLimit(), stack.getItemDamage()));
+							yetToInsert--;
+						}
+						
+						carryOver = new ItemStack(stack.getItem(), itemsLeft, stack.getItemDamage());
+						continue;
+					}
+				}
+			}
+		}
+		return yetToInsert == 0 && carryOver == null;
+	}
+	
+	private IDryDistillerRecipe getCurrentRecipe() {
+		ItemStack slot = getStackInSlot(SLOT_INPUT);
+		return FractionatorRecipeManager.findMatchingRecipe(slot);
+	}
+
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack itemStack) {
 		return slot > 1 ? false : (slot == 1 ? isItemFuel(itemStack) : true);
@@ -372,15 +459,15 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	}
 
 	public int getBurnTimeScaled(int i) {
-		if (this.currentItemBurnTime == 0) {
-			this.currentItemBurnTime = this.processSpeed;
-		}
-
-		return (this.burnTime * i) / this.currentItemBurnTime;
+		if(this.currentItemBurnTime != 0)
+			return (this.burnTime * i) / this.currentItemBurnTime;
+		return 0;
 	}
 
 	public int getProgressScaled(int i) {
-		return (this.processTime * i) / this.processSpeed;
+		if(this.currentItemProcessTime != 0)
+			return (this.processTime * i) / this.currentItemProcessTime;
+		return 0;
 	}
 
 }

@@ -1,14 +1,13 @@
 package com.sinesection.logisticraft.proxy;
 
 import com.sinesection.logisticraft.Logisticraft;
-import com.sinesection.logisticraft.crafting.LogisticraftDryDistillerCrafting;
-import com.sinesection.logisticraft.crafting.LogisticraftVanillaCrafting;
 import com.sinesection.logisticraft.fluid.LogisticraftFluidHandler;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
 import com.sinesection.logisticraft.network.LogisticraftNetwork;
 import com.sinesection.logisticraft.registrars.ModBlocks;
 import com.sinesection.logisticraft.registrars.ModFluids;
 import com.sinesection.logisticraft.registrars.ModItems;
+import com.sinesection.logisticraft.registrars.ModRecipes;
 import com.sinesection.logisticraft.registrars.ModTileEntities;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -33,12 +32,7 @@ public class CommonProxy {
 	}
 
 	public void init(FMLInitializationEvent e) {
-		LogisticraftVanillaCrafting.registerCrafting();
-		LogisticraftVanillaCrafting.registerFurnaceCrafting();
-		LogisticraftVanillaCrafting.registerShapelessCrafting();
-		LogisticraftVanillaCrafting.registerOreDictCrafting();
-		LogisticraftDryDistillerCrafting.loadRecipes();
-		LogisticraftDryDistillerCrafting.registerCrafting();
+		ModRecipes.loadRecipes();
 		NetworkRegistry.INSTANCE.registerGuiHandler(Logisticraft.instance, new LogisticraftGuiHandler());
 		MinecraftForge.EVENT_BUS.register(new LogisticraftFluidHandler());
 	}
