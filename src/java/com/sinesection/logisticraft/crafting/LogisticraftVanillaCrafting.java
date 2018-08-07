@@ -35,6 +35,9 @@ public class LogisticraftVanillaCrafting {
 //		GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.crate), new Object[] {
 //				"LPL", "PRP", "LPL", 'L', Blocks.log, 'P', Blocks.planks, 'R', ModItems.resin
 //		});
+		
+		//TODO: placeholder recipe for fractionator
+		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.fractionatorIdle), ModItems.pitch, ModBlocks.dryDistillerIdle, ModItems.sulfur);
 	}
 
 	public static void registerShapelessCrafting() {
