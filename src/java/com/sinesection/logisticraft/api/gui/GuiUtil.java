@@ -21,7 +21,7 @@ import net.minecraft.item.ItemStack;
 
 @SideOnly(Side.CLIENT)
 public class GuiUtil {
-	public static void drawItemStack(GuiLogisticraft gui, ItemStack stack, int xPos, int yPos) {
+	public static void drawItemStack(GuiLogisticraft<?> gui, ItemStack stack, int xPos, int yPos) {
 		drawItemStack(gui.getFontRenderer(), stack, xPos, yPos);
 	}
 

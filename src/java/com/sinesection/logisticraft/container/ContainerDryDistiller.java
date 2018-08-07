@@ -122,6 +122,8 @@ public class ContainerDryDistiller extends Container {
 					}
 				}
 			}
+			
+			// TODO need to be like {@Link ContianerFractionator}
 
 			if (tempStack.stackSize == 0) {
 				slot.putStack((ItemStack) null);
