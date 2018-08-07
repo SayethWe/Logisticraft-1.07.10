@@ -7,32 +7,35 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 
 public class TileEntityCrate extends LogisticraftTileEntity implements ISidedInventory{
 	public static final int NUM_SLOTS = 1;
 	public static final int SlOT_INVENTORY = 0;
-	
-	
+	private static final int STACK_LIMIT = 16;
+
+
 	//Fields
 	private ItemStack[] slots = new ItemStack[NUM_SLOTS];
-	
+	private String localizedName;
+
 	@Override
 	public int getSizeInventory() {
 		return NUM_SLOTS;
 	}
-	
+
 	@Override
 	public ItemStack getStackInSlot(int slot) {
 		if (slot < 0 || slot > getSizeInventory())
 			return null;
 		return this.slots[slot];
 	}
-	
+
 	@Override
 	public int getInventoryStackLimit() {
-		return 16;
+		return STACK_LIMIT;
 	}
-	
+
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
@@ -40,45 +43,61 @@ public class TileEntityCrate extends LogisticraftTileEntity implements ISidedInv
 
 	@Override
 	public ItemStack decrStackSize(int slot, int amt) {
-		// TODO Auto-generated method stub
+		if(this.getStackInSlot(slot) != null) {
+			ItemStack slotContents;
+			if(this.getStackInSlot(slot).stackSize <= amt) {
+				slotContents = this.getStackInSlot(slot);
+				this.setInventorySlotContents(slot, null);
+				return slotContents;
+			} else {
+				slotContents = this.getStackInSlot(slot).splitStack(amt);
+				if(this.getStackInSlot(slot).stackSize == 0) {
+					this.setInventorySlotContents(slot, null);
+				}
+				return slotContents;
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
-		// TODO Auto-generated method stub
+		ItemStack slotContents = this.getStackInSlot(slot);
+		if(slotContents != null) {
+			this.setInventorySlotContents(slot, null);
+			return slotContents;
+		}
 		return null;
 	}
 
 	@Override
-	public void setInventorySlotContents(int slot, ItemStack item) {
-		// TODO Auto-generated method stub
+	public void setInventorySlotContents(int slot, ItemStack itemStack) {
+		if(slot < 0 || slot > getSizeInventory())
+			return;
+		if(itemStack != null && itemStack.stackSize > this.getInventoryStackLimit())
+			itemStack.stackSize = this.getInventoryStackLimit();
+		if (itemStack != null && itemStack.stackSize == 0)
+			itemStack = null;
 		
+		this.slots[slot] = itemStack;
+		this.markDirty();
 	}
 
 	@Override
 	public String getInventoryName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.hasCustomInventoryName() ? this.localizedName : "container.guiCrate.name";
 	}
 
 	@Override
 	public boolean hasCustomInventoryName() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.localizedName != null && this.localizedName.length() > 0;
 	}
 
 	@Override
-	public void openInventory() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void openInventory() {}
 
 	@Override
-	public void closeInventory() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void closeInventory() {}
 
 	@Override
 	public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_) {
@@ -103,12 +122,42 @@ public class TileEntityCrate extends LogisticraftTileEntity implements ISidedInv
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	public void writeToNBT(NBTTagCompound nbt) {
-		
+		super.writeToNBT(nbt);
+
+		NBTTagList list = new NBTTagList();
+		for(int i = 0; i < this.slots.length; i++) {
+			if(this.slots[i] != null) {
+				NBTTagCompound compound = new NBTTagCompound();
+				compound.setByte("slot", (byte) i);
+				this.slots[i].writeToNBT(compound);
+				list.appendTag(compound);
+			}
+		}
+		nbt.setTag("items", list);
+		if(this.hasCustomInventoryName()) {
+			nbt.setString("customName", this.localizedName);
+		}
 	}
 
 	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt);
 
+		NBTTagList list = nbt.getTagList("items", 10);
+		this.slots = new ItemStack[this.getSizeInventory()];
+
+		for(int i = 0; i < list.tagCount(); i++) {
+			NBTTagCompound compound = list.getCompoundTagAt(i);
+			byte slot = compound.getByte("slot");
+			if(slot >= 0 && slot < this.getSizeInventory()) {
+				this.setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(compound));
+			}
+		}
+
+		String customName = nbt.getString("customName");
+		if(!customName.isEmpty()) {
+			this.localizedName = customName;
+		}
 	}
 }

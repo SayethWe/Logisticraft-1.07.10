@@ -7,6 +7,8 @@ import com.sinesection.logisticraft.block.tileentity.TileEntityCrate;
 import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.network.LogisticraftGuiHandler;
 import com.sinesection.logisticraft.registrars.ModBlocks;
+import com.sinesection.utils.Log;
+import com.sinesection.utils.LogisticraftUtils;
 
 import cpw.mods.fml.common.network.internal.FMLNetworkHandler;
 import net.minecraft.block.Block;
@@ -25,7 +27,7 @@ public class BlockCrate extends LogisticraftTileEntityBlock {
 	private Random rand = new Random();
 	public BlockCrate() {
 		super("crate", Material.wood);
-		// TODO Auto-generated constructor stub
+		this.setHardness(2f);
 	}
 
 	@Override
@@ -45,16 +47,19 @@ public class BlockCrate extends LogisticraftTileEntityBlock {
 	
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemStack) {
-	// TODO
-		world.getTileEntity(x, y, z).writeToNBT(itemStack.getTagCompound());
+		if(itemStack.hasTagCompound()) {
+			world.getTileEntity(x, y, z).readFromNBT(itemStack.getTagCompound());
+			LogisticraftUtils.getLogger().info("writing NBT");
+		}
 	}
+	
 	
 
 	
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
-			//FMLNetworkHandler.openGui(player, Main.instance, LogisticraftGuiHandler.guiIdCrate, world, x, y, z);
+			FMLNetworkHandler.openGui(player, Main.instance, LogisticraftGuiHandler.guiIdCrate, world, x, y, z);
 		}
 		return true;
 	}
@@ -66,17 +71,24 @@ public class BlockCrate extends LogisticraftTileEntityBlock {
 		float zOff = this.rand.nextFloat() * 0.8f + 0.1f;
 		
 		TileEntityCrate tileEntity = (TileEntityCrate) world.getTileEntity(x, y, z);
-		EntityItem blockDrop = new EntityItem(world, (double) ((float)x + xOff), (double) ((float)y + yOff), (double) ((float)z + zOff), new ItemStack(Item.getItemFromBlock(ModBlocks.crate)));
+		
+		ItemStack item = new ItemStack(Item.getItemFromBlock(ModBlocks.crate));
 		if(tileEntity != null) {
 			NBTTagCompound data = new NBTTagCompound();
 			tileEntity.writeToNBT(data);
-			blockDrop.getEntityItem().setTagCompound(data); //TODO: Save NBT
+			item.setTagCompound(data);
+			world.removeTileEntity(x, y, z);
 		}
+		EntityItem blockDrop = new EntityItem(world, (double) ((float)x + xOff), (double) ((float)y + yOff), (double) ((float)z + zOff), item);
 		world.spawnEntityInWorld(blockDrop);
+		
+		world.func_147453_f(x, y, z, oldBlock); // Pretty sure this sends block updates
 		super.breakBlock(world, x, y, z, oldBlock, oldMeta);
 	}
 
-	//TODO: max stack size 1
-
+	@Override
+	public boolean hasTileEntity(int metadata) {
+		return true;
+	}
 
 }
