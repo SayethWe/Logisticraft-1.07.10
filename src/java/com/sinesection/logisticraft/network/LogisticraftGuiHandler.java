@@ -1,10 +1,13 @@
 package com.sinesection.logisticraft.network;
 
+import com.sinesection.logisticraft.block.tileentity.TileEntityCrate;
 import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 import com.sinesection.logisticraft.block.tileentity.TileEntityMixer;
+import com.sinesection.logisticraft.container.ContainerCrate;
 import com.sinesection.logisticraft.container.ContainerDryDistiller;
 import com.sinesection.logisticraft.container.ContainerFractionator;
+import com.sinesection.logisticraft.gui.GuiCrate;
 import com.sinesection.logisticraft.gui.GuiDryDistiller;
 import com.sinesection.logisticraft.gui.GuiFractionator;
 import com.sinesection.logisticraft.gui.GuiMixer;
@@ -20,6 +23,7 @@ public class LogisticraftGuiHandler implements IGuiHandler {
 	public static final int guiIdFractionator = 1;
 	public static final int guiIdMixer = 2;
 	public static final int guiIdHandbook = 3;
+	public static final int guiIdCrate = 4;
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
@@ -37,6 +41,10 @@ public class LogisticraftGuiHandler implements IGuiHandler {
 			if (tEntity != null)
 				if (tEntity instanceof TileEntityMixer)
 					return new ContainerMixer(player.inventory, (TileEntityMixer) tEntity);
+		case guiIdCrate:
+			if(tEntity != null)
+				if(tEntity instanceof TileEntityCrate)
+					return new ContainerCrate(player.inventory, (TileEntityCrate) tEntity);
 		default:
 			return null;
 		}
@@ -58,6 +66,10 @@ public class LogisticraftGuiHandler implements IGuiHandler {
 			if (tEntity != null)
 				if (tEntity instanceof TileEntityMixer)
 					return new GuiMixer(player.inventory, (TileEntityMixer) tEntity);
+		case guiIdCrate:
+			if(tEntity != null)
+				if(tEntity instanceof TileEntityCrate)
+					return new GuiCrate(player.inventory, (TileEntityCrate) tEntity);
 		default:
 			return null;
 		}

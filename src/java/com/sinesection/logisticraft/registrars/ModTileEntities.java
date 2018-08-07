@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sinesection.logisticraft.block.tileentity.LogisticraftTileEntity;
+import com.sinesection.logisticraft.block.tileentity.TileEntityCrate;
 import com.sinesection.logisticraft.block.tileentity.TileEntityDryDistiller;
 import com.sinesection.logisticraft.block.tileentity.TileEntityFractionator;
 
@@ -22,5 +23,6 @@ public class ModTileEntities {
 	public static void loadTileEntities() {
 		tileEnts.put("dryDistiller", TileEntityDryDistiller.class);
 		tileEnts.put("fractionator", TileEntityFractionator.class);
+		tileEnts.put("crate", TileEntityCrate.class);
 	}
 }
