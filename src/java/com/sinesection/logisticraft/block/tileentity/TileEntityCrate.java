@@ -1,8 +1,5 @@
 package com.sinesection.logisticraft.block.tileentity;
 
-import com.sinesection.logisticraft.api.INbtReadable;
-import com.sinesection.logisticraft.api.INbtWritable;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;

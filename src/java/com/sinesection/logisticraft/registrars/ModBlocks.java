@@ -31,6 +31,7 @@ public class ModBlocks {
 	public static final Block mixerIdle = new BlockMixer(false);
 	public static final Block mixerActive = new BlockMixer(true).setLightLevel(6f);
 	public static final Block rubberBlock = new BlockRubber();
+	public static final Block crate = new BlockCrate();
 
 	public static final Block roadBlock = new BlockRoadway();
 

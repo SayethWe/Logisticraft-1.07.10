@@ -16,7 +16,7 @@ import com.sinesection.logisticraft.gui.widgets.WidgetManager;
 import com.sinesection.logisticraft.render.ColorProperties;
 import com.sinesection.logisticraft.render.LogisticraftResource;
 
-import javafx.scene.shape.Rectangle;
+import java.awt.Rectangle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
