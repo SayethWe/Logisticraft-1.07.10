@@ -365,71 +365,87 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	}
 
 	private boolean insertStacksIntoOutputSlots(Collection<ItemStack> itemStacks, boolean doInsert) {
-		int yetToInsert = itemStacks.size();
-		ItemStack carryOver = null;
+//		int yetToInsert = itemStacks.size();
+//		ItemStack carryOver = null;
 		for (ItemStack stack : itemStacks) {
-			for (int i = 0; i < SLOT_OUTPUTS.length; i++) {
-				int slotNum = SLOT_OUTPUTS[i];
-				ItemStack slot = getStackInSlot(slotNum);
-				// CARRY OVER
-				if(carryOver != null) {
-					if (slot == null) {
-						if (doInsert)
-							setInventorySlotContents(slotNum, carryOver);
-						carryOver = null;
-						continue;
-					} else if (slot.isItemEqual(carryOver)) {
-						int result = slot.stackSize + carryOver.stackSize;
-						if (result <= slot.getMaxStackSize() && result <= getInventoryStackLimit()) {
-							if (doInsert)
-								incrStackSize(slotNum, carryOver.stackSize);
-							carryOver = null;
-							continue;
-						} else if (result > slot.getMaxStackSize() && result > getInventoryStackLimit()) {
-							int itemsLeft = 0;
-							if(slot.getMaxStackSize() >= getInventoryStackLimit()) {
-								itemsLeft = result - slot.getMaxStackSize();
-							} else {
-								itemsLeft = result - getInventoryStackLimit();
-							}
-							carryOver = new ItemStack(carryOver.getItem(), itemsLeft, carryOver.getItemDamage());
-							continue;
-						}
+			for(int outIndex = 0; outIndex < SLOT_OUTPUTS.length; outIndex ++) {
+				int slotIndex = SLOT_OUTPUTS[outIndex];
+				ItemStack slotContents = getStackInSlot(slotIndex);
+				//Check if slot is empty
+				if(slotContents == null) {
+					if(doInsert) {
+						setInventorySlotContents(slotIndex, stack);
 					}
-				}
-				// ITEM INSERTION
-				if (slot == null) {
-					if (doInsert)
-						setInventorySlotContents(slotNum, stack);
-					yetToInsert--;
-					break;
-				} else if (slot.isItemEqual(stack)) {
-					int result = slot.stackSize + stack.stackSize;
-					if (result <= slot.getMaxStackSize() && result <= getInventoryStackLimit()) {
-						if (doInsert)
-							incrStackSize(slotNum, stack.stackSize);
-						yetToInsert--;
-						break;
-					} else if (result > slot.getMaxStackSize() || result > getInventoryStackLimit()) {
-						int itemsLeft = 0;
-						if(slot.getMaxStackSize() <= getInventoryStackLimit()) {
-							itemsLeft = result - slot.getMaxStackSize();
-							if (doInsert)
-								setInventorySlotContents(slotNum, new ItemStack(stack.getItem(), slot.getMaxStackSize(), stack.getItemDamage()));
-							yetToInsert--;
-						} else {
-							itemsLeft = result - getInventoryStackLimit();
-							if (doInsert)
-								setInventorySlotContents(slotNum, new ItemStack(stack.getItem(), getInventoryStackLimit(), stack.getItemDamage()));
-							yetToInsert--;
-						}
-						
-						carryOver = new ItemStack(stack.getItem(), itemsLeft, stack.getItemDamage());
-						continue;
-					}
-				}
+				} else if (slotContents.getItem() == stack.getItem())
 			}
 		}
+		return false;
+		
+//		for (ItemStack stack : itemStacks) {
+//			for (int i = 0; i < SLOT_OUTPUTS.length; i++) {
+//				int slotNum = SLOT_OUTPUTS[i];
+//				ItemStack slot = getStackInSlot(slotNum);
+//				// CARRY OVER
+//				if(carryOver != null) {
+//					if (slot == null) {
+//						if (doInsert)
+//							setInventorySlotContents(slotNum, carryOver);
+//						carryOver = null;
+//						continue;
+//					} else if (slot.isItemEqual(carryOver)) {
+//						int result = slot.stackSize + carryOver.stackSize;
+//						if (result <= slot.getMaxStackSize() && result <= getInventoryStackLimit()) {
+//							if (doInsert)
+//								incrStackSize(slotNum, carryOver.stackSize);
+//							carryOver = null;
+//							continue;
+//						} else if (result > slot.getMaxStackSize() && result > getInventoryStackLimit()) {
+//							int itemsLeft = 0;
+//							if(slot.getMaxStackSize() >= getInventoryStackLimit()) {
+//								itemsLeft = result - slot.getMaxStackSize();
+//							} else {
+//								itemsLeft = result - getInventoryStackLimit();
+//							}
+//							carryOver = new ItemStack(carryOver.getItem(), itemsLeft, carryOver.getItemDamage());
+//							continue;
+//						}
+//					}
+//				}
+//				// ITEM INSERTION
+//				if (slot == null) {
+//					if (doInsert)
+//						setInventorySlotContents(slotNum, stack);
+//					yetToInsert--;
+//					break;
+//				} else if (slot.isItemEqual(stack)) {
+//					int result = slot.stackSize + stack.stackSize;
+//					if (result <= slot.getMaxStackSize() && result <= getInventoryStackLimit()) {
+//						if (doInsert)
+//							incrStackSize(slotNum, stack.stackSize);
+//						yetToInsert--;
+//						break;
+//					} else if (result > slot.getMaxStackSize() || result > getInventoryStackLimit()) {
+//						int itemsLeft = 0;
+//						if(slot.getMaxStackSize() <= getInventoryStackLimit()) {
+//							itemsLeft = result - slot.getMaxStackSize();
+//							if (doInsert)
+//								setInventorySlotContents(slotNum, new ItemStack(stack.getItem(), slot.getMaxStackSize(), stack.getItemDamage()));
+//							yetToInsert--;
+//						} else {
+//							itemsLeft = result - getInventoryStackLimit();
+//							if (doInsert)
+//								setInventorySlotContents(slotNum, new ItemStack(stack.getItem(), getInventoryStackLimit(), stack.getItemDamage()));
+//							yetToInsert--;
+//						}
+//						
+//						carryOver = new ItemStack(stack.getItem(), itemsLeft, stack.getItemDamage());
+//						continue;
+//					}
+//				}
+//			}
+//		}
+//		return yetToInsert == 0 && carryOver == null;
+	}
 		return yetToInsert == 0 && carryOver == null;
 	}
 	
