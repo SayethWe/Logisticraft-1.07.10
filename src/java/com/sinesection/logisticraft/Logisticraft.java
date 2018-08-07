@@ -18,6 +18,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.MOD_NAME, version = Constants.VERSION)
 public class Logisticraft {
@@ -27,6 +28,8 @@ public class Logisticraft {
 
 	@SidedProxy(clientSide = "com.sinesection.logisticraft.proxy.ClientProxy", serverSide = "com.sinesection.logisticraft.proxy.ServerProxy")
 	public static CommonProxy proxy;
+	
+	public static Configuration config;
 
 	@Nullable
 	private static PacketHandler packetHandler;
@@ -40,6 +43,7 @@ public class Logisticraft {
 	public void preInit(FMLPreInitializationEvent e) {
 		packetHandler = new PacketHandler();
 		proxy.preInit(e);
+		config = new Configuration(e.getSuggestedConfigurationFile());
 	}
 
 	@EventHandler
