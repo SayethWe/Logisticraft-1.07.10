@@ -48,8 +48,10 @@ public class BlockCrate extends LogisticraftTileEntityBlock {
 	@Override
 	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLivingBase, ItemStack itemStack) {
 		if(itemStack.hasTagCompound()) {
-			world.getTileEntity(x, y, z).readFromNBT(itemStack.getTagCompound());
-			LogisticraftUtils.getLogger().info("writing NBT");
+			NBTTagCompound nbt = itemStack.getTagCompound();
+			LogisticraftUtils.addLocationToNBT(nbt, x, y, z);//to stop it throwing a fit about missing coord tags.
+			world.getTileEntity(x, y, z).readFromNBT(nbt);
+			LogisticraftUtils.getLogger().info("writing NBT" + nbt);
 		}
 	}
 	
@@ -60,6 +62,7 @@ public class BlockCrate extends LogisticraftTileEntityBlock {
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote) {
 			FMLNetworkHandler.openGui(player, Main.instance, LogisticraftGuiHandler.guiIdCrate, world, x, y, z);
+			LogisticraftUtils.getLogger().info("Opening Crate GUI at "+ x+","+y+","+z);
 		}
 		return true;
 	}
@@ -76,12 +79,15 @@ public class BlockCrate extends LogisticraftTileEntityBlock {
 		if(tileEntity != null) {
 			NBTTagCompound data = new NBTTagCompound();
 			tileEntity.writeToNBT(data);
+			LogisticraftUtils.removeLocationFromNBT(data); //To make it not location-specific
 			item.setTagCompound(data);
 		}
 		EntityItem blockDrop = new EntityItem(world, (double) ((float)x + xOff), (double) ((float)y + yOff), (double) ((float)z + zOff), item);
 		world.spawnEntityInWorld(blockDrop);
 		
 		world.func_147453_f(x, y, z, oldBlock); // Pretty sure this sends block updates
+		world.markBlockForUpdate(x, y, z);
+		
 		super.breakBlock(world, x, y, z, oldBlock, oldMeta);
 	}
 

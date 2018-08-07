@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import net.minecraft.nbt.NBTTagCompound;
 public class LogisticraftUtils {
 	
 	private static final String DEFAULT_TITLE = "Uninitialized Logger";
@@ -43,5 +45,19 @@ public class LogisticraftUtils {
 	    }
 	     
 	    return result;
+	}
+	
+	public static NBTTagCompound removeLocationFromNBT(NBTTagCompound nbt) {
+		nbt.removeTag("x");
+		nbt.removeTag("y");
+		nbt.removeTag("z");
+		return nbt;
+	}
+	
+	public static NBTTagCompound addLocationToNBT(NBTTagCompound nbt, int x, int y, int z) {
+		nbt.setInteger("x", x);
+		nbt.setInteger("y", y);
+		nbt.setInteger("z", z);
+		return nbt;
 	}
 }
