@@ -7,6 +7,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class LogisticraftVanillaCrafting {
 
@@ -31,6 +32,9 @@ public class LogisticraftVanillaCrafting {
 		GameRegistry.addShapedRecipe(new ItemStack(ModItems.trafficDirector), new Object[] {
 				"III", "ISI", " T ", 'I', Items.iron_ingot, 'S', Items.sign, 'T', Items.stick
 		});
+//		GameRegistry.addShapedRecipe(new ItemStack(ModBlocks.crate), new Object[] {
+//				"LPL", "PRP", "LPL", 'L', Blocks.log, 'P', Blocks.planks, 'R', ModItems.resin
+//		});
 	}
 
 	public static void registerShapelessCrafting() {
@@ -39,6 +43,12 @@ public class LogisticraftVanillaCrafting {
 		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.rubberBlock), ModItems.refinedRubber, ModItems.refinedRubber, ModItems.refinedRubber, ModItems.refinedRubber, ModItems.refinedRubber, ModItems.refinedRubber, ModItems.refinedRubber, ModItems.refinedRubber);
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.refinedRubber, 8), new ItemStack(ModBlocks.rubberBlock));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.roadBlock), ModItems.tar, Blocks.cobblestone, Blocks.gravel, Blocks.sand);
+	}
+	
+	public static void registerOreDictCrafting() {
+		GameRegistry.addRecipe(new ShapedOreRecipe(ModBlocks.crate, new Object[] {
+				"LPL", "PRP", "LPL", 'L', Blocks.log, 'P', Blocks.planks, 'R', ModItems.resin
+		}));
 	}
 
 	public static void registerFurnaceCrafting() {
