@@ -105,12 +105,12 @@ public abstract class ItemStackUtil {
 
 		return condensed;
 	}
-	
+
 	public static Pair<List<ItemStack>, List<String>> condenseStacks(List<ItemStack> stacks, List<String> dicts) {
 		List<ItemStack> condensed = new ArrayList<ItemStack>();
 		List<String> condensedDicts = new ArrayList<String>();
 
-		for (int i = 0;i < stacks.size();i++) {
+		for (int i = 0; i < stacks.size(); i++) {
 			ItemStack stack = stacks.get(i);
 			if (stack == null) {
 				continue;
@@ -181,7 +181,7 @@ public abstract class ItemStackUtil {
 
 		return totalSets;
 	}
-	
+
 	/**
 	 * Counts how many full sets are contained in the passed stock
 	 */
@@ -189,11 +189,11 @@ public abstract class ItemStackUtil {
 		int totalSets = 0;
 
 		Pair<List<ItemStack>, List<String>> condensedRequired = ItemStackUtil.condenseStacks(set, oreDicts);
-		List<String> condensedRequiredDicts= condensedRequired.getRight();
+		List<String> condensedRequiredDicts = condensedRequired.getRight();
 		List<ItemStack> condensedRequiredStacks = condensedRequired.getLeft();
 		List<ItemStack> condensedOfferedStacks = ItemStackUtil.condenseStacks(stock);
 
-		for (int y = 0;y < condensedRequiredStacks.size();y++) {
+		for (int y = 0; y < condensedRequiredStacks.size(); y++) {
 			ItemStack req = condensedRequiredStacks.get(y);
 			String offerDict = condensedRequiredDicts.get(y);
 			int reqCount = 0;
@@ -235,7 +235,8 @@ public abstract class ItemStackUtil {
 	}
 
 	/**
-	 * Compare two item stacks for crafting equivalency without oreDictionary or craftingTools
+	 * Compare two item stacks for crafting equivalency without oreDictionary or
+	 * craftingTools
 	 */
 	public static boolean isCraftingEquivalent(ItemStack base, ItemStack comparison) {
 		if (base == null || comparison == null) {
@@ -252,14 +253,15 @@ public abstract class ItemStackUtil {
 			}
 		}
 
-		// When the base stackTagCompound is null or empty, treat it as a wildcard for crafting
+		// When the base stackTagCompound is null or empty, treat it as a
+		// wildcard for crafting
 		if (base.getTagCompound() == null || base.getTagCompound().hasNoTags()) {
 			return true;
 		} else {
 			return ItemStack.areItemStackTagsEqual(base, comparison);
 		}
 	}
-	
+
 	/**
 	 * Compare two item stacks for crafting equivalency.
 	 */
@@ -274,7 +276,8 @@ public abstract class ItemStackUtil {
 			int[] idsComp = OreDictionary.getOreIDs(comparison);
 			Arrays.sort(idsComp);
 
-			// check if the sorted arrays "idsBase" and "idsComp" have any ID in common.
+			// check if the sorted arrays "idsBase" and "idsComp" have any ID in
+			// common.
 			int iBase = 0;
 			int iComp = 0;
 			while (iBase < idsBase.length && iComp < idsComp.length) {
@@ -291,12 +294,12 @@ public abstract class ItemStackUtil {
 
 		return false;
 	}
-	
+
 	/**
 	 * Compare two item stacks for crafting equivalency.
 	 */
 	public static boolean isCraftingEquivalent(ItemStack base, ItemStack comparison, @Nullable String oreDict, boolean craftingTools) {
-		if(isCraftingEquivalent(base, comparison, craftingTools)){
+		if (isCraftingEquivalent(base, comparison, craftingTools)) {
 			return true;
 		}
 
@@ -304,7 +307,7 @@ public abstract class ItemStackUtil {
 			int[] validIds = OreDictionary.getOreIDs(comparison);
 			int validID = OreDictionary.getOreID(oreDict);
 
-			for(int id : validIds){
+			for (int id : validIds) {
 				if (id == validID) {
 					return true;
 				}
@@ -313,7 +316,7 @@ public abstract class ItemStackUtil {
 
 		return false;
 	}
-	
+
 	public static boolean isCraftingEquivalent(ItemStack base, ItemStack comparison, boolean craftingTools) {
 		if (base == null || comparison == null) {
 			return false;
@@ -382,7 +385,6 @@ public abstract class ItemStackUtil {
 		world.spawnEntityInWorld(entityitem);
 	}
 
-
 	public static ItemStack copyWithRandomSize(ItemStack template, int max, Random rand) {
 		int size = max <= 0 ? 0 : rand.nextInt(max);
 		ItemStack created = template.copy();
@@ -415,7 +417,6 @@ public abstract class ItemStackUtil {
 		return block == getBlock(stack) && meta == stack.getItemDamage();
 	}
 
-	
 	/**
 	 * Checks like {@link ItemStack#areItemStacksEqual(ItemStack, ItemStack)}
 	 * but ignores stack size (count).
@@ -423,7 +424,7 @@ public abstract class ItemStackUtil {
 	public static boolean areItemStacksEqualIgnoreCount(ItemStack a, ItemStack b) {
 		if (a == null && b == null) {
 			return true;
-		} else if (a == null || b == null ) {
+		} else if (a == null || b == null) {
 			return false;
 		} else if (a.getItem() != b.getItem()) {
 			return false;

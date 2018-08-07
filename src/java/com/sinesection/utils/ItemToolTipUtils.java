@@ -1,6 +1,5 @@
 package com.sinesection.utils;
 
-
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
-
 
 public class ItemToolTipUtils {
 	@SideOnly(Side.CLIENT)
@@ -32,17 +30,17 @@ public class ItemToolTipUtils {
 
 	@SideOnly(Side.CLIENT)
 	public static void addShiftInformation(ItemStack stack, World world, List<String> tooltip) {
-		tooltip.add(EnumChatFormatting.ITALIC .toString() + '<' + I18n.format("for.gui.tooltip.tmi") + '>');
+		tooltip.add(EnumChatFormatting.ITALIC.toString() + '<' + I18n.format("for.gui.tooltip.tmi") + '>');
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static List<String> getInformation(ItemStack stack){
+	public static List<String> getInformation(ItemStack stack) {
 		Minecraft minecraft = Minecraft.getMinecraft();
 		return getInformation(stack, minecraft.thePlayer, minecraft.gameSettings.advancedItemTooltips);
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static List<String> getInformation(ItemStack stack, EntityPlayer player, boolean advancedTooltips){
+	public static List<String> getInformation(ItemStack stack, EntityPlayer player, boolean advancedTooltips) {
 		if (stack == null) {
 			return Collections.emptyList();
 		}

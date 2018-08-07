@@ -6,7 +6,6 @@ import javax.annotation.Nullable;
 
 import com.sinesection.logisticraft.api.gui.IGuiElement;
 
-
 public final class GuiEventHandler<E extends GuiElementEvent> implements Consumer<E> {
 	private final Consumer<E> handlerAction;
 	private final Class<? super E> eventClass;
@@ -35,7 +34,7 @@ public final class GuiEventHandler<E extends GuiElementEvent> implements Consume
 
 	@Override
 	public final void accept(E e) {
-		if(canHandle(e)) {
+		if (canHandle(e)) {
 			handlerAction.accept(e);
 		}
 	}

@@ -5,7 +5,6 @@ import java.io.IOException;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-
 public interface IStreamable {
 	void writeData(LogisticraftPacketBuffer data);
 

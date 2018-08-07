@@ -177,7 +177,7 @@ public class ContainerFractionator extends Container {
 
 			if (tempItemStack.stackSize == itemStack.stackSize)
 				return null;
-			
+
 			slot.onPickupFromSlot(player, itemStack);
 		}
 

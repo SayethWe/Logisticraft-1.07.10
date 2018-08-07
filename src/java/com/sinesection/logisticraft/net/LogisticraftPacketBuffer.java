@@ -128,7 +128,7 @@ public class LogisticraftPacketBuffer extends PacketBuffer {
 		}
 		return enumValues[ordinal];
 	}
-	
+
 	public void writeStreamable(@Nullable Object object) {
 		if (object != null && object instanceof IStreamable) {
 			IStreamable streamable = (IStreamable) object;
@@ -177,7 +177,7 @@ public class LogisticraftPacketBuffer extends PacketBuffer {
 			}
 		}
 	}
-	
+
 	public interface IStreamableFactory<T extends IStreamable> {
 		T create(LogisticraftPacketBuffer data) throws IOException;
 	}

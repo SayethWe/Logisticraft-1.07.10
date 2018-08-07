@@ -18,10 +18,11 @@ public abstract class InventoryUtil {
 	/* REMOVAL */
 
 	/**
-	 * Removes a set of items from an inventory.
-	 * Removes the exact items first if they exist, and then removes crafting equivalents.
-	 * If the inventory doesn't have all the required items, returns false without removing anything.
-	 * If stowContainer is true, items with containers will have their container stowed.
+	 * Removes a set of items from an inventory. Removes the exact items first
+	 * if they exist, and then removes crafting equivalents. If the inventory
+	 * doesn't have all the required items, returns false without removing
+	 * anything. If stowContainer is true, items with containers will have their
+	 * container stowed.
 	 */
 	public static boolean removeSets(IInventory inventory, int count, List<ItemStack> set, @Nullable EntityPlayer player, boolean stowContainer, boolean oreDictionary, boolean craftingTools, boolean doRemove) {
 		List<ItemStack> stock = getStacks(inventory);
@@ -33,7 +34,7 @@ public abstract class InventoryUtil {
 			return ItemStackUtil.containsSets(set, stock, oreDictionary, craftingTools) >= count;
 		}
 	}
-	
+
 	public static boolean removeSets(IInventory inventory, int count, List<ItemStack> set, List<String> oreDicts, @Nullable EntityPlayer player, boolean stowContainer, boolean craftingTools, boolean doRemove) {
 		List<ItemStack> stock = getStacks(inventory);
 
@@ -44,24 +45,24 @@ public abstract class InventoryUtil {
 			return ItemStackUtil.containsSets(set, stock, oreDicts, craftingTools) >= count;
 		}
 	}
-	
+
 	public static boolean deleteExactSet(IInventory inventory, List<ItemStack> required) {
 		List<ItemStack> offered = getStacks(inventory);
 		List<ItemStack> condensedRequired = ItemStackUtil.condenseStacks(required);
 		List<ItemStack> condensedOffered = ItemStackUtil.condenseStacks(offered);
-		
+
 		for (ItemStack req : condensedRequired) {
 			if (!containsExactStack(req, condensedOffered)) {
 				return false;
 			}
 		}
-		
+
 		for (ItemStack itemStack : condensedRequired) {
 			deleteExactStack(inventory, itemStack);
 		}
 		return true;
 	}
-	
+
 	private static boolean containsExactStack(ItemStack req, List<ItemStack> condensedOffered) {
 		for (ItemStack offer : condensedOffered) {
 			if (offer.stackSize >= req.stackSize && ItemStackUtil.areItemStacksEqualIgnoreCount(req, offer)) {
@@ -70,7 +71,7 @@ public abstract class InventoryUtil {
 		}
 		return false;
 	}
-	
+
 	private static void deleteExactStack(IInventory inventory, ItemStack itemStack) {
 		int count = itemStack.stackSize;
 		for (int j = 0; j < inventory.getSizeInventory(); j++) {
@@ -114,7 +115,7 @@ public abstract class InventoryUtil {
 		}
 		return removed;
 	}
-	
+
 	@Nullable
 	public static List<ItemStack> removeSets(IInventory inventory, int count, List<ItemStack> set, List<String> oreDicts, @Nullable EntityPlayer player, boolean stowContainer, boolean craftingTools) {
 		List<ItemStack> removed = new ArrayList<ItemStack>();
@@ -166,8 +167,8 @@ public abstract class InventoryUtil {
 		}
 		return null;
 	}
-	
-	private static ItemStack removeStack(IInventory inventory, ItemStack stackToRemove,  @Nullable String oreDictOfStack, @Nullable EntityPlayer player, boolean stowContainer, boolean craftingTools) {
+
+	private static ItemStack removeStack(IInventory inventory, ItemStack stackToRemove, @Nullable String oreDictOfStack, @Nullable EntityPlayer player, boolean stowContainer, boolean craftingTools) {
 		for (int j = 0; j < inventory.getSizeInventory(); j++) {
 			ItemStack stackInSlot = inventory.getStackInSlot(j);
 			if (stackInSlot != null) {
@@ -245,10 +246,10 @@ public abstract class InventoryUtil {
 		}
 		return result;
 	}
-	
+
 	public static List<String> getOreDictAsList(String[][] oreDicts) {
 		List<String> result = new ArrayList<String>();
-		if(oreDicts == null || oreDicts.length == 0){
+		if (oreDicts == null || oreDicts.length == 0) {
 			return result;
 		}
 		for (int i = 0; i < oreDicts.length; i++) {

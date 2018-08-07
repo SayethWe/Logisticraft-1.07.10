@@ -7,7 +7,7 @@ import java.util.Random;
 import net.minecraft.item.ItemStack;
 
 public interface IDryDistillerRecipe {
-	
+
 	/**
 	 * @return Number of work cycles required to craft the recipe once.
 	 */
@@ -17,10 +17,10 @@ public interface IDryDistillerRecipe {
 	 * The item for this recipe to match against.
 	 **/
 	ItemStack getInput();
-	
+
 	/**
-	 * Returns a list of all possible products and their estimated probabilities (0.0 to 1.0],
-	 * to help mods that display recipes
+	 * Returns a list of all possible products and their estimated probabilities
+	 * (0.0 to 1.0], to help mods that display recipes
 	 **/
 	Map<ItemStack, Float> getAllProducts();
 

@@ -12,12 +12,12 @@ public abstract class LogisticraftTileEntityBlock extends LogisticraftBlock impl
 		super(name, mat);
 		this.isBlockContainer = true;
 	}
-	
+
 	@Override
 	public abstract TileEntity createNewTileEntity(World w, int meta);
-	//just because the other naming convention is ugly,
-	//and this keeps me from having to change it each time
-	
+	// just because the other naming convention is ugly,
+	// and this keeps me from having to change it each time
+
 	@Override
 	public void breakBlock(World w, int x, int y, int z, Block b, int meta) {
 		super.breakBlock(w, x, y, z, b, meta);
@@ -28,7 +28,7 @@ public abstract class LogisticraftTileEntityBlock extends LogisticraftBlock impl
 	public boolean onBlockEventReceived(World w, int x, int y, int z, int eventId, int eventParam) {
 		super.onBlockEventReceived(w, x, y, z, eventId, eventParam);
 		TileEntity tileEnt = w.getTileEntity(x, y, z);
-		return  tileEnt == null ? false : tileEnt.receiveClientEvent(eventId, eventParam);
+		return tileEnt == null ? false : tileEnt.receiveClientEvent(eventId, eventParam);
 	}
 
 }

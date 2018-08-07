@@ -18,7 +18,8 @@ public interface ICraftingProvider<T extends ILogisticraftRecipe> {
 	boolean removeRecipe(T recipe);
 
 	/**
-	 * @return an unmodifiable collection of all recipes registered to the crafting provider.
+	 * @return an unmodifiable collection of all recipes registered to the
+	 *         crafting provider.
 	 */
 	Collection<T> recipes();
 }

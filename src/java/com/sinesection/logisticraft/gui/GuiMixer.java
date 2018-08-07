@@ -19,7 +19,7 @@ public class GuiMixer extends GuiContainer {
 	private static final int GUI_HEIGHT = 166;
 
 	public TileEntityMixer tEntity;
-	//private float mouseX, mouseY;
+	// private float mouseX, mouseY;
 
 	public GuiMixer(InventoryPlayer inventory, TileEntityMixer tEntity) {
 		super(new ContainerMixer(inventory, tEntity));
@@ -45,8 +45,8 @@ public class GuiMixer extends GuiContainer {
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float par3) {
-		//this.mouseX = (float) mouseX;
-		//this.mouseY = (float) mouseY;
+		// this.mouseX = (float) mouseX;
+		// this.mouseY = (float) mouseY;
 		super.drawScreen(mouseX, mouseY, par3);
 	}
 

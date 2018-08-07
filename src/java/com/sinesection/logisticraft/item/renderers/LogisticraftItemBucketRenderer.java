@@ -1,7 +1,7 @@
 package com.sinesection.logisticraft.item.renderers;
 
 import com.sinesection.logisticraft.item.ItemLogisticraftBucket;
-import com.sinesection.utils.LogisticraftUtils;
+import com.sinesection.utils.Log;
 
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -34,17 +34,17 @@ public class LogisticraftItemBucketRenderer implements IItemRenderer {
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
 		switch (type) {
-	      case ENTITY:
-	        return (helper == ItemRendererHelper.ENTITY_BOBBING || helper == ItemRendererHelper.ENTITY_ROTATION);
-	      case EQUIPPED:
-	        return false;
-	      case EQUIPPED_FIRST_PERSON:
-	        return false;
-	      case INVENTORY:
-	        return false;
-	      default:
-	        return false;
-	      }
+		case ENTITY:
+			return (helper == ItemRendererHelper.ENTITY_BOBBING || helper == ItemRendererHelper.ENTITY_ROTATION);
+		case EQUIPPED:
+			return false;
+		case EQUIPPED_FIRST_PERSON:
+			return false;
+		case INVENTORY:
+			return false;
+		default:
+			return false;
+		}
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class LogisticraftItemBucketRenderer implements IItemRenderer {
 		} else {
 			if (!wrongRendererMsgWritten) {
 				wrongRendererMsgWritten = true;
-				LogisticraftUtils.getLogger().info(this.getClass().getName() + ".drawAsSlice() called with wrong Item:" + item.getDisplayName());
+				Log.info(this.getClass().getName() + ".drawAsSlice() called with wrong Item:" + item.getDisplayName());
 			}
 			return;
 		}
@@ -91,23 +91,23 @@ public class LogisticraftItemBucketRenderer implements IItemRenderer {
 		final float THICKNESS = 0.0625F;
 
 		Tessellator tessellator = Tessellator.instance;
-		//GL11.glTranslatef(-0.5F, 0.0F, 0.0F);
-		
+		// GL11.glTranslatef(-0.5F, 0.0F, 0.0F);
+
 		IIcon icon = bucketItem.getIcon(item, 0);
 		IIcon fluidIcon = bucketItem.getFluid().getStillIcon();
-		
+
 		double minU1 = (double) fluidIcon.getMinU();
 		double minV1 = (double) fluidIcon.getMinV();
 		double maxU1 = (double) fluidIcon.getMaxU();
 		double maxV1 = (double) fluidIcon.getMaxV();
 
 		tessellator.startDrawingQuads();
-		tessellator.addVertexWithUV(1.0, 1.0, 0.0, minU1,  maxV1);
+		tessellator.addVertexWithUV(1.0, 1.0, 0.0, minU1, maxV1);
 		tessellator.addVertexWithUV(1.0, 0.0, 0.0, maxU1, maxV1);
 		tessellator.addVertexWithUV(0.0, 0.0, 0.0, maxU1, minV1);
 		tessellator.addVertexWithUV(0.0, 1.0, 0.0, minU1, minV1);
 		tessellator.draw();
-		
+
 		ItemRenderer.renderItemIn2D(tessellator, icon.getMaxU(), icon.getMaxV(), icon.getMinU(), icon.getMinV(), 1, 1, THICKNESS);
 	}
 

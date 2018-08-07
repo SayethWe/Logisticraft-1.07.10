@@ -1,6 +1,5 @@
 package com.sinesection.logisticraft.gui;
 
-
 import org.lwjgl.opengl.GL11;
 
 import com.sinesection.logisticraft.render.ColorProperties;
@@ -93,7 +92,7 @@ public class TextLayoutHelper {
 	}
 
 	public void drawSplitLine(String text, int x, int maxWidth, int color) {
-		guiLogisticraft.getFontRenderer().drawSplitString(text,guiLogisticraft.getGuiLeft() + x, guiLogisticraft.getGuiTop() + line, maxWidth, color);
+		guiLogisticraft.getFontRenderer().drawSplitString(text, guiLogisticraft.getGuiLeft() + x, guiLogisticraft.getGuiTop() + line, maxWidth, color);
 	}
 
 	public int getCenteredOffset(String string) {

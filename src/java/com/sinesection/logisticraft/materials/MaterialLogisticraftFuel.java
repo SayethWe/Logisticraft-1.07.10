@@ -3,7 +3,7 @@ package com.sinesection.logisticraft.materials;
 import net.minecraft.block.material.Material;
 
 public class MaterialLogisticraftFuel extends LogisticraftMaterial {
-	
+
 	public MaterialLogisticraftFuel() {
 		super(Material.water.getMaterialMapColor());
 	}

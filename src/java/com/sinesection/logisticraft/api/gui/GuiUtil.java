@@ -43,12 +43,16 @@ public class GuiUtil {
 		List<String> lines = toolTips.getLines();
 		if (!lines.isEmpty()) {
 			GL11.glPushMatrix();
-			if(provider == null || provider.isRelativeToGui()) {
+			if (provider == null || provider.isRelativeToGui()) {
 				GL11.glTranslatef(-gui.getGuiLeft(), -gui.getGuiTop(), 0);
 			}
 			// TODO Shits fucked, bro.
-			//ScaledResolution scaledresolution = new ScaledResolution(gui.getMC());
-			//GuiUtils.drawHoveringText(lines, mouseX, mouseY, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), -1, gui.getMC().fontRenderer);
+			// ScaledResolution scaledresolution = new
+			// ScaledResolution(gui.getMC());
+			// GuiUtils.drawHoveringText(lines, mouseX, mouseY,
+			// scaledresolution.getScaledWidth(),
+			// scaledresolution.getScaledHeight(), -1,
+			// gui.getMC().fontRenderer);
 			GL11.glPopMatrix();
 		}
 	}

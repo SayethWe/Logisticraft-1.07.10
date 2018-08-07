@@ -33,10 +33,12 @@ public enum EnumTankLevel {
 	}
 
 	public static EnumTankLevel rateTankLevel(int scaled) {
-		if(scaled < EMPTY.level) scaled = EMPTY.level;
-		if(scaled > MAX.level) scaled = MAX.level;
-		for(EnumTankLevel l : values()) {
-			if(scaled < l.level + 9)
+		if (scaled < EMPTY.level)
+			scaled = EMPTY.level;
+		if (scaled > MAX.level)
+			scaled = MAX.level;
+		for (EnumTankLevel l : values()) {
+			if (scaled < l.level + 9)
 				return l;
 		}
 		return EMPTY;

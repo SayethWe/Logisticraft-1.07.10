@@ -6,9 +6,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
+
 /**
- * The window element is the root element of the containment hierarchy. Its the only element the gui interacts with
- * directly.
+ * The window element is the root element of the containment hierarchy. Its the
+ * only element the gui interacts with directly.
  */
 @SideOnly(Side.CLIENT)
 public interface IWindowElement extends IElementGroup {

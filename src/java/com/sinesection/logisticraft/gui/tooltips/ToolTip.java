@@ -39,7 +39,7 @@ public class ToolTip {
 	public void clear() {
 		lines.clear();
 	}
-	
+
 	public boolean add(String line, EnumChatFormatting formatting) {
 		return lines.add(line);
 	}

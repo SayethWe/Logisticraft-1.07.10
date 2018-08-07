@@ -39,7 +39,8 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 
 	private final List<StandardTank> tanks = new ArrayList<>();
 
-	// for container updates, keeps track of the fluids known to each client (container)
+	// for container updates, keeps track of the fluids known to each client
+	// (container)
 	private final Table<Container, Integer, FluidStack> prevFluidStacks = HashBasedTable.create();
 
 	// tank tile updates, for blocks that show fluid levels on the outside
@@ -198,7 +199,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 				return fill(null, tank.getTankIndex(), resource, doFill);
 			}
 		}
-		
+
 		return 0;
 	}
 
@@ -239,7 +240,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	@Override
 	public FluidStack drain(ForgeDirection from, int amount, boolean doDrain) {
 		for (StandardTank tank : tanks) {
-				return drain(from, tank.getTankIndex(), amount, doDrain);
+			return drain(from, tank.getTankIndex(), amount, doDrain);
 		}
 		return null;
 	}
@@ -253,11 +254,11 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 		}
 		return null;
 	}
-	
+
 	public FluidStack drain(ForgeDirection from, int tankIndex, int amount, boolean doDrain) {
 		return tanks.get(tankIndex).drain(amount, doDrain);
 	}
-	
+
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
 		FluidTankInfo[] properties = new FluidTankInfo[tanks.size()];
@@ -301,8 +302,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	private static boolean tankAcceptsFluid(StandardTank tank, FluidStack fluidStack) {
-		return tank.canFill() &&
-				tank.fill(fluidStack, false) > 0;
+		return tank.canFill() && tank.fill(fluidStack, false) > 0;
 	}
 
 	private static boolean tankCanDrain(StandardTank tank) {
@@ -314,8 +314,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	private static boolean tankCanDrainFluid(StandardTank tank, FluidStack fluidStack) {
-		return tank.getFluid().isFluidEqual(fluidStack) &&
-				tankCanDrain(tank);
+		return tank.getFluid().isFluidEqual(fluidStack) && tankCanDrain(tank);
 	}
 
 	@Override

@@ -9,9 +9,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 
 public class ItemLogisticraftBucket extends ItemBucket {
-	
+
 	private final Fluid fluid;
-	
+
 	public ItemLogisticraftBucket(LogisticraftFluid fluid) {
 		super(fluid.getBlock());
 		this.setUnlocalizedName(fluid.getName() + "_bucket");
@@ -19,14 +19,14 @@ public class ItemLogisticraftBucket extends ItemBucket {
 		this.setCreativeTab(Logisticraft.tabLogisticraftItems);
 		this.fluid = fluid;
 	}
-	
+
 	@Override
 	public boolean tryPlaceContainedLiquid(World world, int x, int y, int z) {
-		if(fluid == null)
+		if (fluid == null)
 			return false;
-		if(!world.isAirBlock(x, y, z) && world.getBlock(x, y, z).getMaterial().isSolid())
+		if (!world.isAirBlock(x, y, z) && world.getBlock(x, y, z).getMaterial().isSolid())
 			return false;
-		
+
 		world.setBlock(x, y, z, fluid.getBlock(), 0, 3);
 		return true;
 	}
@@ -34,6 +34,5 @@ public class ItemLogisticraftBucket extends ItemBucket {
 	public Fluid getFluid() {
 		return fluid;
 	}
-	
 
 }

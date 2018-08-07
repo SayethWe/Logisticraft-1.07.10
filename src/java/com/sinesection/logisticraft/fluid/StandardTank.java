@@ -19,7 +19,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 
 	private ITankUpdateHandler tankUpdateHandler = FakeTankUpdateHandler.instance;
 	private int tankIndex;
-	
+
 	private boolean canFill, canDrain;
 
 	@SideOnly(Side.CLIENT)
@@ -35,7 +35,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	public void setCanFill(boolean canFill) {
 		this.canFill = canFill;
 	}
-	
+
 	public void setCanDrain(boolean canDrain) {
 		this.canDrain = canDrain;
 	}
@@ -83,7 +83,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 
 	@Override
 	public int fill(FluidStack resource, boolean doFill) {
-		if(!canFill)
+		if (!canFill)
 			return 0;
 		int filled = super.fill(resource, doFill);
 		if (doFill && filled > 0) {
@@ -95,7 +95,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	@Override
 	@Nullable
 	public FluidStack drain(int maxDrain, boolean doDrain) {
-		if(!canDrain)
+		if (!canDrain)
 			return null;
 		FluidStack drained = super.drain(maxDrain, doDrain);
 		if (doDrain && drained != null && drained.amount > 0) {
@@ -150,15 +150,15 @@ public class StandardTank extends FluidTank implements IStreamable {
 		String liquidAmount = I18n.format("for.gui.tooltip.liquid.amount", amount, getCapacity());
 		toolTip.add(liquidAmount);
 	}
-	
+
 	public boolean canFill() {
 		return canFill;
 	}
-	
+
 	public boolean canDrain() {
 		return canDrain;
 	}
-	
+
 	public boolean canDrainFluidType(Fluid fluid) {
 		return this.canDrainFluidType(new FluidStack(fluid, 1));
 	}
@@ -168,7 +168,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	}
 
 	public boolean canDrainFluidType(FluidStack fluidStack) {
-		if(fluidStack.getFluid() != this.getFluidType())
+		if (fluidStack.getFluid() != this.getFluidType())
 			return false;
 		if (!canDrain()) {
 			return false;
@@ -178,7 +178,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	}
 
 	public boolean canFillFluidType(FluidStack fluidStack) {
-		if(fluidStack.getFluid() != this.getFluidType())
+		if (fluidStack.getFluid() != this.getFluidType())
 			return false;
 		if (!canFill()) {
 			return false;
@@ -186,7 +186,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 		int filled = fill(fluidStack, false);
 		return filled > 0;
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	private static class TankToolTip extends ToolTip {
 		private final StandardTank standardTank;

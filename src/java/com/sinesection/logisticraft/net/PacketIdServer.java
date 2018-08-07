@@ -5,7 +5,7 @@ public enum PacketIdServer implements IPacketId {
 
 	// Core Gui
 	GUI_SELECTION_REQUEST;
-	
+
 	// TODO Other server packet types.
 
 	public static final PacketIdServer[] VALUES = values();

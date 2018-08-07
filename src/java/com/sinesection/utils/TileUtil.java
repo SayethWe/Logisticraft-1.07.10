@@ -17,20 +17,19 @@ import net.minecraft.world.IBlockAccess;
 
 public abstract class TileUtil {
 
-	public static void registerTile(Class<? extends TileEntity> tileClass, String key){
+	public static void registerTile(Class<? extends TileEntity> tileClass, String key) {
 		GameRegistry.registerTileEntity(tileClass, new ResourceLocation(Constants.MOD_ID, key).getResourcePath());
 	}
 
 	public static boolean isUsableByPlayer(EntityPlayer player, TileEntity tile) {
-		return !tile.isInvalid() &&
-				getTile(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord) == tile &&
-				player.getDistanceSq( tile.xCoord + 0.5D,  tile.yCoord + 0.5D,  tile.zCoord + 0.5D) <= 64.0D;
+		return !tile.isInvalid() && getTile(tile.getWorldObj(), tile.xCoord, tile.yCoord, tile.zCoord) == tile && player.getDistanceSq(tile.xCoord + 0.5D, tile.yCoord + 0.5D, tile.zCoord + 0.5D) <= 64.0D;
 	}
 
 	/**
-	 * Returns the tile at the specified position, returns null if it is the wrong type or does not exist.
-	 * Avoids creating new tile entities when using a ChunkCache (off the main thread).
-	 * see {@link BlockFlowerPot#getActualState(IBlockState, IBlockAccess, BlockPos)}
+	 * Returns the tile at the specified position, returns null if it is the
+	 * wrong type or does not exist. Avoids creating new tile entities when
+	 * using a ChunkCache (off the main thread). see
+	 * {@link BlockFlowerPot#getActualState(IBlockState, IBlockAccess, BlockPos)}
 	 */
 	@Nullable
 	public static TileEntity getTile(IBlockAccess world, int x, int y, int z) {
@@ -43,9 +42,10 @@ public abstract class TileUtil {
 	}
 
 	/**
-	 * Returns the tile of the specified class, returns null if it is the wrong type or does not exist.
-	 * Avoids creating new tile entities when using a ChunkCache (off the main thread).
-	 * see {@link BlockFlowerPot#getActualState(IBlockState, IBlockAccess, BlockPos)}
+	 * Returns the tile of the specified class, returns null if it is the wrong
+	 * type or does not exist. Avoids creating new tile entities when using a
+	 * ChunkCache (off the main thread). see
+	 * {@link BlockFlowerPot#getActualState(IBlockState, IBlockAccess, BlockPos)}
 	 */
 	@Nullable
 	public static <T> T getTile(IBlockAccess world, int x, int y, int z, Class<T> tileClass) {
@@ -57,7 +57,7 @@ public abstract class TileUtil {
 		}
 	}
 
-	public interface ITileGetResult<T, R>  {
+	public interface ITileGetResult<T, R> {
 		@Nullable
 		R getResult(T tile);
 	}
@@ -74,7 +74,7 @@ public abstract class TileUtil {
 		return null;
 	}
 
-	public interface ITileAction<T>  {
+	public interface ITileAction<T> {
 		void actOnTile(T tile);
 	}
 
@@ -93,7 +93,6 @@ public abstract class TileUtil {
 		if (tile == null) {
 			return null;
 		}
-
 
 		if (tile instanceof ISidedInventory) {
 			return (ISidedInventory) tile;

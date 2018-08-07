@@ -45,15 +45,17 @@ public class ElementList<V> extends VerticalLayout {
 			return;
 		}
 		this.value = value;
-		/*if (this.optionWidgets.containsKey(value)) {
-			final IWidget child = this.optionWidgets.get(value);
-			this.parent.ensureVisible(child.getYPos(), child.getYPos() + child.getHeight(), this.getHeight());
-		}*/
+		/*
+		 * if (this.optionWidgets.containsKey(value)) { final IWidget child =
+		 * this.optionWidgets.get(value);
+		 * this.parent.ensureVisible(child.getYPos(), child.getYPos() +
+		 * child.getHeight(), this.getHeight()); }
+		 */
 		IWindowElement window = getWindow();
 		window.postEvent(new EventValueChanged<Object>(this, value), GuiEventDestination.ALL);
 	}
 
-	public void updateVisibleOptions(){
+	public void updateVisibleOptions() {
 		elements.clear();
 		setHeight(0);
 		visibleOptions.clear();
@@ -62,14 +64,14 @@ public class ElementList<V> extends VerticalLayout {
 			if (isVisible(entry.getKey())) {
 				add(entry.getValue());
 				visibleOptions.put(entry.getKey(), entry.getValue());
-			}else{
+			} else {
 				entry.getValue().setYPosition(0);
 			}
 		}
 		setCurrentValue(this.getCurrentValue());
 	}
 
-	public boolean isVisible(V value){
+	public boolean isVisible(V value) {
 		return validator == null || validator.test(value);
 	}
 
@@ -81,7 +83,7 @@ public class ElementList<V> extends VerticalLayout {
 	}
 
 	public int getIndexOf(@Nullable V value) {
-		if(value == null){
+		if (value == null) {
 			return -1;
 		}
 		int index = 0;
@@ -114,10 +116,10 @@ public class ElementList<V> extends VerticalLayout {
 		return visibleOptions.keySet();
 	}
 
-	public void setOptions(Collection<V> options){
+	public void setOptions(Collection<V> options) {
 		clear();
 		allOptions.clear();
-		for(V option : options){
+		for (V option : options) {
 			IGuiElement element = optionFactory.apply(option, this);
 			allOptions.put(option, element);
 		}

@@ -23,7 +23,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.item.ItemStack;
 
-
 @SideOnly(Side.CLIENT)
 public abstract class ElementGroup extends GuiElement implements IElementGroup {
 	protected final List<IGuiElement> elements = new ArrayList<>();

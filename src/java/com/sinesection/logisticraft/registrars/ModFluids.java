@@ -26,16 +26,16 @@ public class ModFluids {
 	public static final LogisticraftFluid kerosene = new LogisticraftFluid("kerosene").setTextureNames("water_still", "water_flow").setColor(0x999999, true).setFuel();
 	public static final LogisticraftFluid lowGradeFuel = new LogisticraftFluid("gasoline").setTextureNames("water_still", "water_flow").setColor(0xEEEEEE, true).setFuel();
 	public static final LogisticraftFluid midGradeFuel = new LogisticraftFluid("diesel").setTextureNames("water_still", "water_flow").setColor(0xAAAAAA, true).setFuel();
-	public static final LogisticraftFluid highGradeFuel = new LogisticraftFluid("kerothanol").setTextureNames("water_still", "water_flow").setColor(0x8888AA, true).setFuel(); //kerosene/ethanol mix
-	
+	public static final LogisticraftFluid highGradeFuel = new LogisticraftFluid("kerothanol").setTextureNames("water_still", "water_flow").setColor(0x8888AA, true).setFuel(); // kerosene/ethanol
+																																												// mix
+
 	public static final Set<LogisticraftFluid> fluids = new HashSet<LogisticraftFluid>();
-	
+
 	private static LogisticraftItemBucketRenderer bucketRender;
-	
-	
+
 	public static void registerFluids() {
 		bucketRender = new LogisticraftItemBucketRenderer();
-		for(LogisticraftFluid fluid : fluids) {
+		for (LogisticraftFluid fluid : fluids) {
 			FluidRegistry.registerFluid(fluid);
 			LogisticraftBlockFluid fluidBlock = new LogisticraftBlockFluid(fluid).setCreativeTab(Logisticraft.tabLogisticraftBlocks);
 			GameRegistry.registerBlock(fluidBlock, fluidBlock.getRegistryName());
@@ -47,7 +47,7 @@ public class ModFluids {
 			FluidContainerRegistry.registerFluidContainer(new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(itemBucket));
 		}
 	}
-	
+
 	public static void loadFluids() {
 		loadFluid(creosote);
 		loadFluid(ethanol);
@@ -58,9 +58,9 @@ public class ModFluids {
 		loadFluid(midGradeFuel);
 		loadFluid(highGradeFuel);
 	}
-	
+
 	private static void loadFluid(LogisticraftFluid fl) {
 		fluids.add(fl);
 	}
-	
+
 }

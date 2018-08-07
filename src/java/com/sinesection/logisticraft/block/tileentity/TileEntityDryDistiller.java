@@ -27,7 +27,7 @@ import net.minecraftforge.oredict.OreDictionary;
 public class TileEntityDryDistiller extends LogisticraftTileEntity implements ISidedInventory {
 
 	private String localizedName;
-	
+
 	public static final int NUM_SLOTS = 6;
 
 	// Slot 0 = input
@@ -83,22 +83,22 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 
 	@Override
 	public ItemStack getStackInSlot(int slot) {
-		if(slot < 0 || slot > getSizeInventory())
+		if (slot < 0 || slot > getSizeInventory())
 			return null;
 		return this.slots[slot];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int slot, int amt) {
-		if(this.getStackInSlot(slot) != null) {
+		if (this.getStackInSlot(slot) != null) {
 			ItemStack slotContents;
-			if(this.getStackInSlot(slot).stackSize <= amt) {
+			if (this.getStackInSlot(slot).stackSize <= amt) {
 				slotContents = this.getStackInSlot(slot);
 				this.setInventorySlotContents(slot, null);
 				return slotContents;
 			} else {
 				slotContents = this.getStackInSlot(slot).splitStack(amt);
-				if(this.getStackInSlot(slot).stackSize == 0) {
+				if (this.getStackInSlot(slot).stackSize == 0) {
 					this.setInventorySlotContents(slot, null);
 				}
 				return slotContents;
@@ -110,7 +110,7 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slot) {
 		ItemStack slotContents = this.getStackInSlot(slot);
-		if(slotContents != null) {
+		if (slotContents != null) {
 			this.setInventorySlotContents(slot, null);
 			return slotContents;
 		}
@@ -119,13 +119,13 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack itemStack) {
-		if(slot < 0 || slot > getSizeInventory())
+		if (slot < 0 || slot > getSizeInventory())
 			return;
-		if(itemStack != null && itemStack.stackSize > this.getInventoryStackLimit())
+		if (itemStack != null && itemStack.stackSize > this.getInventoryStackLimit())
 			itemStack.stackSize = this.getInventoryStackLimit();
 		if (itemStack != null && itemStack.stackSize == 0)
 			itemStack = null;
-		
+
 		this.slots[slot] = itemStack;
 		this.markDirty();
 	}
@@ -134,47 +134,47 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	public boolean hasCustomInventoryName() {
 		return this.localizedName != null && this.localizedName.length() > 0;
 	}
-	
+
 	@Override
 	public int getInventoryStackLimit() {
 		return 64;
 	}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		
+
 		NBTTagList list = nbt.getTagList("items", 10);
 		this.slots = new ItemStack[this.getSizeInventory()];
-		
-		for(int i = 0; i < list.tagCount(); i++) {
+
+		for (int i = 0; i < list.tagCount(); i++) {
 			NBTTagCompound compound = list.getCompoundTagAt(i);
 			byte slot = compound.getByte("slot");
-			if(slot >= 0 && slot < this.getSizeInventory()) {
+			if (slot >= 0 && slot < this.getSizeInventory()) {
 				this.setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(compound));
 			}
 		}
-		
+
 		this.processTime = nbt.getShort("processTime");
 		this.burnTime = nbt.getShort("burnTime");
 		this.currentItemBurnTime = this.getItemBurnTime(this.getStackInSlot(1));
-		
+
 		String customName = nbt.getString("customName");
-		if(!customName.isEmpty()) {
-			 this.localizedName = customName;
+		if (!customName.isEmpty()) {
+			this.localizedName = customName;
 		}
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		
-		nbt.setShort("processTime", (short)this.processTime);
-		nbt.setShort("burnTime", (short)this.burnTime);
-		
+
+		nbt.setShort("processTime", (short) this.processTime);
+		nbt.setShort("burnTime", (short) this.burnTime);
+
 		NBTTagList list = new NBTTagList();
-		for(int i = 0; i < this.slots.length; i++) {
-			if(this.slots[i] != null) {
+		for (int i = 0; i < this.slots.length; i++) {
+			if (this.slots[i] != null) {
 				NBTTagCompound compound = new NBTTagCompound();
 				compound.setByte("slot", (byte) i);
 				this.slots[i].writeToNBT(compound);
@@ -182,7 +182,7 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 			}
 		}
 		nbt.setTag("items", list);
-		if(this.hasCustomInventoryName()) {
+		if (this.hasCustomInventoryName()) {
 			nbt.setString("customName", this.localizedName);
 		}
 	}
@@ -193,11 +193,13 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	}
 
 	@Override
-	public void openInventory() {}
+	public void openInventory() {
+	}
 
 	@Override
-	public void closeInventory() {}
-	
+	public void closeInventory() {
+	}
+
 	@Override
 	public Packet getDescriptionPacket() {
 		NBTTagCompound compound = new NBTTagCompound();
@@ -258,16 +260,16 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	private void process() {
 		if (this.canProcess()) {
 			DryDistillerCraftingRecipe recipe = LogisticraftDryDistillerCrafting.getRecipeFromInput(getStackInSlot(0));
-			for(int i = 0; i < recipe.outputs.length; i++) {
+			for (int i = 0; i < recipe.outputs.length; i++) {
 				ItemStack result = recipe.outputs[i];
-				if(this.getStackInSlot(i + 2) == null) {
+				if (this.getStackInSlot(i + 2) == null) {
 					this.setInventorySlotContents(i + 2, result.copy());
-				} else if(this.getStackInSlot(i + 2).isItemEqual(recipe.outputs[i])) {
+				} else if (this.getStackInSlot(i + 2).isItemEqual(recipe.outputs[i])) {
 					this.getStackInSlot(i + 2).stackSize += recipe.outputs[i].stackSize;
 				}
 			}
 			this.getStackInSlot(0).stackSize -= recipe.input.stackSize;
-			if(this.getStackInSlot(0).stackSize <= 0) {
+			if (this.getStackInSlot(0).stackSize <= 0) {
 				this.setInventorySlotContents(0, null);
 			}
 		}
@@ -282,13 +284,13 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 
 	private boolean canOutput(DryDistillerCraftingRecipe recipe) {
 		boolean canOutput = false;
-		for(int i = 0; i < recipe.outputs.length; i++) {
-			if(getStackInSlot(i + 2) == null) {
+		for (int i = 0; i < recipe.outputs.length; i++) {
+			if (getStackInSlot(i + 2) == null) {
 				canOutput = true;
 			} else {
 				int resultAmt = getStackInSlot(i + 2).stackSize + recipe.outputs[i].stackSize;
-				if(getStackInSlot(i + 2).isItemEqual(recipe.outputs[i])) {
-					if(resultAmt <= getStackInSlot(i + 2).getMaxStackSize() && resultAmt <= getInventoryStackLimit()) {
+				if (getStackInSlot(i + 2).isItemEqual(recipe.outputs[i])) {
+					if (resultAmt <= getStackInSlot(i + 2).getMaxStackSize() && resultAmt <= getInventoryStackLimit()) {
 						canOutput = true;
 					}
 				}
@@ -332,13 +334,13 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 				isWood = true;
 			if (itemStack.getItem() instanceof ItemBlock)
 				isWood = ((ItemBlock) itemStack.getItem()).field_150939_a.getMaterial() == Material.wood;
-			
+
 			if (isWood) {
 				burnTime = 0;
 			} else {
 				burnTime = GameRegistry.getFuelValue(itemStack);
 			}
-			
+
 			if (itemStack.getItem() == Items.coal)
 				burnTime = 200 * 8;
 		}
@@ -370,13 +372,13 @@ public class TileEntityDryDistiller extends LogisticraftTileEntity implements IS
 	}
 
 	public int getBurnTimeScaled(int i) {
-		if(this.currentItemBurnTime == 0) {
+		if (this.currentItemBurnTime == 0) {
 			this.currentItemBurnTime = this.processSpeed;
 		}
-		
+
 		return (this.burnTime * i) / this.currentItemBurnTime;
 	}
-	
+
 	public int getProgressScaled(int i) {
 		return (this.processTime * i) / this.processSpeed;
 	}

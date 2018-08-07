@@ -21,7 +21,7 @@ public class LogisticraftPacket {
 			int packetTypeID = bbis.readInt();
 
 			switch (packetTypeID) {
-			
+
 			}
 
 			bbis.close();
@@ -35,7 +35,7 @@ public class LogisticraftPacket {
 			int packetTypeID = bbis.readInt();
 
 			switch (packetTypeID) {
-			
+
 			}
 
 			bbis.close();

@@ -36,7 +36,7 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 	protected final WidgetManager widgetManager;
 	protected final TextLayoutHelper textLayout;
 	protected final Window<?> window;
-	
+
 	protected GuiLogisticraft(String texture, C container) {
 		this(new LogisticraftResource(texture), container);
 	}
@@ -104,15 +104,17 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 		window.postEvent(new GuiEvent.DownEvent(origin, mouseX, mouseY, mouseButton), GuiEventDestination.ALL);
 	}
 
-//	@Override
-//	protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-//		if (widgetManager.handleMouseRelease(mouseX, mouseY, mouseButton)) {
-//			return;
-//		}
-//		IGuiElement origin = (window.getMousedOverElement() == null) ? this.window : this.window.getMousedOverElement();
-//		window.postEvent(new GuiEvent.UpEvent(origin, mouseX, mouseY, mouseButton), GuiEventDestination.ALL);
-//		super.mouseReleased(mouseX, mouseY, mouseButton);
-//	}
+	// @Override
+	// protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
+	// if (widgetManager.handleMouseRelease(mouseX, mouseY, mouseButton)) {
+	// return;
+	// }
+	// IGuiElement origin = (window.getMousedOverElement() == null) ?
+	// this.window : this.window.getMousedOverElement();
+	// window.postEvent(new GuiEvent.UpEvent(origin, mouseX, mouseY,
+	// mouseButton), GuiEventDestination.ALL);
+	// super.mouseReleased(mouseX, mouseY, mouseButton);
+	// }
 
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) {
@@ -193,11 +195,11 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 		bindTexture(textureFile);
 	}
 
-	protected void drawBackground(){
+	protected void drawBackground() {
 		bindTexture(textureFile);
 
-		//int x = (width - xSize) / 2;
-		//int y = (height - ySize) / 2;
+		// int x = (width - xSize) / 2;
+		// int y = (height - ySize) / 2;
 		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 
@@ -249,4 +251,3 @@ public abstract class GuiLogisticraft<C extends Container> extends GuiContainer 
 		return textLayout;
 	}
 }
-

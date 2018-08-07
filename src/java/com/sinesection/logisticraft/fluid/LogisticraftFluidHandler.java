@@ -28,7 +28,7 @@ public class LogisticraftFluidHandler {
 
 	@SubscribeEvent
 	public void onBucketFill(FillBucketEvent event) {
-		ItemStack result = fillCustomBucket(event.world, event.target);       
+		ItemStack result = fillCustomBucket(event.world, event.target);
 		if (result != null) {
 			event.result = result;
 			event.setResult(Event.Result.ALLOW);

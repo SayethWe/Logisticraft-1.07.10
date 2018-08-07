@@ -120,7 +120,7 @@ public class GuiElement extends Gui implements IGuiElement {
 			IGuiElement cropRelative = cropElement != null ? cropElement : this;
 			int posX = cropRelative.getAbsoluteX();
 			int posY = cropRelative.getAbsoluteY();
-			GL11.glScissor((int) ((posX + cropX) * res.getScaledWidth_double()), (int) (mc.displayHeight - ((posY + cropY + cropHeight) * res.getScaledWidth_double())), (int) (cropWidth * res.getScaledHeight_double()), (int) (cropHeight *  res.getScaledHeight_double()));
+			GL11.glScissor((int) ((posX + cropX) * res.getScaledWidth_double()), (int) (mc.displayHeight - ((posY + cropY + cropHeight) * res.getScaledWidth_double())), (int) (cropWidth * res.getScaledHeight_double()), (int) (cropHeight * res.getScaledHeight_double()));
 		}
 
 		drawElement(mouseX, mouseY);

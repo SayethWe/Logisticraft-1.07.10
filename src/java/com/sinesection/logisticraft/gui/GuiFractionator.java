@@ -92,17 +92,19 @@ public class GuiFractionator extends LogisticraftGuiContainer {
 
 		if (tEntity.isRunning()) {
 			int k = this.tEntity.getProgressScaled(PROGRESS_WIDTH);
-			drawTexturedModalRect(guiLeft + PROGRESS_X, guiTop + PROGRESS_Y, xSize + PROGRESS_U, PROGRESS_V, k, PROGRESS_HEIGHT); // Progress																							// Bar
+			drawTexturedModalRect(guiLeft + PROGRESS_X, guiTop + PROGRESS_Y, xSize + PROGRESS_U, PROGRESS_V, k, PROGRESS_HEIGHT); // Progress
+																																	// //
+																																	// Bar
 		}
 
 		if (tEntity.getOutputTank().getFluidAmount() > 0) {
 			drawFluidTank(this.tEntity.getOutputTank(), guiLeft + TANK_X, guiTop + TANK_Y, TANK_WIDTH, TANK_HEIGHT, false); // Tank
-																					// Liquid
+			// Liquid
 		}
-		
+
 		Minecraft.getMinecraft().getTextureManager().bindTexture(guiBgTexture);
 		drawTexturedModalRect(guiLeft + TANK_X, guiTop + TANK_Y, xSize + TANK_OVERLAY_U, TANK_OVERLAY_V, TANK_WIDTH, TANK_HEIGHT); // Tank
-																				// Overlay
+		// Overlay
 	}
 
 	@Override
