@@ -1,6 +1,7 @@
 package com.sinesection.logisticraft.proxy;
 
 import com.sinesection.logisticraft.registrars.ModBlocks;
+import com.sinesection.logisticraft.registrars.ModFluids;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -19,6 +20,7 @@ public class ClientProxy extends CommonProxy {
 	public void init(FMLInitializationEvent e) {
 		super.init(e);
 		ModBlocks.loadTexMaps();
+		ModFluids.loadRenderers();
 	}
 
 	@Override

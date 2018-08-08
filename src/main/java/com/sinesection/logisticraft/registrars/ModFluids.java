@@ -30,6 +30,7 @@ public class ModFluids {
 																																												// mix
 
 	public static final Set<LogisticraftFluid> fluids = new HashSet<LogisticraftFluid>();
+	public static final Set<ItemLogisticraftBucket> buckets = new HashSet<>();
 
 	private static LogisticraftItemBucketRenderer bucketRender;
 
@@ -41,10 +42,16 @@ public class ModFluids {
 			GameRegistry.registerBlock(fluidBlock, fluidBlock.getRegistryName());
 			fluid.setBlock(fluidBlock);
 			ItemLogisticraftBucket itemBucket = new ItemLogisticraftBucket(fluid);
+			buckets.add(itemBucket);
 			GameRegistry.registerItem(itemBucket, itemBucket.getUnlocalizedName());
-			MinecraftForgeClient.registerItemRenderer(itemBucket, bucketRender);
 			LogisticraftFluidHandler.registerLogisticraftFluid(fluidBlock, itemBucket);
 			FluidContainerRegistry.registerFluidContainer(new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(itemBucket));
+		}
+	}
+	
+	public static void loadRenderers() {
+		for (ItemLogisticraftBucket itemBucket : buckets) {
+			MinecraftForgeClient.registerItemRenderer(itemBucket, bucketRender);
 		}
 	}
 
