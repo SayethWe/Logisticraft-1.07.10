@@ -9,5 +9,6 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/Logisticraft%201.07.10/lib/commons-collections4-4.1/commons-collections4-4.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/commons-collections4-4.1/commons-collections4-4.1-javadoc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
