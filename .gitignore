@@ -13,6 +13,7 @@ saves/*
 world/*
 crash-reports/*
 asm/*
+.gradle/*
 
 server.properties
 eula.txt
